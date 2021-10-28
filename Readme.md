@@ -1,7 +1,7 @@
 # Личный проект «TaskForce»
 
-* Студент: [Дмитрий Кречетников](https://up.htmlacademy.ru/yii/2/user/291473).
-* Наставник: `Неизвестно`.
+- Студент: [Дмитрий Кречетников](https://up.htmlacademy.ru/yii/2/user/291473).
+- Наставник: [Станислав Матвеев](https://htmlacademy.ru/profile/id1265925).
 
 ---
 
