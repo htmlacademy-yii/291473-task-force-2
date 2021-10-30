@@ -8,6 +8,7 @@ class Task
     const STATUS_FAILED = 'failed';
     const STATUS_FINISHED = 'finished';
 
+    const ACTION_RESPOND = 'respond';
     const ACTION_START = 'start';
     const ACTION_REFUSED = 'refused';
     const ACTION_CANCELED = 'canceled';
@@ -41,6 +42,7 @@ class Task
     public function get_actions_map()
     {
         return [
+            self::ACTION_RESPOND => 'Добавление отклика',
             self::ACTION_START => 'Старт задания',
             self::ACTION_REFUSED => 'Отказ от задания',
             self::ACTION_CANCELED => 'Отмена задания',
@@ -48,15 +50,20 @@ class Task
         ];
     }
 
-    // Отлавливаю статусы и действия в зависимости друг от друга;
+    // -- Заказчик, список статусов и активностей:
+    // self::ACTION_START => 'Старт задания',
+    // self::ACTION_CANCELED => 'Отмена задания',
+    // self::ACTION_FINISHED => 'Завершение задания',
+
+    // -- Исполнитель, список статусов и активностей:
+    // self::ACTION_RESPOND => 'Добавление отклика',
+    // self::ACTION_REFUSED => 'Отказ от задания',
+
 
     // В зависимости от текущего действия, получаю следующий возможный статус задания;
     public function get_possible_status($action)
     {
-        // $statuses = this->get_statuses_map();
-
-        switch($action) 
-        {
+        switch ($action) {
             case self::ACTION_START:
                 return self::STATUS_IN_PROGRESS;
             case self::ACTION_REFUSED:
@@ -65,28 +72,28 @@ class Task
                 return self::STATUS_CANCELED;
             case self::ACTION_FINISHED:
                 return self::STATUS_FINISHED;
+            default:
+                return [];
         }
-        
     }
 
     // В завивимости от статуса задания, получаю список возможных действий;
     public function get_possible_action()
     {
         $actions = $this->get_actions_map();
-        
-        switch($this->current_status) 
-        {
+
+        switch ($this->current_status) {
             case self::STATUS_NEW:
                 return [
-                    $actions[self::ACTION_START],
                     $actions[self::ACTION_CANCELED],
+                    $actions[self::ACTION_RESPOND],
                 ];
             case self::STATUS_IN_PROGRESS:
                 return [
-                    $actions[self::ACTION_REFUSED],
                     $actions[self::ACTION_FINISHED],
+                    $actions[self::ACTION_REFUSED],
                 ];
-            default: 
+            default:
                 return [];
         }
     }
