@@ -70,18 +70,18 @@ class Task
     // Метод для получения доступных действий для указанного статуса;
     public function get_possible_actions()
     {
-        $actions = $this->get_actions_map();
+        // $actions = $this->get_actions_map(); Использую, если понадобится вернуть названия статусов;
 
         switch ($this->current_status) {
             case self::STATUS_NEW:
                 return [
-                    $actions[self::ACTION_CANCELED],
-                    $actions[self::ACTION_RESPOND],
+                    self::ACTION_CANCELED,
+                    self::ACTION_RESPOND,
                 ];
             case self::STATUS_IN_PROGRESS:
                 return [
-                    $actions[self::ACTION_FINISHED],
-                    $actions[self::ACTION_REFUSED],
+                    self::ACTION_FINISHED,
+                    self::ACTION_REFUSED,
                 ];
             default:
                 return null;

@@ -32,14 +32,5 @@ print_r($possible_action);
 
 // Тестирую класс. В php.ini установил zend.assertions = 1;
 print('<br>' . 'Тестирование класса. Если все верно, ниже не должно быть ошибок:' . '<br>');
-assert($task->get_next_status('canceled') == Task::STATUS_CANCELED, 'cancel action');
-
-// print('<br>');
-// print('<br>');
-// print_r($task->get_possible_actions());
-// print('<br>');
-// print_r([Task::ACTION_FINISHED, Task::ACTION_REFUSED]);
-// // В php.ini установил zend.assertions = 1
-
-// assert($task->get_possible_actions() == [Task::ACTION_FINISHED, Task::ACTION_REFUSED], 'cancel action');
-// // assert($task->get_possible_status('canceled') == Task::STATUS_CANCELED, 'cancel action');
+assert($task->get_next_status('canceled') == Task::STATUS_CANCELED, 'cancel status');
+assert($task->get_possible_actions() == [Task::ACTION_FINISHED, Task::ACTION_REFUSED], 'finished, refused actions');
