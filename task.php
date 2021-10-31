@@ -16,7 +16,7 @@ class Task
 
     public $customer_id;
     public $executor_id;
-    private $current_status;
+    private $current_status; // Сатус будет определяться на основе действия и задаваться только внутри класса;
 
     // Конструктор класса (получаем в нем ID исполнителя и ID заказчика);
     public function __construct($customer_id, $executor_id, $current_status)
@@ -50,18 +50,8 @@ class Task
         ];
     }
 
-    // -- Заказчик, список статусов и активностей:
-    // self::ACTION_START => 'Старт задания',
-    // self::ACTION_CANCELED => 'Отмена задания',
-    // self::ACTION_FINISHED => 'Завершение задания',
-
-    // -- Исполнитель, список статусов и активностей:
-    // self::ACTION_RESPOND => 'Добавление отклика',
-    // self::ACTION_REFUSED => 'Отказ от задания',
-
-
-    // В зависимости от текущего действия, получаю следующий возможный статус задания;
-    public function get_possible_status($action)
+    //  Метод для получения статуса, после выполнения указанного действия;
+    public function get_next_status($action)
     {
         switch ($action) {
             case self::ACTION_START:
@@ -73,12 +63,12 @@ class Task
             case self::ACTION_FINISHED:
                 return self::STATUS_FINISHED;
             default:
-                return [];
+                return null;
         }
     }
 
-    // В завивимости от статуса задания, получаю список возможных действий;
-    public function get_possible_action()
+    // Метод для получения доступных действий для указанного статуса;
+    public function get_possible_actions()
     {
         $actions = $this->get_actions_map();
 
@@ -94,7 +84,7 @@ class Task
                     $actions[self::ACTION_REFUSED],
                 ];
             default:
-                return [];
+                return null;
         }
     }
 }
