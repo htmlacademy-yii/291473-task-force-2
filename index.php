@@ -1,5 +1,6 @@
 <?php
-require_once 'task.php';
+use TaskForce\tasks\Task;
+require_once 'vendor/autoload.php';
 
 // Задаю моковые данные для задачи (id заказчика, id исполнителя, текущий статус);
 $customer_id = 1;
@@ -7,7 +8,7 @@ $executor_id = 1;
 $current_status = Task::STATUS_IN_PROGRESS;
 $current_action = Task::ACTION_START;
 
-// Создаю экземпляр класса Задачи;
+// // Создаю экземпляр класса Задачи;
 $task = new Task($customer_id, $executor_id, $current_status);
 
 // Проверяю работу методов;
