@@ -1,0 +1,17 @@
+{
+    "name": "vendor/task-force-2",
+    "description": "«TaskForce» — это онлайн площадка для поиска исполнителей на разовые задачи.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Дмитрий Кречетников",
+            "email": "dkrech07@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "TaskForce\\": "src/"
+        }
+    },
+    "require": {}
+}
