@@ -21,6 +21,12 @@ CREATE TABLE reviews (
     FOREIGN KEY (user_id) REFERENCES users(id),
 );
 
+CREATE TABLE locations (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    location_name VARCHAR(128) NOT NULL,
+    location_coords VARCHAR(128) NOT NULL,
+);
+
 CREATE TABLE users (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
     registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -58,6 +64,8 @@ CREATE TABLE tasks (
     deadline TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     task_file VARCHAR(128),
     FOREIGN KEY (task_category_id) REFERENCES categories(id),
+    FOREIGN KEY (task_location_id) REFERENCES locations(id),
+    FOREIGN KEY (task_location_coords) REFERENCES locations(location_coords),
 );
 
 CREATE TABLE users_tasks (
