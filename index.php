@@ -5,8 +5,8 @@ require_once 'vendor/autoload.php';
 // Задаю моковые данные для задачи (id заказчика, id исполнителя, текущий статус);
 $customer_id = 1;
 $executor_id = 2;
-$user_id = 1;
-$current_status = Task::STATUS_IN_PROGRESS;
+$user_id = 2;
+$current_status = Task::STATUS_NEW;
 $current_action = Task::ACTION_START;
 
 // Создаю экземпляр класса Задачи;
@@ -23,7 +23,8 @@ $possible_action = $task->get_user_actions($current_status);
 // print('<br>');
 // print($next_status);
 // print('<br>');
-print_r($possible_action->check_user_rights());
+
+print_r($possible_action->check_access());
 print('<br>');
 print_r($possible_action->get_action_name());
 print('<br>');

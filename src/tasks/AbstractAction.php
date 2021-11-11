@@ -11,7 +11,7 @@ abstract class AbstractAction
         $this->user_id = $user_id;
     }
   
-    abstract protected function check_user_rights();
+    abstract protected function check_access();
     abstract protected function get_action_name();
     abstract protected function get_action_code();
 }

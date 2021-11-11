@@ -23,7 +23,7 @@ class Task
     public const ROLE_CUSTOMER = 'ЗАКАЗЧИК';
     public const ROLE_EXECUTOR = 'ИСПОЛНИТЕЛЬ';
 
-    // Список следующий действий, в зависимости от роли пользователя;
+    // Список следующих действий, в зависимости от статуса задачи и роли пользователя;
     public $next_action = [
         self::STATUS_NEW => [
           self::ROLE_CUSTOMER => CancelAction::class,
@@ -42,12 +42,6 @@ class Task
         $this->executor_id = $executor_id;
         $this->user_id = $user_id;
         $this->current_status = $current_status;
-    }
-
-    // Определяю роль пользователя: заказчик или исполнитель;
-    private function check_user_role()
-    {
-        return $this->user_id === $this->customer_id or $this->user_id === $this->executor_id;
     }
 
     // Метод для получения Карты статусов;
@@ -91,72 +85,19 @@ class Task
         }
     }
 
-    // Метод для получения доступных действий для указанного статуса;
-    public function get_user_actions($current_status)
-    {
-        if ($this->check_user_role()) {
-            $role = $this->user_id === $this->executor_id ? self::ROLE_CUSTOMER : self::ROLE_EXECUTOR;
-
-            // print($role);
-            // print('<br>');
-            // print_r($this->next_action);
-            // print('<br>');
-            // print_r($this->next_action[$current_status]);
-            // print('<br>');
-            // print_r($this->next_action[$current_status][$role]);
-            return new $this->next_action[$current_status][$role]($this->customer_id, $this->executor_id, $this->user_id);
-        }
-        return null;
-    }
-
-
-    // public function get_possible_actions()
-    // {
-    //     switch ($this->current_status) {
-    //         // case self::STATUS_NEW:
-    //         //     return [
-    //         //         new CancelAction(),
-    //         //         new RespondAction(),
-    //         //     ];
-    //         // case self::STATUS_IN_PROGRESS:
-    //         //     return [
-    //         //         new FinishAction($customer_id, $executor_id, $user_id),
-    //         //         // RefuseAction::class,
-    //         //     ];
-    //         default:
-    //             return null;
-    //     }
-    //     // $actions = $this->get_actions_map(); Использую, если понадобится вернуть названия статусов;
-
-    //     // switch ($this->current_status) {
-    //     //     case self::STATUS_NEW:
-    //     //         return [
-    //     //             new CancelAction(),
-    //     //             new RespondAction(),
-    //     //         ];
-    //     //     case self::STATUS_IN_PROGRESS:
-    //     //         return [
-    //     //             new FinishAction(),
-    //     //             new RefuseAction(),
-    //     //         ];
-    //     //     default:
-    //     //         return null;
-    //     // }
-    // }
-
-    // // Определяем роль пользователя: заказчик или исполнитель;
+    // // Определяю что пользователь заказчик или исполнитель;
     // private function check_user_role()
     // {
-    //     if ($this->user_id === $customer_id) {
-    //         return 
-    //     }
+    //     // print($this->user_id);
+    //     // print($this->customer_id);
+    //     // print($this->executor_id);
+    //     return $this->user_id === $this->customer_id or $this->user_id === $this->executor_id;
     // }
 
-    // public function get_user_actions($current_status)
-    // {
-    //     if ($this->user_id === $customer_id) {
-    //         return 
-    //     }
-
-    // }
+    // Получаю доступные действия для указанного статуса;
+    public function get_user_actions($current_status)
+    {
+        $role = $this->user_id === $this->customer_id ? self::ROLE_CUSTOMER : self::ROLE_EXECUTOR;
+        return new $this->next_action[$current_status][$role]($this->customer_id, $this->executor_id, $this->user_id);
+    }
 }
