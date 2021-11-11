@@ -19,10 +19,15 @@ $all_task_actions = $task->get_actions_map();
 $next_status = $task->get_next_status($current_action);
 $possible_action = $task->get_user_actions($current_status);
 
+// print('<br>');
+// print('<br>');
+// print($next_status);
+// print('<br>');
+print_r($possible_action->check_user_rights());
 print('<br>');
+print_r($possible_action->get_action_name());
 print('<br>');
-print('<br>');
-print($next_status);
+print_r($possible_action->get_action_code());
 
 // print_r($possible_action);
 

@@ -31,7 +31,7 @@ class Task
         ],
         self::STATUS_IN_PROGRESS => [
           self::ROLE_CUSTOMER => FinishAction::class,
-          self::ROLE_EXECUTOR => RefiseAction::class,
+          self::ROLE_EXECUTOR => RefuseAction::class,
         ]
       ];
 
@@ -97,14 +97,14 @@ class Task
         if ($this->check_user_role()) {
             $role = $this->user_id === $this->executor_id ? self::ROLE_CUSTOMER : self::ROLE_EXECUTOR;
 
-            print_r($this->next_action);
-            print('<br>');
-            print_r($this->next_action[$current_status]);
-            print('<br>');
-            print_r($this->next_action[$current_status][$role]);
-            print('<br>');
-            print_r($this->next_action[$current_status][$role]);
-            // return new $this->next_action[$current_status][$role]($this->customer_id, $this->executor_id, $this->user_id);
+            // print($role);
+            // print('<br>');
+            // print_r($this->next_action);
+            // print('<br>');
+            // print_r($this->next_action[$current_status]);
+            // print('<br>');
+            // print_r($this->next_action[$current_status][$role]);
+            return new $this->next_action[$current_status][$role]($this->customer_id, $this->executor_id, $this->user_id);
         }
         return null;
     }
