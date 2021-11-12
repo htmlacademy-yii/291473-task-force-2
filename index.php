@@ -7,8 +7,8 @@ require_once 'vendor/autoload.php';
 // Моковые данные;
 $customer_id = 1;
 $executor_id = 2;
-$user_id = 1;
-$current_status = Task::STATUS_NEW;
+// $user_id = 1;
+// $current_status = Task::STATUS_NEW;
 $current_action = Task::ACTION_START;
 
 // Экземпляр класса Задачи;
@@ -31,6 +31,15 @@ print(Task::ACTION_START);
 // print('<br>' . 'Тестирование класса. Если все верно, ниже не должно быть ошибок:' . '<br>');
 // assert($task->get_next_status('canceled') == Task::STATUS_CANCELED, 'cancel status');
 assert($possible_action->get_action_code() == 'ACTION_CANCELED', 'canceled, refused actions');
+
+// STATUS_NEW, ROLE_CUSTOMER
+$current_status = Task::STATUS_NEW;
+$user_id = 1;
+
+// STATUS_NEW, ROLE_EXECUTOR
+// STATUS_IN_PROGRESS, ROLE_CUSTOMER
+// STATUS_IN_PROGRESS, ROLE_EXECUTOR
+
 
 // Вывожу результаты;
 // print('Все возможные статусы:' . '<br>');
