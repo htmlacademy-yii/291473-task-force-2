@@ -2,19 +2,19 @@
 
 namespace TaskForce\tasks;
 
-class RefuseAction extends AbstractAction 
+class RefuseAction extends AbstractAction
 {
-    public function check_access() 
+    public function check_access()
     {
         return $this->user_id === $this->executor_id;
     }
 
-    public function get_action_name() 
+    public function get_action_name()
     {
-        return 'Отмена задания';
+        return 'Отказ от задания';
     }
 
-    public function get_action_code() 
+    public function get_action_code()
     {
         return 'ACTION_REFUSED';
     }
