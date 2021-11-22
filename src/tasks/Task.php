@@ -2,6 +2,8 @@
 
 namespace TaskForce\tasks;
 
+use TaskForce\exceptions\StatusException as StatusException;
+
 class Task
 {
     const STATUS_NEW = 'new';
@@ -9,6 +11,8 @@ class Task
     const STATUS_CANCELED = 'canceled';
     const STATUS_FAILED = 'failed';
     const STATUS_FINISHED = 'finished';
+
+    const STATUS_ERROR = 'Тестовый статус'; // Тестовый статус, для имитации ошибки;
 
     const ACTION_RESPOND = 'respond';
     const ACTION_START = 'start';
@@ -19,15 +23,27 @@ class Task
     public const ROLE_CUSTOMER = 'ЗАКАЗЧИК';
     public const ROLE_EXECUTOR = 'ИСПОЛНИТЕЛЬ';
 
-    public $customer_id;
-    public $executor_id;
-    private $current_status;
+    // public $customer_id;
+    // public $executor_id;
+    // private $current_status;
+
+    public $status = [
+        'new' => 'Новое',
+        'in_progress' => 'В работе',
+        'canceled' => 'Отменено',
+        'finished' => 'Выполнено',
+        'failed' => 'Провалено'
+    ];
 
     public function __construct($customer_id, $executor_id, $user_id, $current_status)
     {
         $this->customer_id = $customer_id;
         $this->executor_id = $executor_id;
         $this->user_id = $user_id;
+
+        if (!isset($this->status[$current_status])) {
+            throw new  StatusException('Задан невозможный статус');
+        }
         $this->current_status = $current_status;
     }
 
@@ -93,6 +109,10 @@ class Task
     // Получаю доступные действия для указанного статуса;
     public function get_user_actions($current_status)
     {
+        if (!isset($this->status[$current_status])) {
+            throw new  StatusException('Задан невозможный статус');
+        }
+
         if ($this->check_user_role()) {
             $role = $this->user_id === $this->customer_id ? self::ROLE_CUSTOMER : self::ROLE_EXECUTOR;
             return new $this->next_action[$current_status][$role]($this->customer_id, $this->executor_id, $this->user_id);
