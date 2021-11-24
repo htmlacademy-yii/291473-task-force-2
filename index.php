@@ -10,7 +10,12 @@ $customer_id = 1;
 $executor_id = 2;
 $user_id = 1;
 $current_status = Task::STATUS_NEW;
+// $current_status = Task::STATUS_ERROR;
+// $current_status = Task::STATUS_FAILED;
 $current_action = Task::ACTION_START;
+
+// Исключение для статуса, указать несуществующий статус: $current_status = Task::STATUS_ERROR;
+// Исключение для активности, указать статус, не учтенный в списке доступных действий $next_action: $current_status = Task::STATUS_FAILED;
 
 try {
     $task = new Task($customer_id, $executor_id, $user_id, $current_status);
@@ -29,17 +34,26 @@ try {
         print('Выброшено исключение: ' . $error);
     }
 
+    try {
+        $next_status = $task->get_next_status($current_action);
+
+        print($next_status);
+    } catch (StatusException $error) {
+        print('Выброшено исключение: ' . $error);
+    }
+
 } catch (StatusException $error) {
     print('Выброшено исключение: ' . $error);
 }
 
-print_r($task->get_statuses_map()); // Карта статусов;
-print('<br>');
-print($task->get_next_status($current_action)); // Получить следующий статус;
-print('<br>');
-print_r($task->get_actions_map()); // Карта действий;
-print('<br>');
-print_r($task->get_user_actions($current_status)); // Получить доступные пользователю действия;
+// print('<br>');
+// print_r($task->get_statuses_map()); // Карта статусов;
+// print('<br>');
+// print($task->get_next_status($current_action)); // Получить следующий статус;
+// print('<br>');
+// print_r($task->get_actions_map()); // Карта действий;
+// print('<br>');
+// print_r($task->get_user_actions($current_status)); // Получить доступные пользователю действия;
 
 // try {
 //     $task = new Task($customer_id, $executor_id, $user_id, $current_status);
