@@ -10,12 +10,12 @@ $customer_id = 1;
 $executor_id = 2;
 $user_id = 1;
 $current_status = Task::STATUS_NEW;
-// $current_status = Task::STATUS_ERROR;
-// $current_status = Task::STATUS_FAILED;
 $current_action = Task::ACTION_START;
 
-// Исключение для статуса, указать несуществующий статус: $current_status = Task::STATUS_ERROR;
-// Исключение для активности, указать статус, не учтенный в списке доступных действий $next_action: $current_status = Task::STATUS_FAILED;
+// Закомментировал варианты статусов и активность для тестирования исключений;
+// $current_status = Task::STATUS_ERROR;
+// $current_status = Task::STATUS_FAILED;
+// $current_action = Task::ACTION_ERROR;
 
 try {
     $task = new Task($customer_id, $executor_id, $user_id, $current_status);
@@ -23,70 +23,29 @@ try {
     $all_task_actions = $task->get_actions_map(); // Карта действий;
 
     try {
-        $possible_action = $task->get_user_actions($current_status); // Получить доступные пользователю действия;
+        $possible_action = $task->get_user_actions($current_status);
 
         if ($possible_action) {
-            print($possible_action->get_action_name()); // Получить название доступных действий пользователя;
+            print('Доступное действие: ' . $possible_action->get_action_name() . '<br>');
         } else {
-            print('Нет возможных действий');
+            print('Нет возможных действий' . '<br>');
         }
     } catch (StatusException $error) {
-        print('Выброшено исключение: ' . $error);
+        print('Выброшено исключение: ' . $error->getMessage() . '<br>');
     }
 
     try {
         $next_status = $task->get_next_status($current_action);
 
-        print($next_status);
+        print('Следующий статус: ' . $next_status . '<br>');
     } catch (StatusException $error) {
-        print('Выброшено исключение: ' . $error);
+        print('Выброшено исключение: ' . $error->getMessage() . '<br>');
     }
-
 } catch (StatusException $error) {
-    print('Выброшено исключение: ' . $error);
+    print('Выброшено исключение: ' . $error->getMessage() . '<br>');
 }
 
-// print('<br>');
-// print_r($task->get_statuses_map()); // Карта статусов;
-// print('<br>');
-// print($task->get_next_status($current_action)); // Получить следующий статус;
-// print('<br>');
-// print_r($task->get_actions_map()); // Карта действий;
-// print('<br>');
-// print_r($task->get_user_actions($current_status)); // Получить доступные пользователю действия;
-
-// try {
-//     $task = new Task($customer_id, $executor_id, $user_id, $current_status);
-
-//     $all_task_statuses = $task->get_statuses_map();
-//     $all_task_actions = $task->get_actions_map();
-
-//     try {
-//         $possible_action = $task->get_user_actions($current_status);
-
-//         if ($possible_action) {
-//             print($possible_action->get_action_name());
-//         } else {
-//             print('Нет возможных действий');
-//         }
-//     } catch (StatusException $e) {
-//         print('Выброшено исключение');
-//     }
-
-//     try {
-//         $next_status = $task->get_next_status($current_action);
-
-//         print($next_status);
-//     } catch (StatusException $e) {
-//         print('Выброшено исключение');
-//     }
-// } catch (StatusException $e) {
-//     print('Выброшено исключение');
-// }
-
-
-
-
+// Закомментировал тесты из прошлого задания;
 
 // $next_status = $task->get_next_status($current_action);
 

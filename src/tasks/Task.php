@@ -12,13 +12,14 @@ class Task
     const STATUS_FAILED = 'failed';
     const STATUS_FINISHED = 'finished';
 
-    const STATUS_ERROR = 'Тестовый статус'; // Тестовый статус, для имитации ошибки - В конструкторе класса Task задан неверный статус;
-
     const ACTION_RESPOND = 'respond';
     const ACTION_START = 'start';
     const ACTION_REFUSED = 'refused';
     const ACTION_CANCELED = 'canceled';
     const ACTION_FINISHED = 'finished';
+
+    const STATUS_ERROR = 'Тестовый статус'; // Тестовый статус, для имитации ошибки;
+    const ACTION_ERROR = 'Тестовая активность'; // Тестовая активность, для имитации ошибки;
 
     public const ROLE_CUSTOMER = 'ЗАКАЗЧИК';
     public const ROLE_EXECUTOR = 'ИСПОЛНИТЕЛЬ';
@@ -51,6 +52,10 @@ class Task
     //  Статус, после выполнения указанного действия;
     public function get_next_status(string $action): string
     {
+        if (!isset($this->get_actions_map()[$action])) {
+            throw new StatusException('Метод get_next_status: для активности ' . $action . ' нет доступных статусов');
+        }
+
         switch ($action) {
             case self::ACTION_START:
                 return self::STATUS_IN_PROGRESS;
