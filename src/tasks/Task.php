@@ -2,7 +2,7 @@
 
 namespace TaskForce\tasks;
 
-use TaskForce\exceptions\StatusException as StatusException;
+use TaskForce\exceptions\StatusException;
 
 class Task
 {

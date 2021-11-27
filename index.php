@@ -1,7 +1,7 @@
 <?php
 
 use TaskForce\tasks\Task;
-use TaskForce\exceptions\StatusException as StatusException;
+use TaskForce\exceptions\StatusException;
 
 require_once 'vendor/autoload.php';
 
@@ -21,26 +21,8 @@ try {
     $task = new Task($customer_id, $executor_id, $user_id, $current_status);
     $all_task_statuses = $task->get_statuses_map(); // Карта статусов;
     $all_task_actions = $task->get_actions_map(); // Карта действий;
-
-    try {
-        $possible_action = $task->get_user_actions($current_status);
-
-        if ($possible_action) {
-            print('Доступное действие: ' . $possible_action->get_action_name() . '<br>');
-        } else {
-            print('Нет возможных действий' . '<br>');
-        }
-    } catch (StatusException $error) {
-        print('Выброшено исключение: ' . $error->getMessage() . '<br>');
-    }
-
-    try {
-        $next_status = $task->get_next_status($current_action);
-
-        print('Следующий статус: ' . $next_status . '<br>');
-    } catch (StatusException $error) {
-        print('Выброшено исключение: ' . $error->getMessage() . '<br>');
-    }
+    $possible_action = $task->get_user_actions($current_status); // Возможные действия;
+    $next_status = $task->get_next_status($current_action); // Следующий статус;
 } catch (StatusException $error) {
     print('Выброшено исключение: ' . $error->getMessage() . '<br>');
 }
