@@ -2,6 +2,8 @@
 
 namespace TaskForce\tasks;
 
+use TaskForce\exceptions\StatusException;
+
 class Task
 {
     const STATUS_NEW = 'new';
@@ -16,35 +18,27 @@ class Task
     const ACTION_CANCELED = 'canceled';
     const ACTION_FINISHED = 'finished';
 
+    const STATUS_ERROR = 'Тестовый статус'; // Тестовый статус, для имитации ошибки;
+    const ACTION_ERROR = 'Тестовая активность'; // Тестовая активность, для имитации ошибки;
+
     public const ROLE_CUSTOMER = 'ЗАКАЗЧИК';
     public const ROLE_EXECUTOR = 'ИСПОЛНИТЕЛЬ';
 
-    public $customer_id;
-    public $executor_id;
-    private $current_status;
-
-    public function __construct($customer_id, $executor_id, $user_id, $current_status)
+    public function __construct(int $customer_id, int $executor_id, int $user_id, string $current_status)
     {
         $this->customer_id = $customer_id;
         $this->executor_id = $executor_id;
         $this->user_id = $user_id;
+
+        if (!isset($this->get_statuses_map()[$current_status])) {
+            throw new  StatusException('Класс Task: нет такого статуса');
+        }
+
         $this->current_status = $current_status;
     }
 
-    // Список следующих действий, в зависимости от статуса задачи и роли пользователя;
-    public $next_action = [
-        self::STATUS_NEW => [
-            self::ROLE_CUSTOMER => CancelAction::class,
-            self::ROLE_EXECUTOR => RespondAction::class,
-        ],
-        self::STATUS_IN_PROGRESS => [
-            self::ROLE_CUSTOMER => FinishAction::class,
-            self::ROLE_EXECUTOR => RefuseAction::class,
-        ]
-    ];
-
     // Карта статусов;
-    public function get_statuses_map()
+    public function get_statuses_map(): array
     {
         return [
             self::STATUS_NEW => 'Новое', // Задание опубликовано, исполнитель ещё не найден;
@@ -55,21 +49,13 @@ class Task
         ];
     }
 
-    // Карта действий;
-    public function get_actions_map()
-    {
-        return [
-            self::ACTION_RESPOND => 'Добавление отклика',
-            self::ACTION_START => 'Старт задания',
-            self::ACTION_REFUSED => 'Отказ от задания',
-            self::ACTION_CANCELED => 'Отмена задания',
-            self::ACTION_FINISHED => 'Завершение задания',
-        ];
-    }
-
     //  Статус, после выполнения указанного действия;
-    public function get_next_status($action)
+    public function get_next_status(string $action): string
     {
+        if (!isset($this->get_actions_map()[$action])) {
+            throw new StatusException('Метод get_next_status: для активности ' . $action . ' нет доступных статусов');
+        }
+
         switch ($action) {
             case self::ACTION_START:
                 return self::STATUS_IN_PROGRESS;
@@ -84,17 +70,46 @@ class Task
         }
     }
 
+    // Карта действий;
+    public function get_actions_map(): array
+    {
+        return [
+            self::ACTION_RESPOND => 'Добавление отклика',
+            self::ACTION_START => 'Старт задания',
+            self::ACTION_REFUSED => 'Отказ от задания',
+            self::ACTION_CANCELED => 'Отмена задания',
+            self::ACTION_FINISHED => 'Завершение задания',
+        ];
+    }
+
+    // Список следующих действий, в зависимости от статуса задачи и роли пользователя;
+    public $next_action = [
+        self::STATUS_NEW => [
+            self::ROLE_CUSTOMER => CancelAction::class,
+            self::ROLE_EXECUTOR => RespondAction::class,
+        ],
+        self::STATUS_IN_PROGRESS => [
+            self::ROLE_CUSTOMER => FinishAction::class,
+            self::ROLE_EXECUTOR => RefuseAction::class,
+        ]
+    ];
+
     // Определяю что пользователь заказчик или исполнитель;
-    private function check_user_role()
+    private function check_user_role(): string
     {
         return $this->user_id === $this->customer_id or $this->user_id === $this->executor_id;
     }
 
     // Получаю доступные действия для указанного статуса;
-    public function get_user_actions($current_status)
+    public function get_user_actions(string $current_status): ?Object
     {
         if ($this->check_user_role()) {
             $role = $this->user_id === $this->customer_id ? self::ROLE_CUSTOMER : self::ROLE_EXECUTOR;
+
+            if (!isset($this->next_action[$current_status])) {
+                throw new StatusException('Метод get_user_actions: для статуса ' . $current_status . ' нет доступных действий');
+            }
+
             return new $this->next_action[$current_status][$role]($this->customer_id, $this->executor_id, $this->user_id);
         }
         return null;

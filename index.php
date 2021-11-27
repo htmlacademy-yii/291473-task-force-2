@@ -1,6 +1,7 @@
 <?php
 
 use TaskForce\tasks\Task;
+use TaskForce\exceptions\StatusException;
 
 require_once 'vendor/autoload.php';
 
@@ -11,49 +12,62 @@ $user_id = 1;
 $current_status = Task::STATUS_NEW;
 $current_action = Task::ACTION_START;
 
-// Экземпляр класса Задачи;
-$task = new Task($customer_id, $executor_id, $user_id, $current_status);
+// Закомментировал варианты статусов и активность для тестирования исключений;
+// $current_status = Task::STATUS_ERROR;
+// $current_status = Task::STATUS_FAILED;
+// $current_action = Task::ACTION_ERROR;
 
-// Проверяю работу методов;
-$all_task_statuses = $task->get_statuses_map();
-$all_task_actions = $task->get_actions_map();
-$next_status = $task->get_next_status($current_action);
+try {
+    $task = new Task($customer_id, $executor_id, $user_id, $current_status);
+    $all_task_statuses = $task->get_statuses_map(); // Карта статусов;
+    $all_task_actions = $task->get_actions_map(); // Карта действий;
+    $possible_action = $task->get_user_actions($current_status); // Возможные действия;
+    $next_status = $task->get_next_status($current_action); // Следующий статус;
+} catch (StatusException $error) {
+    print('Выброшено исключение: ' . $error->getMessage() . '<br>');
+}
 
-// Вывожу результаты;
-print('Все возможные статусы:' . '<br>');
-print_r($all_task_statuses);
+// Закомментировал тесты из прошлого задания;
 
-print('<br>' . 'Все возможные действия:' . '<br>');
-print_r($all_task_actions);
+// $next_status = $task->get_next_status($current_action);
 
-print('<br>' . 'Следующий статус:' . '<br>');
-print($next_status);
+// print_r($task->get_user_actions($current_status));
 
-// Вывожу следующее действие, в зависимости от статус задачи и типа пользователя;
-print('<br>' . 'STATUS_NEW, CUTOMER' . '<br>');
-$possible_action = $task->get_user_actions($current_status);
-print_r($task->get_user_actions($current_status));
+// // Вывожу результаты;
+// print('Все возможные статусы:' . '<br>');
+// print_r($all_task_statuses);
 
-print('<br>' . 'STATUS_NEW, EXECUTOR' . '<br>');
-$user_id = 2;
-$current_status = Task::STATUS_NEW;
-$task = new Task($customer_id, $executor_id, $user_id, $current_status);
-print_r($task->get_user_actions($current_status));
+// print('<br>' . 'Все возможные действия:' . '<br>');
+// print_r($all_task_actions);
 
-print('<br>' . 'STATUS_IN_PROGRESS, CUTOMER' . '<br>');
-$user_id = 1;
-$current_status = Task::STATUS_IN_PROGRESS;
-$task = new Task($customer_id, $executor_id, $user_id, $current_status);
-print_r($task->get_user_actions($current_status));
+// print('<br>' . 'Следующий статус:' . '<br>');
+// print($next_status);
 
-print('<br>' . 'STATUS_IN_PROGRESS, EXECUTOR' . '<br>');
-$user_id = 2;
-$current_status = Task::STATUS_IN_PROGRESS;
-$task = new Task($customer_id, $executor_id, $user_id, $current_status);
-print_r($task->get_user_actions($current_status));
+// // Вывожу следующее действие, в зависимости от статус задачи и типа пользователя;
+// print('<br>' . 'STATUS_NEW, CUTOMER' . '<br>');
+// $possible_action = $task->get_user_actions($current_status);
+// print_r($task->get_user_actions($current_status));
 
-print('<br>' . 'STATUS_IN_PROGRESS, NOT CUSTOMER OR EXECUTOR' . '<br>'); // NULL
-$user_id = 3;
-$current_status = Task::STATUS_IN_PROGRESS;
-$task = new Task($customer_id, $executor_id, $user_id, $current_status);
-print_r($task->get_user_actions($current_status));
+// print('<br>' . 'STATUS_NEW, EXECUTOR' . '<br>');
+// $user_id = 2;
+// $current_status = Task::STATUS_NEW;
+// $task = new Task($customer_id, $executor_id, $user_id, $current_status);
+// print_r($task->get_user_actions($current_status));
+
+// print('<br>' . 'STATUS_IN_PROGRESS, CUTOMER' . '<br>');
+// $user_id = 1;
+// $current_status = Task::STATUS_IN_PROGRESS;
+// $task = new Task($customer_id, $executor_id, $user_id, $current_status);
+// print_r($task->get_user_actions($current_status));
+
+// print('<br>' . 'STATUS_IN_PROGRESS, EXECUTOR' . '<br>');
+// $user_id = 2;
+// $current_status = Task::STATUS_IN_PROGRESS;
+// $task = new Task($customer_id, $executor_id, $user_id, $current_status);
+// print_r($task->get_user_actions($current_status));
+
+// print('<br>' . 'STATUS_IN_PROGRESS, NOT CUSTOMER OR EXECUTOR' . '<br>'); // NULL
+// $user_id = 3;
+// $current_status = Task::STATUS_IN_PROGRESS;
+// $task = new Task($customer_id, $executor_id, $user_id, $current_status);
+// print_r($task->get_user_actions($current_status));
