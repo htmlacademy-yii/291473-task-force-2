@@ -23,14 +23,16 @@ $sql_directory = 'sql/';
 // Список csv-файлов;
 $csv_files = new checkDirectory($csv_directory);
 $csv_files_list = $csv_files->get_csv_files();
+// print_r($csv_files_list);
 
 $csv_to_sql_converter = new CsvToSqlConverter($sql_directory);
 
-foreach ($csv_files_list as $csv_file) {
-    $csv_to_sql_converter->convert_csv_file($csv_file);
-}
+$csv_to_sql_converter->convert_csv_file($csv_files_list[0]); // Проверяю работу на одном файле csv;
 
-print_r($csv_files_list);
+// foreach ($csv_files_list as $csv_file) {
+//     // print($csv_file . '<br>');
+//     $csv_to_sql_converter->convert_csv_file($csv_file);
+// }
 
 // $csv_file = new CsvToSqlConverter($directory);
 // $sql_file = $csv_file->convert_csv_file('data/cities.csv');
