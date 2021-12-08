@@ -27,12 +27,12 @@ $csv_files_list = $csv_files->get_csv_files();
 
 $csv_to_sql_converter = new CsvToSqlConverter($sql_directory);
 
-$csv_to_sql_converter->convert_csv_file($csv_files_list[0]); // Проверяю работу на одном файле csv;
+// $csv_to_sql_converter->convert_csv_file($csv_files_list[0]); // Проверяю работу на одном файле csv;
 
-// foreach ($csv_files_list as $csv_file) {
-//     // print($csv_file . '<br>');
-//     $csv_to_sql_converter->convert_csv_file($csv_file);
-// }
+foreach ($csv_files_list as $csv_file) {
+    // print($csv_file . '<br>');
+    $csv_to_sql_converter->convert_csv_file($csv_file);
+}
 
 // $csv_file = new CsvToSqlConverter($directory);
 // $sql_file = $csv_file->convert_csv_file('data/cities.csv');
