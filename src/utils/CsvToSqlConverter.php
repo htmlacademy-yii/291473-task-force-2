@@ -16,7 +16,7 @@ class CsvToSqlConverter
     {
         // Проверяю доступна ли папка для сохранения sql-файлов;
         if (!file_exists($sql_directory)) {
-            throw new CsvToSqlException("Папка " . $sql_directory . " не найдена.");
+            throw new CsvToSqlException("Папка для сохранения sql-файлов " . $sql_directory . " не найдена.");
         }
         // Задаю директорию, если переданная в класс папка присутствует в проекте;
         $this->sql_directory = $sql_directory;
@@ -25,34 +25,39 @@ class CsvToSqlConverter
     // Получаю колонки таблицы БД;
     private function get_tables_columns(SplFileObject $csv_file): string
     {
-        // SplFileObject::rewind — Перемотка файлового указателя в начало файла
+        // Перевожу файловый указатель в начало файла;
         $csv_file->rewind();
-
-        // SplFileObject::fgetcsv — Получить строку из файла и её разбор как поля CSV
-        $data = $csv_file->fgetcsv();
-
-        // Получаю первый элемент массива;
-        $columns = array_shift($data);
-
-        foreach ($data as $value) {
-            $columns .= ", $value";
+        // Получаю строку из файла в массив;
+        $line = $csv_file->fgetcsv();
+        // Пробегаюсь по массиву, пишу данные в строку: первое, извлеченное выше значение + остальные значения с запятой вначале;
+        foreach ($line as $line_key => $line_value) {
+            if ($line_key === 0) {
+                $columns = $line_value;
+            } else {
+                $columns .= ', ' . $line_value;
+            }
         }
-
         return $columns;
     }
 
-
-    private function array_to_string(array $array): string
+    private function csv_to_string(array $array): string
     {
-        print_r($array);
+        // print('attay_to_string: ');
+        // print_r($array);
+        // print('<br>');
+
         return implode('", "', $array);
     }
 
-    // Пишет данные в sql-файл;
+    // Пишу данные в sql-файл;
     private function write_sql_line(SplFileObject $sql_file, string $sql_line): void
     {
-        // SplFileObject::fwrite — Запись в файл
+        // Пишу в файл строку sql;
         $sql_file->fwrite("$sql_line\r\n");
+
+        // print('sql_line: ');
+        // print_r($sql_line);
+        // print('<br>');
     }
 
     private function get_next_line(SplFileObject $csv_file): iterable
@@ -70,45 +75,57 @@ class CsvToSqlConverter
 
         try {
             $sql_file_name = pathinfo($csv_file_name, PATHINFO_FILENAME);
-            $sql_file_names = explode('.', $sql_file_name)[0] ?? null;
             $sql_file_path = $this->sql_directory . $sql_file_name . '.sql';
             $sql_file = new SplFileObject($sql_file_path, 'w');
-
-            // print('name: ' . $sql_file_name);
-            // print('<br>');
-            // print('names: ' . $sql_file_names);
-            // print('<br>');
-            // print('path: ' . $sql_file_path);
-            // print('<br>');
-            // print($this->sql_directory);
         } catch (RuntimeException $error) {
             throw new FileSourceException('Ошибка создания sql-файла: ' . $error);
         }
 
-        // Удаляет символы переноса в конце строки
+        // Пропускаю пустые строки в файле; Удаляю символы переноса в конце строки;
         $csv_file->setFlags(SplFileObject::SKIP_EMPTY | SplFileObject::DROP_NEW_LINE);
-        // Получаю все колонки таблицы
-        $tables_columns = $this->get_tables_columns($csv_file);
-        // print('<br>');
-        // print($tables_columns);
-        // Получаю первые значения каждой таблицы;
 
-        print_r($csv_file->current());
-        print('<br>');
-        print_r($csv_file->fgetcsv());
-        print('<br>');
-        $first_values = $this->array_to_string(
-            $csv_file->fgetcsv()
-        );
+        // Получаю колонки таблицы;
+        $table_columns = $this->get_tables_columns($csv_file);
 
-        // print($first_values);
-        // print('<br>');
+        $first_values = $this->csv_to_string($csv_file->fgetcsv());
 
-        // Пишу строку в sql;
-        $sql_query = "INSERT INTO $sql_file_names (" . $tables_columns . ")\r\n" . 'VALUES ("' . $first_values . '"),';
-
+        // Пишу запрос на добавление данных в таблицу БД: INSERT + колонки + первую строку значений;
+        $sql_query = "INSERT INTO $sql_file_names (" . $table_columns . ")\r\n" . 'VALUES ("' . $first_values . '"),';
+        // Пишу запрос в файл;
         $this->write_sql_line($sql_file, $sql_query);
 
-        // Нужно заменить последнюю в файлах ',' на ';'
+        // Получаю следующую строку из csv-файла и пишу ее в sql-файл;
+        foreach ($this->get_next_line($csv_file) as $next_values) {
+            if ($next_values) {
+                $next_values = $this->csv_to_string($next_values);
+
+                $line = '("' . $next_values . '"),';
+                $line = str_replace('"NULL"', 'NULL', $line);
+                $this->write_sql_line($sql_file, $line);
+            }
+        }
+
+        // Смещаю файловый указатель на последнюю ',' и заменяю ее на ';';
+        $sql_file->fseek(-3, SEEK_END);
+        $sql_file->fwrite(';');
+
+        // print('csv-файл: '); 
+        // print_r($csv_file->fgetcsv());
+        // print('<br>');
+        // print('sql-файл: '); 
+        // print_r($sql_file);
+        // print('<br>');
+
+        // print('name: ' . $sql_file_name);
+        // print('<br>');
+        print('path: ' . $sql_file_path);
+        // print('<br>');
+        // print('directory: ' . $this->sql_directory);
+        // print('<br>');
+        // print('csv_file: ' . $csv_file);
+        // print('<br>');
+        // print('table_columns: ' . $table_columns);
+        // print('<br>');
+        // print('<br>');
     }
 }
