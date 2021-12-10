@@ -29,6 +29,7 @@ class CsvToSqlConverter
         $csv_file->rewind();
         // Получаю строку из файла в массив;
         $line = $csv_file->fgetcsv();
+        $columns = '';
         // Пробегаюсь по массиву, пишу данные в строку: первое, извлеченное выше значение + остальные значения с запятой вначале;
         foreach ($line as $line_key => $line_value) {
             if ($line_key === 0) {
@@ -90,7 +91,7 @@ class CsvToSqlConverter
         $first_values = $this->csv_to_string($csv_file->fgetcsv());
 
         // Пишу запрос на добавление данных в таблицу БД: INSERT + колонки + первую строку значений;
-        $sql_query = "INSERT INTO $sql_file_names (" . $table_columns . ")\r\n" . 'VALUES ("' . $first_values . '"),';
+        $sql_query = "INSERT INTO $sql_file_name (" . $table_columns . ")\r\n" . 'VALUES ("' . $first_values . '"),';
         // Пишу запрос в файл;
         $this->write_sql_line($sql_file, $sql_query);
 

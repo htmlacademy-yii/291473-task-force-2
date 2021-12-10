@@ -24,16 +24,20 @@ CREATE TABLE profiles (
     about VARCHAR(128) NOT NULL,
     phone VARCHAR(128) NOT NULL,
     skype VARCHAR(128) NOT NULL,
-    role INT UNSIGNED NOT NULL,
-    registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    email VARCHAR(128) NOT NULL,
-    name VARCHAR(128) NOT NULL,
+    messanger VARCHAR(128) NOT NULL,
+    role INT UNSIGNED NOT NULL,  
     city_id INT UNSIGNED NOT NULL,
     average_rating INT UNSIGNED NOT NULL,
     avatar_link VARCHAR(128) NOT NULL,
-    messanger VARCHAR(128) NOT NULL,
-    password CHAR(64) NOT NULL,
     FOREIGN KEY (city_id) REFERENCES cities(id),
+);
+
+CREATE TABLE users (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    email VARCHAR(128) NOT NULL,
+    name VARCHAR(128) NOT NULL,
+    password CHAR(64) NOT NULL,
+    dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE INDEX email(email)
 );
 
@@ -47,16 +51,19 @@ CREATE TABLE users_specializations (
 
 CREATE TABLE tasks (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    category_id INT UNSIGNED NOT NULL,
+    description VARCHAR(128) NOT NULL,
+    expire TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    name VARCHAR(128) NOT NULL,
+    address VARCHAR(128) NOT NULL,
+    budget INT UNSIGNED NOT NULL,
+    lat VARCHAR(128) NOT NULL,
+    long VARCHAR(128) NOT NULL
     status INT UNSIGNED NOT NULL,
     customer_id INT UNSIGNED NOT NULL,
     executor_id INT UNSIGNED NOT NULL,
-    name VARCHAR(128) NOT NULL,
-    description VARCHAR(128) NOT NULL,
-    category_id INT UNSIGNED NOT NULL,
     city_id INT UNSIGNED NOT NULL,
-    price INT UNSIGNED NOT NULL,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deadline TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     file_link VARCHAR(128),
     FOREIGN KEY (customer_id) REFERENCES profiles(id),
     FOREIGN KEY (executor_id) REFERENCES profiles(id),
@@ -71,17 +78,18 @@ CREATE TABLE opinions (
     customer_id INT UNSIGNED NOT NULL,
     executor_id INT UNSIGNED NOT NULL,
     task_id INT UNSIGNED NOT NULL,
+    rating INT UNSIGNED NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES profiles(id),
     FOREIGN KEY (executor_id) REFERENCES profiles(id),
     FOREIGN KEY (task_id) REFERENCES tasks(id)
 );
 
-CREATE TABLE responses (
+CREATE TABLE replies (
+    dt_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    rate INT UNSIGNED NOT NULL,
+    description VARCHAR(128) NOT NULL,
     executor_id INT UNSIGNED NOT NULL,
     task_id INT UNSIGNED NOT NULL,
-    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    comment VARCHAR(128) NOT NULL,
-    price INT UNSIGNED NOT NULL,
     FOREIGN KEY (executor_id) REFERENCES profiles(id),
     FOREIGN KEY (task_id) REFERENCES tasks(id)
 );
