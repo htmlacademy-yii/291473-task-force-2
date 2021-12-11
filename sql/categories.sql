@@ -1,4 +1,4 @@
-INSERT INTO  (name, icon)
+INSERT INTO categories (name, icon)
 VALUES ("Переводы", "translation"),
 ("Уборка", "clean"),
 ("Переезды", "cargo"),

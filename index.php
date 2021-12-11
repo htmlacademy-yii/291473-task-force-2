@@ -23,16 +23,15 @@ $sql_directory = 'sql/';
 // Список csv-файлов;
 $csv_files = new checkDirectory($csv_directory);
 $csv_files_list = $csv_files->get_csv_files();
-// print_r($csv_files_list);
 
 $csv_to_sql_converter = new CsvToSqlConverter($sql_directory);
 
-// $csv_to_sql_converter->convert_csv_file($csv_files_list[0]); // Проверяю работу на одном файле csv;
-
 foreach ($csv_files_list as $csv_file) {
-    // print($csv_file . '<br>');
     $csv_to_sql_converter->convert_csv_file($csv_file);
 }
+
+print('Перевожу в sql-формат следующие файлы:');
+print_r($csv_files_list);
 
 // $csv_file = new CsvToSqlConverter($directory);
 // $sql_file = $csv_file->convert_csv_file('data/cities.csv');
@@ -40,7 +39,6 @@ foreach ($csv_files_list as $csv_file) {
 // Получаю список csv-файлов в заданной директории;
 // $csv_files = new CheckDirectory($csv_directory);
 // $csv_files_list = $csv_files->get_csv_files();
-
 
 // Закомментировал варианты статусов и активность для тестирования исключений;
 // $current_status = Task::STATUS_ERROR;

@@ -18,6 +18,6 @@ class CheckDirectory
 
     public function get_csv_files(): array
     {
-        return glob($this->csv_directory  . '*' . '.csv'); // 
+        return glob($this->csv_directory  . '*' . '.csv');
     }
 }

@@ -6,7 +6,6 @@ namespace TaskForce\utils;
 
 use TaskForce\exceptions\CsvToSqlException;
 use TaskForce\exceptions\FileSourceException;
-
 use SplFileObject;
 use RuntimeException;
 
@@ -43,10 +42,6 @@ class CsvToSqlConverter
 
     private function csv_to_string(array $array): string
     {
-        // print('attay_to_string: ');
-        // print_r($array);
-        // print('<br>');
-
         return implode('", "', $array);
     }
 
@@ -55,10 +50,6 @@ class CsvToSqlConverter
     {
         // Пишу в файл строку sql;
         $sql_file->fwrite("$sql_line\r\n");
-
-        // print('sql_line: ');
-        // print_r($sql_line);
-        // print('<br>');
     }
 
     private function get_next_line(SplFileObject $csv_file): iterable
@@ -109,24 +100,5 @@ class CsvToSqlConverter
         // Смещаю файловый указатель на последнюю ',' и заменяю ее на ';';
         $sql_file->fseek(-3, SEEK_END);
         $sql_file->fwrite(';');
-
-        // print('csv-файл: '); 
-        // print_r($csv_file->fgetcsv());
-        // print('<br>');
-        // print('sql-файл: '); 
-        // print_r($sql_file);
-        // print('<br>');
-
-        // print('name: ' . $sql_file_name);
-        // print('<br>');
-        print('path: ' . $sql_file_path);
-        // print('<br>');
-        // print('directory: ' . $this->sql_directory);
-        // print('<br>');
-        // print('csv_file: ' . $csv_file);
-        // print('<br>');
-        // print('table_columns: ' . $table_columns);
-        // print('<br>');
-        // print('<br>');
     }
 }
