@@ -1,7 +1,9 @@
 <?php
 
 use TaskForce\tasks\Task;
+use TaskForce\utils\CsvToSqlConverter;
 use TaskForce\exceptions\StatusException;
+use TaskForce\utils\CheckDirectory;
 
 require_once 'vendor/autoload.php';
 
@@ -11,6 +13,32 @@ $executor_id = 2;
 $user_id = 1;
 $current_status = Task::STATUS_NEW;
 $current_action = Task::ACTION_START;
+
+// Конвертация и загрузка csv-файлов в sql;
+
+// Список директорий для csv и sql-файлов;
+$csv_directory = 'data/';
+$sql_directory = 'sql/';
+
+// Список csv-файлов;
+$csv_files = new checkDirectory($csv_directory);
+$csv_files_list = $csv_files->get_csv_files();
+
+$csv_to_sql_converter = new CsvToSqlConverter($sql_directory);
+
+foreach ($csv_files_list as $csv_file) {
+    $csv_to_sql_converter->convert_csv_file($csv_file);
+}
+
+print('Перевожу в sql-формат следующие файлы:');
+print_r($csv_files_list);
+
+// $csv_file = new CsvToSqlConverter($directory);
+// $sql_file = $csv_file->convert_csv_file('data/cities.csv');
+
+// Получаю список csv-файлов в заданной директории;
+// $csv_files = new CheckDirectory($csv_directory);
+// $csv_files_list = $csv_files->get_csv_files();
 
 // Закомментировал варианты статусов и активность для тестирования исключений;
 // $current_status = Task::STATUS_ERROR;
