@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 
-print_r($tasks[0]);
+// print_r($tasks[0]);
 ?>
 
 <div class="left-column">
@@ -12,13 +12,13 @@ print_r($tasks[0]);
         <div class="task-card">
             <div class="header-task">
                 <a href="#" class="link link--block link--big"><?= Html::encode($task->name) ?></a>
-                <p class="price price--task">3400 ₽</p>
+                <p class="price price--task"><?= Html::encode($task->budget) ?> ₽</p>
             </div>
             <p class="info-text"><span class="current-time">4 часа </span>назад</p>
             <p class="task-text"><?= Html::encode($task->description) ?></p>
             <div class="footer-task">
-                <p class="info-text town-text">Санкт-Петербург, Центральный район</p>
-                <p class="info-text category-text">Переводы</p>
+                <p class="info-text town-text"><?= Html::encode($task->address) ?></p>
+                <p class="info-text category-text"><?= Html::encode($task->category->name) ?></p>
                 <a href="#" class="button button--black">Смотреть Задание</a>
             </div>
         </div>

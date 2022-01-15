@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Categories;
 use app\models\Tasks;
 use yii\web\Controller;
 
@@ -10,7 +11,7 @@ class TasksController extends Controller
     public function actionIndex()
     {
         $query = Tasks::find()
-            // ->joinWith('categories')
+            ->joinWith('category')
             ->where(['status' => NULL])
             ->orderBy('dt_add DESC');
 
