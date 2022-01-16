@@ -1,8 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-
-// print_r($tasks[0]);
+use TaskForce\utils\TaskTimeConverter;
 ?>
 
 <div class="left-column">
@@ -14,7 +13,7 @@ use yii\helpers\Html;
                 <a href="#" class="link link--block link--big"><?= Html::encode($task->name) ?></a>
                 <p class="price price--task"><?= Html::encode($task->budget) ?> ₽</p>
             </div>
-            <p class="info-text"><span class="current-time">4 часа </span>назад</p>
+            <p class="info-text"><span class="current-time"><?= TaskTimeConverter::getTaskRelativeTime($task->dt_add) ?></span></p>
             <p class="task-text"><?= Html::encode($task->description) ?></p>
             <div class="footer-task">
                 <p class="info-text town-text"><?= Html::encode($task->address) ?></p>
