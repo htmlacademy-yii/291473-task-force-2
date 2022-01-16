@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-use app\models\Categories;
 use app\models\Tasks;
 use yii\web\Controller;
 
