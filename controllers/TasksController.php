@@ -12,7 +12,7 @@ class TasksController extends Controller
     {
         $query = Tasks::find()
             ->joinWith('category')
-            ->where(['status' => NULL])
+            ->where(['status' => '1'])
             ->orderBy('dt_add DESC');
 
         $tasks = $query->all();

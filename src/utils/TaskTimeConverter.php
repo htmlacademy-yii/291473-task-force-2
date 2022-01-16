@@ -39,13 +39,6 @@ class TaskTimeConverter
         $nowTimeArray = getdate();
         $addTimeArray = getdate($addTimeMark);
 
-        print($addTimeMark);
-        print('<br>');
-        print_r($nowTimeArray);
-        print('<br>');
-        print_r($addTimeArray);
-        print('<br>');
-
         $years = $nowTimeArray['year'] - $addTimeArray['year'];
         $months = $nowTimeArray['mon'] - $addTimeArray['mon'];
         $days = $nowTimeArray['mday'] - $addTimeArray['mday'];

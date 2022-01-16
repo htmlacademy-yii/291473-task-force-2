@@ -2,8 +2,6 @@
 
 use yii\helpers\Html;
 use TaskForce\utils\TaskTimeConverter;
-
-phpinfo();
 ?>
 
 <div class="left-column">
