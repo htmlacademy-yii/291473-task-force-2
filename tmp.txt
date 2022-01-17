@@ -24,9 +24,9 @@ php yii fixture/generate users --count=10
 php yii fixture/load Categories
 php yii fixture/load Cities
 php yii fixture/load Opinions
-php yii fixture/load Profiles // ошибка Column not found: 1054 Unknown column 'messanger' in 'field list''
+php yii fixture/load Profiles
 php yii fixture/load Replies
-php yii fixture/load Specializations // ошибка не выгрузились данные (пустая таблица)
-php yii fixture/load Tasks // ошибка Column not found: 1054 Unknown column 'expire' in 'field list''
+php yii fixture/load Specializations
+php yii fixture/load Tasks
 php yii fixture/load Users
 

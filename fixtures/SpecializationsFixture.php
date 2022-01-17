@@ -6,5 +6,5 @@ use yii\test\ActiveFixture;
 
 class SpecializationsFixture extends ActiveFixture
 {
-    public $modelClass = 'app\models\UsersSpecializations';
+    public $modelClass = 'app\models\Specializations';
 }

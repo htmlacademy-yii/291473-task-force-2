@@ -5,7 +5,7 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "users_specializations".
+ * This is the model class for table "specializations".
  *
  * @property int $user_id
  * @property int $specialization_id
@@ -13,14 +13,14 @@ use Yii;
  * @property Categories $specialization
  * @property Profiles $user
  */
-class UsersSpecializations extends \yii\db\ActiveRecord
+class Specializations extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'users_specializations';
+        return 'specializations';
     }
 
     /**

@@ -5,14 +5,14 @@ use yii\db\Migration;
 /**
  * Class m220116_211348_create_table_users_specializations
  */
-class m220116_211348_create_table_users_specializations extends Migration
+class m220116_211348_create_table_specializations extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('{{%users_specializations}}', [
+        $this->createTable('{{%specializations}}', [
             'user_id' => $this->integer()->notNull(),
             'specialization_id' => $this->integer()->notNull(),
         ]);
@@ -23,6 +23,6 @@ class m220116_211348_create_table_users_specializations extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%users_specializations}}');
+        $this->dropTable('{{%specializations}}');
     }
 }
