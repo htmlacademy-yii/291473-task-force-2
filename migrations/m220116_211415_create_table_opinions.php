@@ -12,7 +12,15 @@ class m220116_211415_create_table_opinions extends Migration
      */
     public function safeUp()
     {
-
+        $this->createTable('{{%opinions}}', [
+            'dt_add' => $this->dateTime()->notNull(),
+            'rate' => $this->integer()->notNull(),
+            'description' => $this->text()->null(),
+            'customer_id' => $this->integer()->notNull()->comment('заказчик'),
+            'executor_id' => $this->integer()->notNull()->comment('исполнитель'),
+            'task_id' => $this->integer()->notNull(),
+            'rating' => $this->integer()->notNull(),
+        ]);
     }
 
     /**
@@ -20,23 +28,6 @@ class m220116_211415_create_table_opinions extends Migration
      */
     public function safeDown()
     {
-        echo "m220116_211415_create_table_opinions cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('{{%opinions}}');
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m220116_211415_create_table_opinions cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

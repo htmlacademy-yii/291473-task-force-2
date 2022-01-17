@@ -12,7 +12,14 @@ class m220116_211335_create_table_users extends Migration
      */
     public function safeUp()
     {
-
+        $this->createTable('{{%users}}', [
+            'id' => $this->primaryKey(),
+            'email' => $this->string(128)->notNull()->unique(),
+            'name' => $this->string(128)->notNull(),
+            'password' => $this->string(64)->notNull(),
+            'dt_add' => $this->dateTime()->notNull(),
+            'profile_id' => $this->integer()->notNull(),
+        ]);
     }
 
     /**
@@ -20,23 +27,6 @@ class m220116_211335_create_table_users extends Migration
      */
     public function safeDown()
     {
-        echo "m220116_211335_create_table_users cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('{{%users}}');
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m220116_211335_create_table_users cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

@@ -12,7 +12,10 @@ class m220116_211348_create_table_users_specializations extends Migration
      */
     public function safeUp()
     {
-
+        $this->createTable('{{%users_specializations}}', [
+            'user_id' => $this->integer()->notNull(),
+            'specialization_id' => $this->integer()->notNull(),
+        ]);
     }
 
     /**
@@ -20,23 +23,6 @@ class m220116_211348_create_table_users_specializations extends Migration
      */
     public function safeDown()
     {
-        echo "m220116_211348_create_table_users_specializations cannot be reverted.\n";
-
-        return false;
+        $this->dropTable('{{%users_specializations}}');
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m220116_211348_create_table_users_specializations cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }
