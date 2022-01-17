@@ -4,7 +4,7 @@ namespace app\fixtures;
 
 use yii\test\ActiveFixture;
 
-class TasksFixture extends ActiveFixture
+class CategoriesFixture extends ActiveFixture
 {
     public $modelClass = 'app\models\Categories';
 }
