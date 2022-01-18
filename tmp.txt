@@ -1,0 +1,32 @@
+1. Создание Базы данных:
+
+CREATE DATABASE taskforce
+  DEFAULT CHARACTER SET utf8
+  DEFAULT COLLATE utf8_general_ci;
+
+2. Реализация мигнаций:
+
+yii migrate
+
+3. Генерация тестовых данных (по 10 записей):
+
+php yii fixture/generate categories --count=10
+php yii fixture/generate cities --count=10
+php yii fixture/generate opinions --count=10
+php yii fixture/generate profiles --count=10
+php yii fixture/generate replies --count=10
+php yii fixture/generate specializations --count=10
+php yii fixture/generate tasks --count=10
+php yii fixture/generate users --count=10
+
+4. Загрузка тестовых данных:
+
+php yii fixture/load Categories
+php yii fixture/load Cities
+php yii fixture/load Opinions
+php yii fixture/load Profiles
+php yii fixture/load Replies
+php yii fixture/load Specializations
+php yii fixture/load Tasks
+php yii fixture/load Users
+
