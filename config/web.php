@@ -51,14 +51,14 @@ $config = [
             ],
         ],
         */
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'enableStrictParsing' => false,
-            'rules' => [
-                // ...
-            ],
-        ],
+        // 'urlManager' => [
+        //     'enablePrettyUrl' => true,
+        //     'showScriptName' => false,
+        //     'enableStrictParsing' => false,
+        //     'rules' => [
+        //         // ...
+        //     ],
+        // ],
     ],
     'params' => $params,
 ];
