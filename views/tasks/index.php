@@ -1,6 +1,8 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
 use TaskForce\utils\TaskTimeConverter;
 ?>
 
@@ -47,7 +49,29 @@ use TaskForce\utils\TaskTimeConverter;
 <div class="right-column">
     <div class="right-card black">
         <div class="search-form">
-            <form>
+
+            <?php $form = ActiveForm::begin([
+                'id' => 'tasks-form',
+                'fieldConfig' => [
+                    'template' => "{input}"
+                ]
+            ]) ?>
+
+            <h4 class="head-card">Категории</h4>
+
+            <div class="form-group">
+                <div>
+                    <?= $form->field($model, 'categories[]')->checkboxList(
+                        ArrayHelper::map($categories, 'id', 'name')
+                    ) ?>
+                </div>
+            </div>
+
+            <?= Html::submitButton('Искать', ['class' => 'button button--blue']) ?>
+
+            <?php ActiveForm::end() ?>
+
+            <!-- <form>
                 <h4 class="head-card">Категории</h4>
                 <div class="form-group">
                     <div>
@@ -74,7 +98,7 @@ use TaskForce\utils\TaskTimeConverter;
                     </select>
                 </div>
                 <input type="button" class="button button--blue" value="Искать">
-            </form>
+            </form> -->
         </div>
     </div>
 </div>

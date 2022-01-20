@@ -22,7 +22,7 @@ use Yii;
  * @property Cities $city
  * @property Replies[] $replies
  * @property Users[] $users
- * @property UsersSpecializations[] $usersSpecializations
+ * @property Specializations[] $Specializations
  */
 class Profiles extends \yii\db\ActiveRecord
 {
@@ -99,12 +99,12 @@ class Profiles extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[UsersSpecializations]].
+     * Gets query for [[Specializations]].
      *
      * @return \yii\db\ActiveQuery
      */
     public function getUsersSpecializations()
     {
-        return $this->hasMany(UsersSpecializations::className(), ['user_id' => 'id']);
+        return $this->hasMany(Specializations::className(), ['user_id' => 'id']);
     }
 }
