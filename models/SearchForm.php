@@ -7,7 +7,7 @@ use yii\base\Model;
 class SearchForm extends Model
 {
     public $categories;
-    public $without_executor;
+    public $without_performer;
     public $period;
 
     const PERIOD_VALUES = [
@@ -21,7 +21,7 @@ class SearchForm extends Model
     {
         return [
             ['categories', 'exist', 'targetClass' => '\app\\models\\Categories', 'targetAttribute' => 'id', 'allowArray' => true],
-            ['without_executor', 'boolean'],
+            ['without_performer', 'boolean'],
             ['period', 'in', 'range' => array_keys(self::PERIOD_VALUES)]
         ];
     }
@@ -29,7 +29,7 @@ class SearchForm extends Model
     public function attributeLabels()
     {
         return [
-            'without_executor' => 'Без исполнителя'
+            'without_performer' => 'Без исполнителя'
         ];
     }
 }

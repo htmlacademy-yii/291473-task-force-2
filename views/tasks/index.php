@@ -58,10 +58,8 @@ use TaskForce\utils\TaskTimeConverter;
             ]) ?>
 
             <h4 class="head-card">Категории</h4>
-
             <div class="form-group">
                 <div>
-
                     <?= $form->field($model, 'categories[]')->checkboxList(
                         ArrayHelper::map($categories, 'id', 'name'),
                         [
@@ -75,10 +73,16 @@ use TaskForce\utils\TaskTimeConverter;
                             }
                         ]
                     ) ?>
-
                 </div>
             </div>
 
+            <h4 class="head-card">Дополнительно</h4>
+            <?= $form
+                ->field($model, 'without_performer', ['template' => "{input}\n{label}"])
+                ->checkbox(['id' => 'without-performer'], false) ?>
+
+            <h4 class="head-card">Период</h4>
+            <?= $form->field($model, 'period')->dropDownList($period_values, ['id' => 'period-value']) ?>
             <?= Html::submitButton('Искать', ['class' => 'button button--blue']) ?>
 
             <?php ActiveForm::end() ?>

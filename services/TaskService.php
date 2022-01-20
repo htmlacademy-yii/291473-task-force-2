@@ -24,7 +24,7 @@ class TaskService
             $query->andWhere(['in', 'category_id', $model->categories]);
         }
 
-        if ($model->without_executor) {
+        if ($model->without_performer) {
             $query->andWhere(['executor_id' => null]);
         }
 
