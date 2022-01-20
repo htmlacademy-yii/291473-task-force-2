@@ -4,7 +4,7 @@ namespace app\models;
 
 use yii\base\Model;
 
-class TasksForm extends Model
+class SearchForm extends Model
 {
     public $categories;
     public $without_executor;
@@ -20,7 +20,7 @@ class TasksForm extends Model
     public function rules()
     {
         return [
-            ['categories', 'exist', 'targetClass' => Categories::className(), 'targetAttribute' => 'id', 'allowArray' => true],
+            ['categories', 'exist', 'targetClass' => '\app\\models\\Categories', 'targetAttribute' => 'id', 'allowArray' => true],
             ['without_executor', 'boolean'],
             ['period', 'in', 'range' => array_keys(self::PERIOD_VALUES)]
         ];

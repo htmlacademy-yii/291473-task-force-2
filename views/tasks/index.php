@@ -61,9 +61,21 @@ use TaskForce\utils\TaskTimeConverter;
 
             <div class="form-group">
                 <div>
+
                     <?= $form->field($model, 'categories[]')->checkboxList(
-                        ArrayHelper::map($categories, 'id', 'name')
+                        ArrayHelper::map($categories, 'id', 'name'),
+                        [
+                            'separator' => '<br>',
+                            'item' => function ($index, $label, $name, $checked, $value) use ($model) {
+                                settype($model->categories, 'array');
+                                $checked = in_array($value, $model->categories) ? ' checked' : '';
+                                $html = "<input type=\"checkbox\" name=\"{$name}\" value=\"{$value}\"{$checked}>";
+
+                                return "<label>{$html}{$label}</label>";
+                            }
+                        ]
                     ) ?>
+
                 </div>
             </div>
 
