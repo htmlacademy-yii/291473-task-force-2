@@ -63,13 +63,13 @@ use TaskForce\utils\TaskTimeConverter;
                     <?= $form->field($model, 'categories[]')->checkboxList(
                         ArrayHelper::map($categories, 'id', 'name'),
                         [
-                            'separator' => '<br>',
+                            // 'separator' => '<br>',
                             'item' => function ($index, $label, $name, $checked, $value) use ($model) {
                                 settype($model->categories, 'array');
                                 $checked = in_array($value, $model->categories) ? ' checked' : '';
                                 $html = "<input type=\"checkbox\" name=\"{$name}\" value=\"{$value}\"{$checked}>";
 
-                                return "<label>{$html}{$label}</label>";
+                                return "<label class=\"control-label\">{$html}{$label}</label>";
                             }
                         ]
                     ) ?>
@@ -78,7 +78,7 @@ use TaskForce\utils\TaskTimeConverter;
 
             <h4 class="head-card">Дополнительно</h4>
             <?= $form
-                ->field($model, 'without_performer', ['template' => "{input}\n{label}"])
+                ->field($model, 'without_executor', ['template' => "{input}\n{label}"])
                 ->checkbox(['id' => 'without-performer'], false) ?>
 
             <h4 class="head-card">Период</h4>

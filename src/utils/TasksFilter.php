@@ -1,19 +1,14 @@
 <?php
 
-namespace app\services;
+namespace TaskForce\utils;
 
 use app\models\Tasks;
-use app\models\SearchForm;
+use app\models\TasksSearchForm;
 use yii\db\Expression;
 
-class TaskService
+class TasksFilter
 {
-    public function getAllTasks(): array
-    {
-        return Tasks::find()->all();
-    }
-
-    public function getFilteredTasks(SearchForm $model): array
+    public function getFilteredTasks(TasksSearchForm $model): array
     {
         $query = Tasks::find()
             ->joinWith('category')
@@ -24,7 +19,7 @@ class TaskService
             $query->andWhere(['in', 'category_id', $model->categories]);
         }
 
-        if ($model->without_performer) {
+        if ($model->without_executor) {
             $query->andWhere(['executor_id' => null]);
         }
 
