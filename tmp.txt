@@ -29,5 +29,3 @@ php yii fixture/load Replies
 php yii fixture/load Specializations
 php yii fixture/load Tasks
 php yii fixture/load Users
-
-5. Тестовая форма http://taskforce/web/index.php?r=test/page
