@@ -4,7 +4,7 @@ CREATE DATABASE taskforce
   DEFAULT CHARACTER SET utf8
   DEFAULT COLLATE utf8_general_ci;
 
-2. Реализация мигнаций:
+2. Реализация миграций:
 
 yii migrate
 
@@ -29,4 +29,3 @@ php yii fixture/load Replies
 php yii fixture/load Specializations
 php yii fixture/load Tasks
 php yii fixture/load Users
-
