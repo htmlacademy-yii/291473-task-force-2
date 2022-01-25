@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use TaskForce\utils\TaskTimeConverter;
+use TaskForce\utils\RatingStars
 ?>
 
 <div class="left-column">
@@ -24,21 +25,7 @@ use TaskForce\utils\TaskTimeConverter;
                 <a href="#" class="link link--block link--big"></a>
                 <div class="response-wrapper">
                     <div class="stars-rating small">
-                        <?php
-                            $ALL_STARS_COUNT = 5;
-                            $fullStarsCount = Html::encode($reply->executor->average_rating);
-                            $emptyStarsCount = $ALL_STARS_COUNT - $fullStarsCount;
-
-                            while($fullStarsCount > 0) {
-                                $fullStarsCount--;
-                                echo "<span class=\"fill-star\">&nbsp;</span>";
-                            }
-
-                            while($emptyStarsCount > 0) {
-                                $emptyStarsCount--;
-                                echo "<span>&nbsp;</span>";
-                            }
-                        ?>
+                    <?= RatingStars::getRatingStars(Html::encode($reply->executor->average_rating)) ?>
                     </div>
                     <p class="reviews"><?= (count($reply->opinion)) ?> отзыва</p>
                 </div>

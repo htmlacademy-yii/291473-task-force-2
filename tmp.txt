@@ -41,3 +41,9 @@ php yii fixture/load Users
 6. Автозагрузка кастомных классов:
 
 composer dump-autoload
+
+7. Примеры страниц:
+
+Список задач http://localhost/taskforce/web/index.php?r=tasks
+Страница задачи http://localhost/taskforce/web/index.php?r=tasks%2Fview&id=6 
+Страница пользователя http://localhost/taskforce/web/index.php?r=user%2Fview&id=2
