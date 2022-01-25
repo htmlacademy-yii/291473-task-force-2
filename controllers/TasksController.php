@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use app\models\TasksSearchForm;
 use app\models\Tasks;
+use app\models\Replies;
 use app\models\Categories;
 use TaskForce\utils\TasksFilter;
 
@@ -40,16 +41,15 @@ class TasksController extends Controller
             ->joinWith('city', 'category')
             ->where(['tasks.id' => $id])
             ->one();
-        
-        $replies = [];
 
         if (!$task) {
             throw new NotFoundHttpException;
         }
 
-        // $replies = Replies::find()
-        // ->joinWith('profiles')
-        // ->all();
+        $replies = Replies::find()
+        ->joinWith('executor') // Primary key of 'app\models\Replies' can not be empty.
+        // ->where(['executor_id' => 1])
+        ->all();
 
         return $this->render('view', [
             'task' => $task,

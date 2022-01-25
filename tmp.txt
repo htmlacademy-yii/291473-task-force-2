@@ -8,11 +8,15 @@ CREATE DATABASE taskforce
   DEFAULT CHARACTER SET utf8
   DEFAULT COLLATE utf8_general_ci;
 
-2. Реализация миграций:
+2. Создание миграции:
+
+php yii migrate/create [название миграции]
+
+3. Реализация миграций:
 
 yii migrate
 
-3. Генерация тестовых данных (по 10 записей):
+4. Генерация тестовых данных (по 10 записей):
 
 php yii fixture/generate categories --count=10
 php yii fixture/generate cities --count=10
@@ -23,7 +27,7 @@ php yii fixture/generate specializations --count=10
 php yii fixture/generate tasks --count=10
 php yii fixture/generate users --count=10
 
-4. Загрузка тестовых данных:
+5. Загрузка тестовых данных:
 
 php yii fixture/load Categories
 php yii fixture/load Cities
@@ -34,6 +38,6 @@ php yii fixture/load Specializations
 php yii fixture/load Tasks
 php yii fixture/load Users
 
-5. Автозагрузка кастомных классов:
+6. Автозагрузка кастомных классов:
 
 composer dump-autoload

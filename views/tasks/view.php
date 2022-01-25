@@ -21,10 +21,10 @@ use TaskForce\utils\TaskTimeConverter;
 
         <?php foreach ($replies as $reply): ?>
         
-        <!-- <php Html::encode($reply->description) ?> -->
+        <?php print(Html::encode($reply->executor->avatar_link)) ?>
 
         <div class="response-card">
-            <img class="customer-photo" src="img/man-glasses.png" width="146" height="156" alt="Фото заказчиков">
+            <img class="customer-photo" src="<?= (Html::encode($reply->executor->avatar_link)) ?>" width="146" height="156" alt="Фото заказчиков">
             <div class="feedback-wrapper">
                 <a href="#" class="link link--block link--big"></a>
                 <div class="response-wrapper">
