@@ -21,7 +21,27 @@ use TaskForce\utils\TaskTimeConverter;
 
         <?php foreach ($replies as $reply): ?>
         
-        <?php print(Html::encode($reply->executor->average_rating)) ?>
+        <?php print(Html::encode($reply->task_id)) ?> // ID задачи
+        <?='<br>'?>
+        <?php print(Html::encode($reply->id)) ?> // ID отклика 
+        <?='<br>'?>
+        <?php print(Html::encode($reply->executor->average_rating)) ?> // Средний рейтинг исполнителя 
+        <?='<br>'?>
+        <?php print(Html::encode($reply->executor->id)) ?> // ID исполнителя из отклика
+        <?='<br>'?>
+
+        <?php 
+            $allOpinions = $reply->opinion;
+            foreach($allOpinions as $oneOpinion) {
+                // print($oneOpinion->rate) . '<br>'; 
+                print($oneOpinion->task_id); 
+
+                print(' / ');
+            }
+            print('/ Данные из таблицы opinions');
+
+        ?>
+
 
         <div class="response-card">
             <img class="customer-photo" src="<?= (Html::encode($reply->executor->avatar_link)) ?>" width="146" height="156" alt="Фото заказчиков">
