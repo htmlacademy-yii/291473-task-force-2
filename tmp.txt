@@ -1,3 +1,7 @@
+0. Установка Yii в директорию taskforce:
+
+composer create-project --prefer-dist yiisoft/yii2-app-basic taskforce
+
 1. Создание Базы данных:
 
 CREATE DATABASE taskforce
@@ -29,3 +33,7 @@ php yii fixture/load Replies
 php yii fixture/load Specializations
 php yii fixture/load Tasks
 php yii fixture/load Users
+
+5. Автозагрузка кастомных классов:
+
+composer dump-autoload

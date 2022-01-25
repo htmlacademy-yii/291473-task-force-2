@@ -33,4 +33,27 @@ class TasksController extends Controller
             'period_values' => TasksSearchForm::PERIOD_VALUES
         ]);
     }
+
+    public function actionView(int $id)
+    {
+        $task = Tasks::find()
+            ->joinWith('city', 'category')
+            ->where(['tasks.id' => $id])
+            ->one();
+        
+        $replies = [];
+
+        if (!$task) {
+            throw new NotFoundHttpException;
+        }
+
+        // $replies = Replies::find()
+        // ->joinWith('profiles')
+        // ->all();
+
+        return $this->render('view', [
+            'task' => $task,
+            'replies' => $replies,
+        ]);
+    }
 }
