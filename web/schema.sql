@@ -63,7 +63,7 @@ CREATE TABLE tasks (
     budget INT UNSIGNED NOT NULL,
     latitude VARCHAR(128) NOT NULL,
     longitude VARCHAR(128) NOT NULL,
-    status INT UNSIGNED,
+    status VARCHAR(128),
     customer_id INT UNSIGNED,
     executor_id INT UNSIGNED,
     city_id INT UNSIGNED,

@@ -1,7 +1,6 @@
 <?php
 use yii\helpers\Html;
 use TaskForce\utils\TaskTimeConverter;
-
 ?>
 
 <div class="left-column">
@@ -13,36 +12,12 @@ use TaskForce\utils\TaskTimeConverter;
         <a href="#" class="button button--blue">Откликнуться на задание</a>
         <div class="task-map">
             <img class="map" src="img/map.png"  width="725" height="346" alt="<?= Html::encode($task->address) ?>">
-            <p class="map-address town"></p>
-            <!-- Html::encode($task->city->city) Нужно добавить в базу города -->
+            <p class="map-address town"><?= Html::encode($task->city->city) ?></p>
             <p class="map-address"><?= Html::encode($task->address) ?></p>
         </div>
         <h4 class="head-regular">Отклики на задание</h4>
 
         <?php foreach ($replies as $reply): ?>
-        
-        <?php print(Html::encode($reply->task_id)) ?> // ID задачи
-        <?='<br>'?>
-        <?php print(Html::encode($reply->id)) ?> // ID отклика 
-        <?='<br>'?>
-        <?php print(Html::encode($reply->executor->average_rating)) ?> // Средний рейтинг исполнителя 
-        <?='<br>'?>
-        <?php print(Html::encode($reply->executor->id)) ?> // ID исполнителя из отклика
-        <?='<br>'?>
-
-        <?php 
-            $allOpinions = $reply->opinion;
-            foreach($allOpinions as $oneOpinion) {
-                // print($oneOpinion->rate) . '<br>'; 
-                print($oneOpinion->task_id); 
-
-                print(' / ');
-            }
-            print('/ Данные из таблицы opinions');
-
-        ?>
-
-
         <div class="response-card">
             <img class="customer-photo" src="<?= (Html::encode($reply->executor->avatar_link)) ?>" width="146" height="156" alt="Фото заказчиков">
             <div class="feedback-wrapper">
@@ -64,14 +39,8 @@ use TaskForce\utils\TaskTimeConverter;
                                 echo "<span>&nbsp;</span>";
                             }
                         ?>
-
-                        <!-- <span class="fill-star">&nbsp;</span>
-                        <span class="fill-star">&nbsp;</span>
-                        <span class="fill-star">&nbsp;</span>
-                        <span class="fill-star">&nbsp;</span> -->
-                        <!-- <span>&nbsp;</span> -->
                     </div>
-                    <p class="reviews">2 отзыва</p>
+                    <p class="reviews"><?= (count($reply->opinion)) ?> отзыва</p>
                 </div>
                 <p class="response-message">
                 <?= Html::encode($reply->description) ?>
@@ -79,7 +48,7 @@ use TaskForce\utils\TaskTimeConverter;
 
             </div>
             <div class="feedback-wrapper">
-                <p class="info-text"><span class="current-time"><?= TaskTimeConverter::getTaskRelativeTime($reply->dt_add) ?></span>назад</p>
+                <p class="info-text"><span class="current-time"><?= TaskTimeConverter::getTaskRelativeTime($reply->dt_add) ?></span></p>
                 <p class="price price--small"><?= Html::encode($reply->rate) ?> ₽</p>
             </div>
             <div class="button-popup">
@@ -88,29 +57,6 @@ use TaskForce\utils\TaskTimeConverter;
             </div>
         </div>
         <?php endforeach; ?>
-
-        <!-- <div class="response-card">
-            <img class="customer-photo" src="img/man-sweater.png" width="146" height="156" alt="Фото заказчиков">
-            <div class="feedback-wrapper">
-                <a href="#" class="link link--block link--big">Дмитриев Андрей</a>
-                <div class="response-wrapper">
-                    <div class="stars-rating small"><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span>&nbsp;</span></div>
-                    <p class="reviews">8 отзывов</p>
-                </div>
-                <p class="response-message">
-                    Примусь за выполнение задания в течение часа, сделаю быстро и качественно.
-                </p>
-
-            </div>
-            <div class="feedback-wrapper">
-                <p class="info-text"><span class="current-time">2 часа </span>назад</p>
-                <p class="price price--small">1999 ₽</p>
-            </div>
-            <div class="button-popup">
-                <a href="#" class="button button--blue button--small">Принять</a>
-                <a href="#" class="button button--orange button--small">Отказать</a>
-            </div>
-        </div> -->
     </div>
 
     <div class="right-column">
@@ -122,7 +68,7 @@ use TaskForce\utils\TaskTimeConverter;
                 <dt>Дата публикации</dt>
                 <dd><?= TaskTimeConverter::getTaskRelativeTime($task->dt_add) ?></dd>
                 <dt>Срок выполнения</dt>
-                <dd><?= Html::encode($task->deadline) ?></dd>
+                <dd><?= date("j F Y, g:i a", strtotime(Html::encode($task->deadline))) ?></dd>
                 <dt>Статус</dt>
                 <dd><?= Html::encode($task->status) ?></dd>
             </dl>
