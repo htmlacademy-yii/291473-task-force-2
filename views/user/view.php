@@ -27,7 +27,12 @@ use TaskForce\utils\RatingStars
             <div class="specialization">
                 <p class="head-info">Специализации</p>
                 <ul class="special-list">
+                    <?php foreach ($specializations as $specialization): ?>
                     <li class="special-item">
+                        <a href="#" class="link link--regular"><?= Html::encode($specialization->specialization->name) ?></a>
+                    </li>
+                    <?php endforeach; ?>
+                    <!-- <li class="special-item">
                         <a href="#" class="link link--regular">Ремонт бытовой техники</a>
                     </li>
                     <li class="special-item">
@@ -35,7 +40,7 @@ use TaskForce\utils\RatingStars
                     </li>
                     <li class="special-item">
                         <a href="#" class="link link--regular">Оператор ПК</a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
             <div class="bio">

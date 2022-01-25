@@ -48,7 +48,7 @@ class TasksController extends Controller
 
         $replies = Replies::find()
         ->joinWith('executor', 'opinion') // Primary key of 'app\models\Replies' can not be empty.
-        ->where(['task_id' => $id])
+        ->where(['replies.task_id' => $id])
         ->all();
 
         return $this->render('view', [
