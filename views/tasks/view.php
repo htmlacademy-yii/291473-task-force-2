@@ -21,14 +21,36 @@ use TaskForce\utils\TaskTimeConverter;
 
         <?php foreach ($replies as $reply): ?>
         
-        <?php print(Html::encode($reply->executor->avatar_link)) ?>
+        <?php print(Html::encode($reply->executor->average_rating)) ?>
 
         <div class="response-card">
             <img class="customer-photo" src="<?= (Html::encode($reply->executor->avatar_link)) ?>" width="146" height="156" alt="Фото заказчиков">
             <div class="feedback-wrapper">
                 <a href="#" class="link link--block link--big"></a>
                 <div class="response-wrapper">
-                    <div class="stars-rating small"><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span class="fill-star">&nbsp;</span><span>&nbsp;</span></div>
+                    <div class="stars-rating small">
+                        <?php
+                            $ALL_STARS_COUNT = 5;
+                            $fullStarsCount = Html::encode($reply->executor->average_rating);
+                            $emptyStarsCount = $ALL_STARS_COUNT - $fullStarsCount;
+
+                            while($fullStarsCount > 0) {
+                                $fullStarsCount--;
+                                echo "<span class=\"fill-star\">&nbsp;</span>";
+                            }
+
+                            while($emptyStarsCount > 0) {
+                                $emptyStarsCount--;
+                                echo "<span>&nbsp;</span>";
+                            }
+                        ?>
+
+                        <!-- <span class="fill-star">&nbsp;</span>
+                        <span class="fill-star">&nbsp;</span>
+                        <span class="fill-star">&nbsp;</span>
+                        <span class="fill-star">&nbsp;</span> -->
+                        <!-- <span>&nbsp;</span> -->
+                    </div>
                     <p class="reviews">2 отзыва</p>
                 </div>
                 <p class="response-message">
