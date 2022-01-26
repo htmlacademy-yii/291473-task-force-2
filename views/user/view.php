@@ -8,6 +8,7 @@ use TaskForce\utils\CustomHelpers;
 ?>
 
 <!-- <?= Html::encode($user->avatar_link) ?> -->
+<!-- <?= print($user->city->city) ?> -->
 
 <div class="left-column">
         <h3 class="head-main"><?= Html::encode($user->user->name) ?></h3>
@@ -47,7 +48,7 @@ use TaskForce\utils\CustomHelpers;
             </div>
             <div class="bio">
                 <p class="head-info">Био</p>
-                <p class="bio-info"><span class="country-info">Россия</span>, <span class="town-info">Петербург</span>, <span class="age-info"><?= CustomHelpers::getUserAge(Html::encode($user->bd)) ?></span> лет</p>
+                <p class="bio-info"><span class="country-info">Россия</span>, <span class="town-info"><?= Html::encode($user->city->city) ?></span>, <span class="age-info"><?= CustomHelpers::getUserAge(Html::encode($user->bd)) ?></span> лет</p>
             </div>
         </div>
         <h4 class="head-regular">Отзывы заказчиков</h4>

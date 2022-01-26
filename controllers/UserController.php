@@ -14,6 +14,7 @@ class UserController extends Controller
     {
         $user = Profiles::find()
         // ->joinWith('city', 'category')
+        ->joinWith('city')
         ->where(['profiles.id' => $id])
         ->one();
         

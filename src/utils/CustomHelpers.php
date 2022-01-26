@@ -16,21 +16,6 @@ class CustomHelpers {
         $birthdayDate = getdate(strtotime($birthday));
         $currentDate = getdate();
 
-        print($birthday);
-        print('<br>');
-        print('<br>');
-
-        print_r($birthdayDate);
-        print('<br>');
-        print('<br>');
-
-        print_r($currentDate);
-        print('<br>');
-        print('<br>');
-
-        print($currentDate['year'] - $birthdayDate['year']);
-        print('<br>');
-
         return $currentDate['year'] - $birthdayDate['year'];
     }
 }
