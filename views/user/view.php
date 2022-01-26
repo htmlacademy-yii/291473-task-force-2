@@ -8,7 +8,7 @@ use TaskForce\utils\CustomHelpers;
 ?>
 
 <!-- <?= Html::encode($user->avatar_link) ?> -->
-<!-- <?= print($user->city->city) ?> -->
+<!-- <?= print_r($user->executorTasks) ?> // Получаю список заданий в которых пользователь был исполнителем -->
 
 <div class="left-column">
         <h3 class="head-main"><?= Html::encode($user->user->name) ?></h3>
