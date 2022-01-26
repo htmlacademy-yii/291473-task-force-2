@@ -8,8 +8,16 @@ use TaskForce\utils\CustomHelpers;
 ?>
 
 <!-- <?= Html::encode($user->avatar_link) ?> -->
-<!-- <?= print_r($user->executorTasks) ?> // Получаю список заданий в которых пользователь был исполнителем -->
+<!-- <?= print(count($user->executorTasks)) ?> // Получаю список заданий в которых пользователь был исполнителем -->
+<?php
+// print(Html::encode(count($user->executorTasks)));
+// foreach($user->executorTasks as $task) {
+//     print_r($task->status);
+// }
 
+// print(CustomHelpers::getUserStatus($user->executorTasks));
+print(CustomHelpers::getTasksCount($user->executorTasks));
+?>
 <div class="left-column">
         <h3 class="head-main"><?= Html::encode($user->user->name) ?></h3>
         <div class="user-card">
@@ -88,7 +96,7 @@ use TaskForce\utils\CustomHelpers;
                     <dt>Дата регистрации</dt>
                     <dd>15 октября, 13:00</dd>
                     <dt>Статус</dt>
-                    <dd>Открыт для новых заказов</dd>
+                    <dd><?= CustomHelpers::getUserStatus($user->executorTasks) ?></dd>
             </dl>
         </div>
         <div class="right-card white">
