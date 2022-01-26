@@ -2,7 +2,8 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use TaskForce\utils\TaskTimeConverter;
-use TaskForce\utils\RatingStars
+use TaskForce\utils\RatingStars;
+use TaskForce\utils\CustomHelpers;
 
 ?>
 
@@ -46,7 +47,7 @@ use TaskForce\utils\RatingStars
             </div>
             <div class="bio">
                 <p class="head-info">Био</p>
-                <p class="bio-info"><span class="country-info">Россия</span>, <span class="town-info">Петербург</span>, <span class="age-info">30</span> лет</p>
+                <p class="bio-info"><span class="country-info">Россия</span>, <span class="town-info">Петербург</span>, <span class="age-info"><?= CustomHelpers::getUserAge(Html::encode($user->bd)) ?></span> лет</p>
             </div>
         </div>
         <h4 class="head-regular">Отзывы заказчиков</h4>
