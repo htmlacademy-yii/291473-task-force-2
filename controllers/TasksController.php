@@ -9,6 +9,7 @@ use app\models\Tasks;
 use app\models\Replies;
 use app\models\Categories;
 use TaskForce\utils\TasksFilter;
+use yii\web\NotFoundHttpException;
 
 class TasksController extends Controller
 {
@@ -47,9 +48,9 @@ class TasksController extends Controller
         }
 
         $replies = Replies::find()
-        ->joinWith('executor', 'opinion') // Primary key of 'app\models\Replies' can not be empty.
-        ->where(['replies.task_id' => $id])
-        ->all();
+            ->joinWith('executor', 'opinion') // Primary key of 'app\models\Replies' can not be empty.
+            ->where(['replies.task_id' => $id])
+            ->all();
 
         return $this->render('view', [
             'task' => $task,

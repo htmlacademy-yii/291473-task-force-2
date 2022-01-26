@@ -101,13 +101,13 @@ class Profiles extends \yii\db\ActiveRecord
     }
 
     /** Gets query for [[User]].
-    *
-    * @return \yii\db\ActiveQuery
-    */
-   public function getUser()
-   {
-       return $this->hasOne(Users::className(), ['profile_id' => 'id']);
-   }
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(Users::className(), ['profile_id' => 'id']);
+    }
 
     /**
      * Gets query for [[Specializations]].
@@ -128,4 +128,14 @@ class Profiles extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Tasks::className(), ['executor_id' => 'id']);
     }
+
+    // /**
+    //  * Gets query for [[Opinions]].
+    //  *
+    //  * @return \yii\db\ActiveQuery
+    //  */
+    // public function getOpinions()
+    // {
+    //     return $this->hasMany(Opinions::className(), ['executor_id' => 'id']);
+    // }
 }

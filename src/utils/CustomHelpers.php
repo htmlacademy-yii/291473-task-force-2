@@ -1,16 +1,18 @@
 <?php
 
 declare(strict_types=1);
+
 namespace TaskForce\utils;
 
-class CustomHelpers {
+class CustomHelpers
+{
 
     /**
      * Возвращает разницу в годах
      * @param string $birthday дата в стоковом формате
      *
      * @return int разница в годах
-    */
+     */
     public static function getUserAge($birthday): int
     {
         $birthdayDate = getdate(strtotime($birthday));
@@ -22,39 +24,35 @@ class CustomHelpers {
     public static function getTasksCount($tasks): array
     {
         $finishedCount = 0;
-        $faledCount = 0;
+        $failedCount = 0;
 
         foreach ($tasks as $task) {
             if ($task->status === 'finished') {
                 $finishedCount++;
             }
-    
+
             if ($task->status === 'failed') {
-                $faledCount++;
+                $failedCount++;
             }
-        } 
+        }
 
-        $array = ["$finishedCount", "$faledCount"];
-        return $array;
-
+        return [$finishedCount, $failedCount];
     }
 
     /**
      * Возвращает текстовый статус пользователя
-     * @param int $tasks массив со списком задач, в которых пользователя является исполнителем
+     * @param array $tasks массив со списком задач, в которых пользователя является исполнителем
      *
      * @return string статус пользователя в текстовом формате
-    */
+     */
     public static function getUserStatus($tasks): string
     {
         foreach ($tasks as $task) {
             if ($task->status === 'new' || 'in_progress') {
                 return "Сейчас выполняет заказ";
             }
-        } 
+        }
 
         return "Открыт для новых заказов";
     }
-
-
 }

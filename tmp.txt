@@ -20,7 +20,7 @@ yii migrate
 
 php yii fixture/generate categories --count=10
 php yii fixture/generate cities --count=10
-php yii fixture/generate opinions --count=10
+php yii fixture/generate opinions --count=50
 php yii fixture/generate profiles --count=10
 php yii fixture/generate replies --count=10
 php yii fixture/generate specializations --count=50
