@@ -8,7 +8,7 @@ use TaskForce\utils\RatingStars
 <!-- <?= Html::encode($user->avatar_link) ?> -->
 
 <div class="left-column">
-        <h3 class="head-main">Астахов Павел</h3>
+        <h3 class="head-main"><?= Html::encode($user->user->name) ?></h3>
         <div class="user-card">
             <div class="photo-rate">
                 <img class="card-photo" src="<?= Html::encode($user->avatar_link) ?>" width="191" height="190" alt="Фото пользователя">

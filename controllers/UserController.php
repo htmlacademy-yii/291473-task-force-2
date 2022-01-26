@@ -23,7 +23,7 @@ class UserController extends Controller
         }
 
         $specializations = Specializations::find()
-        ->joinWith('specialization')
+        ->joinWith('specialization', 'user')
         ->where(['specializations.user_id' => $id])
         ->all();
 

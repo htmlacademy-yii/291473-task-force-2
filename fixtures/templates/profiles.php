@@ -14,5 +14,5 @@ return [
     'role' => $faker->numberBetween(0, 1),
     'city_id' => $faker->numberBetween(1, 1000),
     'average_rating' => $faker->numberBetween(1, 5),
-    'avatar_link' => $faker->image(null, 120, 120, 'faces', true),
+    'avatar_link' => 'img/avatars/' . $faker->numberBetween(1, 5) . '.png'
 ];

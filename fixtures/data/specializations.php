@@ -2,43 +2,203 @@
 
 return [
     'specializations0' => [
-        'user_id' => 1,
-        'specialization_id' => 15,
+        'user_id' => 7,
+        'specialization_id' => 8,
     ],
     'specializations1' => [
-        'user_id' => 2,
-        'specialization_id' => 11,
+        'user_id' => 7,
+        'specialization_id' => 3,
     ],
     'specializations2' => [
         'user_id' => 3,
-        'specialization_id' => 15,
+        'specialization_id' => 8,
     ],
     'specializations3' => [
+        'user_id' => 2,
+        'specialization_id' => 7,
+    ],
+    'specializations4' => [
+        'user_id' => 10,
+        'specialization_id' => 2,
+    ],
+    'specializations5' => [
+        'user_id' => 7,
+        'specialization_id' => 5,
+    ],
+    'specializations6' => [
+        'user_id' => 10,
+        'specialization_id' => 8,
+    ],
+    'specializations7' => [
+        'user_id' => 3,
+        'specialization_id' => 4,
+    ],
+    'specializations8' => [
+        'user_id' => 6,
+        'specialization_id' => 4,
+    ],
+    'specializations9' => [
+        'user_id' => 7,
+        'specialization_id' => 7,
+    ],
+    'specializations10' => [
+        'user_id' => 9,
+        'specialization_id' => 9,
+    ],
+    'specializations11' => [
         'user_id' => 4,
         'specialization_id' => 8,
     ],
-    'specializations4' => [
-        'user_id' => 5,
-        'specialization_id' => 17,
+    'specializations12' => [
+        'user_id' => 1,
+        'specialization_id' => 5,
     ],
-    'specializations5' => [
-        'user_id' => 6,
-        'specialization_id' => 13,
-    ],
-    'specializations6' => [
-        'user_id' => 7,
-        'specialization_id' => 4,
-    ],
-    'specializations7' => [
+    'specializations13' => [
         'user_id' => 8,
-        'specialization_id' => 19,
+        'specialization_id' => 10,
     ],
-    'specializations8' => [
-        'user_id' => 9,
-        'specialization_id' => 15,
+    'specializations14' => [
+        'user_id' => 10,
+        'specialization_id' => 2,
     ],
-    'specializations9' => [
+    'specializations15' => [
+        'user_id' => 2,
+        'specialization_id' => 3,
+    ],
+    'specializations16' => [
+        'user_id' => 10,
+        'specialization_id' => 3,
+    ],
+    'specializations17' => [
         'user_id' => 10,
         'specialization_id' => 10,
+    ],
+    'specializations18' => [
+        'user_id' => 9,
+        'specialization_id' => 3,
+    ],
+    'specializations19' => [
+        'user_id' => 7,
+        'specialization_id' => 3,
+    ],
+    'specializations20' => [
+        'user_id' => 9,
+        'specialization_id' => 2,
+    ],
+    'specializations21' => [
+        'user_id' => 2,
+        'specialization_id' => 7,
+    ],
+    'specializations22' => [
+        'user_id' => 4,
+        'specialization_id' => 3,
+    ],
+    'specializations23' => [
+        'user_id' => 3,
+        'specialization_id' => 6,
+    ],
+    'specializations24' => [
+        'user_id' => 4,
+        'specialization_id' => 8,
+    ],
+    'specializations25' => [
+        'user_id' => 1,
+        'specialization_id' => 10,
+    ],
+    'specializations26' => [
+        'user_id' => 5,
+        'specialization_id' => 7,
+    ],
+    'specializations27' => [
+        'user_id' => 10,
+        'specialization_id' => 3,
+    ],
+    'specializations28' => [
+        'user_id' => 6,
+        'specialization_id' => 9,
+    ],
+    'specializations29' => [
+        'user_id' => 4,
+        'specialization_id' => 5,
+    ],
+    'specializations30' => [
+        'user_id' => 1,
+        'specialization_id' => 7,
+    ],
+    'specializations31' => [
+        'user_id' => 8,
+        'specialization_id' => 4,
+    ],
+    'specializations32' => [
+        'user_id' => 6,
+        'specialization_id' => 9,
+    ],
+    'specializations33' => [
+        'user_id' => 6,
+        'specialization_id' => 4,
+    ],
+    'specializations34' => [
+        'user_id' => 1,
+        'specialization_id' => 2,
+    ],
+    'specializations35' => [
+        'user_id' => 4,
+        'specialization_id' => 10,
+    ],
+    'specializations36' => [
+        'user_id' => 3,
+        'specialization_id' => 5,
+    ],
+    'specializations37' => [
+        'user_id' => 8,
+        'specialization_id' => 5,
+    ],
+    'specializations38' => [
+        'user_id' => 4,
+        'specialization_id' => 5,
+    ],
+    'specializations39' => [
+        'user_id' => 8,
+        'specialization_id' => 4,
+    ],
+    'specializations40' => [
+        'user_id' => 3,
+        'specialization_id' => 3,
+    ],
+    'specializations41' => [
+        'user_id' => 3,
+        'specialization_id' => 5,
+    ],
+    'specializations42' => [
+        'user_id' => 5,
+        'specialization_id' => 1,
+    ],
+    'specializations43' => [
+        'user_id' => 9,
+        'specialization_id' => 10,
+    ],
+    'specializations44' => [
+        'user_id' => 4,
+        'specialization_id' => 8,
+    ],
+    'specializations45' => [
+        'user_id' => 10,
+        'specialization_id' => 7,
+    ],
+    'specializations46' => [
+        'user_id' => 10,
+        'specialization_id' => 5,
+    ],
+    'specializations47' => [
+        'user_id' => 5,
+        'specialization_id' => 10,
+    ],
+    'specializations48' => [
+        'user_id' => 8,
+        'specialization_id' => 10,
+    ],
+    'specializations49' => [
+        'user_id' => 5,
+        'specialization_id' => 9,
     ],
 ];
