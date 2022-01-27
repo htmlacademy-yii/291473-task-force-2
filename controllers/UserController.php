@@ -36,8 +36,17 @@ class UserController extends Controller
         ->where(['user_id' => $id])
         ->all();
 
+        $usersRatings = Profiles::find()
+        ->where(['role' => 1])
+        ->orderBy('average_rating ASC')
+        ->asArray()
+        ->all();
+
+        $userRatingPosition = array_search($id, array_column($usersRatings, 'id')) + 1;
+
         // Tasks
         // Opinions
+        //Рейтинг пользователя считается по формуле: сумма всех оценок из отзывов / (кол-во отзывов + счетчик проваленных заданий).
 
         // $user = Profiles::find()
         //     ->joinWith('city', 'executorTasks')
@@ -58,7 +67,7 @@ class UserController extends Controller
             'tasksFinishedCount' => $tasksFinishedCount,
             'tasksFailedCount' => $tasksFailedCount,
             'tasksInProgressCount' => $tasksInProgressCount,
-
+            'userRatingPosition' => $userRatingPosition,
         ]);
     }
 }

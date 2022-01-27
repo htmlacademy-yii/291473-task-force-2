@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use TaskForce\utils\CustomHelpers;
 
-print($tasksInProgressCount);
+// print($tasksInProgressCount);
 ?>
 
 <div class="left-column">
@@ -72,7 +72,7 @@ print($tasksInProgressCount);
                     <dt>Всего заказов</dt>
                     <dd><?= Html::encode($tasksFinishedCount) ?> выполнено, <?= Html::encode($tasksFailedCount) ?> провалено</dd>
                     <dt>Место в рейтинге</dt>
-                    <dd>25 место</dd>
+                    <dd><?= Html::encode($userRatingPosition) ?> место</dd>
                     <dt>Дата регистрации</dt>
                     <dd><?= CustomHelpers::getRuDate(Html::encode($user->dt_add)) ?></dd>
                     <dt>Статус</dt>
