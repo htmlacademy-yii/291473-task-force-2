@@ -95,4 +95,24 @@ class CustomHelpers
 
         return "Открыт для новых заказов";
     }
+
+    /**
+     * Возвращает человекопонятное название статуса
+     *
+     * @param string $taskStatus статус в текстовом формате
+     *
+     * @return string статус на русском языке в текстовом формате
+    */
+    public static function getTaskStatusName($taskStatus): string
+    {
+        $taskStatusesMap = [
+            'new' => 'Новое',
+            'in_progress' => 'В работе',
+            'canceled' => 'Отменено',
+            'failed' => 'Провалено',
+            'finished' => 'Выполнено',
+        ];
+
+        return $taskStatusesMap[$taskStatus];
+    }
 }

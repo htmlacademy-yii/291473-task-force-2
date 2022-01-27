@@ -30,7 +30,7 @@ class UserController extends Controller
         ->count();
 
         $tasksInProgressCount = Tasks::find()
-        ->where(['executor_id' => $id, 'status' => 'new', 'status' => 'in_progress'])
+        ->where(['executor_id' => $id, 'status' => 'in_progress'])
         ->count();
 
         $specializations = Specializations::find()

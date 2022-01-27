@@ -58,7 +58,7 @@ use TaskForce\utils\CustomHelpers;
             <dt>Срок выполнения</dt>
             <dd><?= date("j F Y, g:i a", strtotime(Html::encode($task->deadline))) ?></dd>
             <dt>Статус</dt>
-            <dd><?= Html::encode($task->status) ?></dd>
+            <dd><?= CustomHelpers::getTaskStatusName(Html::encode($task->status)) ?></dd>
         </dl>
     </div>
     <div class="right-card white file-card">
