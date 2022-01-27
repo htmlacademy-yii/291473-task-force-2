@@ -43,14 +43,14 @@ class TasksController extends Controller
             ->where(['tasks.id' => $id])
             ->one();
 
-        if (!$task) {
-            throw new NotFoundHttpException;
-        }
-
         $replies = Replies::find()
             ->joinWith('executor', 'opinion') // Primary key of 'app\models\Replies' can not be empty.
             ->where(['replies.task_id' => $id])
             ->all();
+        
+        if (!$task) {
+            throw new NotFoundHttpException;
+        }
 
         return $this->render('view', [
             'task' => $task,

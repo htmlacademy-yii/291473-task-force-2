@@ -15,10 +15,6 @@ class UserController extends Controller
 {
     public function actionView(int $id)
     {
-        // $user = Users::find()
-        // ->joinWith('profile')
-        // ->where(['profile_id' => $id])
-        // ->one();
 
         $profile = Profiles::find()
         ->joinWith('user', 'city')
@@ -54,6 +50,10 @@ class UserController extends Controller
         ->all();
 
         $userRatingPosition = array_search($id, array_column($usersRatings, 'id')) + 1;
+
+        if (!$profile) {
+            throw new NotFoundHttpException;
+        }
 
         return $this->render('view', [
             'profile' => $profile,

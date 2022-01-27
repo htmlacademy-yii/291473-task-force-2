@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use TaskForce\utils\TaskTimeConverter;
-use TaskForce\utils\RatingStars;
+use TaskForce\utils\CustomHelpers;
 ?>
 
 <div class="left-column">
@@ -26,7 +26,7 @@ use TaskForce\utils\RatingStars;
                 <a href="#" class="link link--block link--big"></a>
                 <div class="response-wrapper">
                     <div class="stars-rating small">
-                        <?= RatingStars::getRatingStars(Html::encode($reply->executor->average_rating)) ?>
+                        <?= CustomHelpers::getRatingStars(Html::encode($reply->executor->average_rating)) ?>
                     </div>
                     <p class="reviews"><?= (count($reply->opinion)) ?> отзыва</p>
                 </div>
