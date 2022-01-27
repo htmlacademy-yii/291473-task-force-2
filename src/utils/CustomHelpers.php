@@ -37,7 +37,7 @@ class CustomHelpers
      *
      * @return int разница в годах
      */
-    public static function getUserAge($birthday): int
+    public static function getTimeDifference ($birthday): int
     {
         $birthdayDate = getdate(strtotime($birthday));
         $currentDate = getdate();

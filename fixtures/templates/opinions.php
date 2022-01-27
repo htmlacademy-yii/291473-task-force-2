@@ -11,5 +11,5 @@ return [
     'customer_id' => $faker->numberBetween(1, 10),
     'executor_id' => $faker->numberBetween(1, 10),
     'task_id' => $faker->numberBetween(1, 50),
-    'rating' => $faker->numberBetween(1, 8),
+    'rating' => $faker->numberBetween(1, 5),
 ];
