@@ -2,43 +2,43 @@
 
 return [
     'categories0' => [
-        'name' => 'Electrical Engineer',
-        'icon' => 'e:/openserver/userdata/temp\\3469a7f61dadd42cb9a5f92f31fcebd7.png',
+        'name' => 'Loan Interviewer',
+        'icon' => 'C:\\xampp\\tmp\\4b7c9df6321b8d5089be311db9026763.png',
     ],
     'categories1' => [
-        'name' => 'Fire Investigator',
-        'icon' => 'e:/openserver/userdata/temp\\6ca0e01265832854de3e8ce983c2b10f.png',
+        'name' => 'Construction',
+        'icon' => 'C:\\xampp\\tmp\\5e249807531c3fec1be25c912d26213f.png',
     ],
     'categories2' => [
-        'name' => 'Medical Laboratory Technologist',
-        'icon' => 'e:/openserver/userdata/temp\\9ad3ac814b669b33e4ab75c85eac1e5e.png',
+        'name' => 'Mail Machine Operator',
+        'icon' => 'C:\\xampp\\tmp\\02cb3b8b3fdfdcb759e310b3e29360dc.png',
     ],
     'categories3' => [
-        'name' => 'Artillery Officer',
-        'icon' => 'e:/openserver/userdata/temp\\ab79d710d8ce6e62e989f19b78b23f23.png',
+        'name' => 'Plant Scientist',
+        'icon' => 'C:\\xampp\\tmp\\736a4f21f38f0fa9f2aa4ab9b4725986.png',
     ],
     'categories4' => [
-        'name' => 'Postsecondary Teacher',
-        'icon' => 'e:/openserver/userdata/temp\\fdac21a663730fb2d02c1c21dfedc7dd.png',
+        'name' => 'Electronics Engineering Technician',
+        'icon' => 'C:\\xampp\\tmp\\54c8b5a179b3ecf7ecbf2b78ada5f6c9.png',
     ],
     'categories5' => [
-        'name' => 'Transit Police OR Railroad Police',
-        'icon' => 'e:/openserver/userdata/temp\\b00d6d09e21f0553be59e860b98dea9b.png',
+        'name' => 'Computer Software Engineer',
+        'icon' => 'C:\\xampp\\tmp\\33ebdc92b91a2ab4dc6c21af15c7148a.png',
     ],
     'categories6' => [
-        'name' => 'Power Plant Operator',
-        'icon' => 'e:/openserver/userdata/temp\\9bcb8b17c3a9304484f0d5b765f7b2b0.png',
+        'name' => 'Tile Setter OR Marble Setter',
+        'icon' => 'C:\\xampp\\tmp\\abaaad6880899729cd749ee6af7f927b.png',
     ],
     'categories7' => [
-        'name' => 'Model Maker',
-        'icon' => 'e:/openserver/userdata/temp\\8ae7067fad9537d35405a815dd9c1fed.png',
+        'name' => 'Building Inspector',
+        'icon' => 'C:\\xampp\\tmp\\7d7c98b686b45affa6d525307df7b1b9.png',
     ],
     'categories8' => [
-        'name' => 'Aviation Inspector',
-        'icon' => 'e:/openserver/userdata/temp\\29519fdd5d0fca717e64fa9b269f8e6a.png',
+        'name' => 'Forestry Conservation Science Teacher',
+        'icon' => 'C:\\xampp\\tmp\\2744952a7e5f645dc1a3acd5aa46c807.png',
     ],
     'categories9' => [
-        'name' => 'Religious Worker',
-        'icon' => 'e:/openserver/userdata/temp\\d2fbd8ecabcef9fa4d0a64239d123687.png',
+        'name' => 'Office Clerk',
+        'icon' => 'C:\\xampp\\tmp\\51604f1e119104c23151296f4ba3d91e.png',
     ],
 ];

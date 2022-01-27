@@ -3,9 +3,33 @@
 declare(strict_types=1);
 
 namespace TaskForce\utils;
+const ALL_STARS_COUNT = 5;
 
 class CustomHelpers
 {
+    /**
+     * Возвращает текст-верстку звездочек рейтинга
+     * @param int $fullStarsCount рейтинг пользователя в числовом формате
+     *
+     * @return string верстка звездочек для отображения на странице
+     */
+    public static function getRatingStars(int $fullStarsCount): string
+    {
+        $allStars = '';
+        $emptyStarsCount = ALL_STARS_COUNT - floor($fullStarsCount);
+
+        while($fullStarsCount > 0) {
+            $fullStarsCount--;
+            $allStars .= "<span class=\"fill-star\">&nbsp;</span>";
+        }
+
+        while($emptyStarsCount > 0) {
+            $emptyStarsCount--;
+            $allStars .= "<span>&nbsp;</span>";
+        }
+
+        return $allStars;
+    }
 
     /**
      * Возвращает разницу в годах
@@ -37,6 +61,22 @@ class CustomHelpers
         }
 
         return [$finishedCount, $failedCount];
+    }
+
+    /**
+     * Возвращает дату в формате: день / месяц / год / время
+     *
+     * @param string $date дата в текстовом формате
+     *
+     * @return string дата в формате день, месяц (на русском языке), год и время
+    */
+    public static function getRuDate($date): string
+    {
+        $dateTime = new \DateTime($date);
+        $index = $dateTime->format('n') - 1;
+        $months = ['Января', 'Февраля', 'Марта', 'Апреля', 'Майя', 'Июня', 'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря'];
+
+        return $dateTime->format("d $months[$index] Y, H:i");
     }
 
     /**

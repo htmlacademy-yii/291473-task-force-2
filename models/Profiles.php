@@ -128,14 +128,4 @@ class Profiles extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Tasks::className(), ['executor_id' => 'id']);
     }
-
-    // /**
-    //  * Gets query for [[Opinions]].
-    //  *
-    //  * @return \yii\db\ActiveQuery
-    //  */
-    // public function getOpinions()
-    // {
-    //     return $this->hasMany(Opinions::className(), ['executor_id' => 'id']);
-    // }
 }
