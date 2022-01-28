@@ -2,6 +2,11 @@
 
 namespace app\services;
 
+use app\models\Profiles;
+use app\models\Tasks;
+use app\models\Specializations;
+use app\models\Opinions;
+
 class UserService {
     // Нужно перенести логику из контроллера в этот файл:
     // Получить исполнителя - Профиль;
