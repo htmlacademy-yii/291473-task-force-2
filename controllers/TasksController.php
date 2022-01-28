@@ -5,11 +5,9 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\TasksSearchForm;
-use app\models\Tasks;
-use app\models\Replies;
-use app\models\Categories;
 use TaskForce\utils\TasksFilter;
 use yii\web\NotFoundHttpException;
+use app\services\TasksService;
 
 class TasksController extends Controller
 {
@@ -38,15 +36,10 @@ class TasksController extends Controller
 
     public function actionView(int $id)
     {
-        $task = Tasks::find()
-            ->joinWith('city', 'category')
-            ->where(['tasks.id' => $id])
-            ->one();
+        $tasksService = new TasksService;
+        $task = $tasksService->getTask($id);
+        $replies = $tasksService->getReplies($id);
 
-        $replies = Replies::find()
-            ->joinWith('executor', 'opinion') // Primary key of 'app\models\Replies' can not be empty.
-            ->where(['replies.task_id' => $id])
-            ->all();
         
         if (!$task) {
             throw new NotFoundHttpException;

@@ -8,12 +8,6 @@ use app\models\Specializations;
 use app\models\Opinions;
 
 class UserService {
-    // Нужно перенести логику из контроллера в этот файл:
-    // Получить исполнителя - Профиль;
-    // Получить количество заданий в работе (in_progress); 
-    // Получить специализации исполнителя;
-    // Получить отклики о работе исполнителя;
-    // Получить позицию пользователя в рейтингах среди рейтингов других пользователей;
 
     public function getExecutor ($id) 
     {
@@ -25,7 +19,6 @@ class UserService {
 
     public function getExecutorTasksCount ($id, $tasksStatus) 
     {
-        //$tasksStatus finished, failed, in_progress;
         return Tasks::find()
         ->where(['executor_id' => $id, 'status' => $tasksStatus])
         ->count();
@@ -33,7 +26,6 @@ class UserService {
 
     public function getExecutorSpecializations ($id) 
     {
-        //$tasksStatus finished, failed, in_progress;
         return Specializations::find()
         ->joinWith('specialization')
         ->where(['user_id' => $id])
