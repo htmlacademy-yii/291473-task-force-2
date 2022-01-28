@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace TaskForce\utils;
+
 const ALL_STARS_COUNT = 5;
 
 class CustomHelpers
@@ -18,12 +19,12 @@ class CustomHelpers
         $allStars = '';
         $emptyStarsCount = ALL_STARS_COUNT - floor($fullStarsCount);
 
-        while($fullStarsCount > 0) {
+        while ($fullStarsCount > 0) {
             $fullStarsCount--;
             $allStars .= "<span class=\"fill-star\">&nbsp;</span>";
         }
 
-        while($emptyStarsCount > 0) {
+        while ($emptyStarsCount > 0) {
             $emptyStarsCount--;
             $allStars .= "<span>&nbsp;</span>";
         }
@@ -37,7 +38,7 @@ class CustomHelpers
      *
      * @return int разница в годах
      */
-    public static function getTimeDifference ($birthday): int
+    public static function getTimeDifference(string $birthday): int
     {
         $birthdayDate = getdate(strtotime($birthday));
         $currentDate = getdate();
@@ -45,32 +46,13 @@ class CustomHelpers
         return $currentDate['year'] - $birthdayDate['year'];
     }
 
-    public static function getTasksCount($tasks): array
-    {
-        $finishedCount = 0;
-        $failedCount = 0;
-
-        foreach ($tasks as $task) {
-            if ($task->status === 'finished') {
-                $finishedCount++;
-            }
-
-            if ($task->status === 'failed') {
-                $failedCount++;
-            }
-        }
-
-        return [$finishedCount, $failedCount];
-    }
-
     /**
      * Возвращает дату в формате: день / месяц / год / время
-     *
      * @param string $date дата в текстовом формате
      *
      * @return string дата в формате день, месяц (на русском языке), год и время
-    */
-    public static function getRuDate($date): string
+     */
+    public static function getRuDate(string $date): string
     {
         $dateTime = new \DateTime($date);
         $index = $dateTime->format('n') - 1;
@@ -85,7 +67,7 @@ class CustomHelpers
      *
      * @return string статус пользователя в текстовом формате
      */
-    public static function getUserStatus($tasks): string
+    public static function getUserStatus(array $tasks): string
     {
         foreach ($tasks as $task) {
             if ($task->status === 'new' || 'in_progress') {
@@ -98,12 +80,11 @@ class CustomHelpers
 
     /**
      * Возвращает человекопонятное название статуса
-     *
      * @param string $taskStatus статус в текстовом формате
      *
      * @return string статус на русском языке в текстовом формате
-    */
-    public static function getTaskStatusName($taskStatus): string
+     */
+    public static function getTaskStatusName(string $taskStatus): string
     {
         $taskStatusesMap = [
             'new' => 'Новое',

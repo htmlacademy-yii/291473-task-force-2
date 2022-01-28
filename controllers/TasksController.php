@@ -11,7 +11,7 @@ use yii\web\NotFoundHttpException;
 use app\services\TasksService;
 
 use app\models\Tasks;
-use app\models\Categories ;
+use app\models\Categories;
 
 class TasksController extends Controller
 {

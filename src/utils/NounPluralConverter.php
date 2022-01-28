@@ -6,8 +6,8 @@ namespace TaskForce\utils;
 
 class NounPluralConverter
 {
+    //* Возвращает корректную форму множественного числа;
 
-    // Возвращает корректную форму множественного числа;
     public static function getNounPluralForm(int $number, string $one, string $two, string $many): string
     {
         $number = (int)$number;
@@ -32,8 +32,14 @@ class NounPluralConverter
         }
     }
 
-    // Получает разницу между временем постановки задачи и текущем временем;
-    public static function getTaskRelativeTime($dt_add): string
+    /**
+     * Получает разницу между временем постановки задачи и текущем временем;
+     * @param string дата в текстовом формате
+     *
+     * @return string возвращает текстовое значение - сколько времени прошло с момента постановки задачи;
+     */
+
+    public static function getTaskRelativeTime(string $dt_add): string
     {
         $addTimeMark = strtotime($dt_add);
         $nowTimeArray = getdate();
