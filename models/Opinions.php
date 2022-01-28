@@ -12,7 +12,7 @@ use Yii;
  * @property string|null $description
  * 
  * @property Tasks[] $task
-* @property Profiles[] $profile
+ * @property Profiles[] $profile
  */
 class Opinions extends \yii\db\ActiveRecord
 {
