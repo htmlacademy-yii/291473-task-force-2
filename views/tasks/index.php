@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use TaskForce\utils\TaskTimeConverter;
+use TaskForce\utils\NounPluralConverter;
 ?>
 
 <div class="left-column">
@@ -16,7 +16,7 @@ use TaskForce\utils\TaskTimeConverter;
                 <a href="<?= Url::to(['tasks/view', 'id' => $task->id]) ?>" class="link link--block link--big"><?= Html::encode($task->name) ?></a>
                 <p class="price price--task"><?= Html::encode($task->budget) ?> ₽</p>
             </div>
-            <p class="info-text"><span class="current-time"><?= TaskTimeConverter::getTaskRelativeTime($task->dt_add) ?></span></p>
+            <p class="info-text"><span class="current-time"><?= NounPluralConverter::getTaskRelativeTime($task->dt_add) ?></span></p>
             <p class="task-text"><?= Html::encode($task->description) ?></p>
             <div class="footer-task">
                 <p class="info-text town-text"><?= Html::encode($task->address) ?></p>

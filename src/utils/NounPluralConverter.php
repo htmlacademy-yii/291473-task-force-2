@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TaskForce\utils;
 
-class TaskTimeConverter
+class NounPluralConverter
 {
 
     // Возвращает корректную форму множественного числа;
@@ -61,5 +61,10 @@ class TaskTimeConverter
             return "меньше минуты назад";
         }
         return $minutes . " " . self::getNounPluralForm($minutes, "минута", "минуты", "минут") . " назад";
+    }
+
+    public static function getOpinionsTitle($opinions_count)
+    {
+        return self::getNounPluralForm($opinions_count, "отзыв", "отзыва", "отзывов");
     }
 }

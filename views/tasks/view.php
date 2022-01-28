@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use TaskForce\utils\TaskTimeConverter;
+use TaskForce\utils\NounPluralConverter;
 use TaskForce\utils\CustomHelpers;
 ?>
 
@@ -28,7 +28,7 @@ use TaskForce\utils\CustomHelpers;
                     <div class="stars-rating small">
                         <?= CustomHelpers::getRatingStars(Html::encode($reply->executor->average_rating)) ?>
                     </div>
-                    <p class="reviews"><?= (count($reply->opinion)) ?> отзыва</p>
+                    <p class="reviews"><?= (count($reply->opinion)) ?> <?= NounPluralConverter::getOpinionsTitle(count($reply->opinion)) ?></p>
                 </div>
                 <p class="response-message">
                     <?= Html::encode($reply->description) ?>
@@ -36,7 +36,7 @@ use TaskForce\utils\CustomHelpers;
 
             </div>
             <div class="feedback-wrapper">
-                <p class="info-text"><span class="current-time"><?= TaskTimeConverter::getTaskRelativeTime($reply->dt_add) ?></span></p>
+                <p class="info-text"><span class="current-time"><?= NounPluralConverter::getTaskRelativeTime($reply->dt_add) ?></span></p>
                 <p class="price price--small"><?= Html::encode($reply->rate) ?> ₽</p>
             </div>
             <div class="button-popup">
@@ -54,7 +54,7 @@ use TaskForce\utils\CustomHelpers;
             <dt>Категория</dt>
             <dd><?= Html::encode($task->category->name) ?></dd>
             <dt>Дата публикации</dt>
-            <dd><?= TaskTimeConverter::getTaskRelativeTime($task->dt_add) ?></dd>
+            <dd><?= NounPluralConverter::getTaskRelativeTime($task->dt_add) ?></dd>
             <dt>Срок выполнения</dt>
             <dd><?= date("j F Y, g:i a", strtotime(Html::encode($task->deadline))) ?></dd>
             <dt>Статус</dt>

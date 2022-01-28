@@ -40,7 +40,6 @@ class TasksController extends Controller
         $task = $tasksService->getTask($id);
         $replies = $tasksService->getReplies($id);
 
-        
         if (!$task) {
             throw new NotFoundHttpException;
         }

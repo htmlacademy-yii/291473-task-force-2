@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use TaskForce\utils\CustomHelpers;
-use TaskForce\utils\TaskTimeConverter;
+use TaskForce\utils\NounPluralConverter;
 
 ?>
 
@@ -54,7 +54,7 @@ use TaskForce\utils\TaskTimeConverter;
                 <div class="stars-rating small">
                     <?= CustomHelpers::getRatingStars(Html::encode($opinion->rating)) ?>
                 </div>
-                <p class="info-text"><span class="current-time"><?= TaskTimeConverter::getTaskRelativeTime($opinion->dt_add) ?></span></p>
+                <p class="info-text"><span class="current-time"><?= NounPluralConverter::getTaskRelativeTime($opinion->dt_add) ?></span></p>
             </div>
         </div>
         <?php endforeach; ?>
