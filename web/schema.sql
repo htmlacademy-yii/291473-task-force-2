@@ -27,7 +27,7 @@ CREATE TABLE profiles (
     messanger VARCHAR(128),
     role INT,  
     city_id INT UNSIGNED,
-    average_rating INT UNSIGNED,
+    average_rating FLOAT UNSIGNED,
     avatar_link VARCHAR(128),
     FOREIGN KEY (city_id) REFERENCES cities(id)
 );
