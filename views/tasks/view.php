@@ -13,7 +13,7 @@ use TaskForce\utils\CustomHelpers;
     <p class="task-description"><?= Html::encode($task->description) ?></p>
     <a href="#" class="button button--blue">Откликнуться на задание</a>
     <div class="task-map">
-        <img class="map" src="img/map.png" width="725" height="346" alt="<?= Html::encode($task->address) ?>">
+        <img class="map" src="/img/map.png" width="725" height="346" alt="<?= Html::encode($task->address) ?>">
         <p class="map-address town"><?= Html::encode($task->city->city) ?></p>
         <p class="map-address"><?= Html::encode($task->address) ?></p>
     </div>

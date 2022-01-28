@@ -44,6 +44,14 @@ composer dump-autoload
 
 7. Примеры страниц:
 
-Список задач http://taskforce/index.php?r=tasks
-Страница задачи http://taskforce/index.php?r=tasks%2Fview&id=6 
-Страница пользователя http://taskforce/index.php?r=user%2Fview&id=2
+Список задач 
+http://taskforce/index.php?r=tasks 
+http://taskforce/tasks
+
+Страница задачи 
+http://taskforce/index.php?r=tasks%2Fview&id=6
+http://taskforce/tasks/view/6
+
+Страница пользователя 
+http://taskforce/index.php?r=user%2Fview&id=2
+http://taskforce/user/view/2
