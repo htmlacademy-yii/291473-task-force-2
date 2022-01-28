@@ -5,9 +5,13 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\TasksSearchForm;
-use TaskForce\utils\TasksFilter;
+use app\services\TasksFilterService;
+
 use yii\web\NotFoundHttpException;
 use app\services\TasksService;
+
+use app\models\Tasks;
+use app\models\Categories ;
 
 class TasksController extends Controller
 {
@@ -19,7 +23,7 @@ class TasksController extends Controller
             $model->load(Yii::$app->request->post());
 
             if ($model->validate()) {
-                $tasks = (new TasksFilter())->getFilteredTasks($model);
+                $tasks = (new TasksFilterService())->getFilteredTasks($model);
             }
         }
 

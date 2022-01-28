@@ -1,18 +1,18 @@
 <?php
 
-namespace TaskForce\utils;
+namespace app\services;
 
 use app\models\Tasks;
 use app\models\TasksSearchForm;
 use yii\db\Expression;
 
-class TasksFilter
+class TasksFilterService
 {
     public function getFilteredTasks(TasksSearchForm $model): array
     {
         $query = Tasks::find()
             ->joinWith('category')
-            ->where(['status' => 1])
+            ->where(['tasks.status' => 'new'])
             ->orderBy('dt_add DESC');
 
         if ($model->categories) {
