@@ -1,9 +1,10 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use TaskForce\utils\TaskTimeConverter;
+use TaskForce\utils\NounPluralConverter;
 ?>
 
 <div class="left-column">
@@ -12,15 +13,15 @@ use TaskForce\utils\TaskTimeConverter;
     <?php foreach ($tasks as $task) : ?>
         <div class="task-card">
             <div class="header-task">
-                <a href="#" class="link link--block link--big"><?= Html::encode($task->name) ?></a>
+                <a href="<?= Url::to(['tasks/view', 'id' => $task->id]) ?>" class="link link--block link--big"><?= Html::encode($task->name) ?></a>
                 <p class="price price--task"><?= Html::encode($task->budget) ?> ₽</p>
             </div>
-            <p class="info-text"><span class="current-time"><?= TaskTimeConverter::getTaskRelativeTime($task->dt_add) ?></span></p>
+            <p class="info-text"><span class="current-time"><?= NounPluralConverter::getTaskRelativeTime($task->dt_add) ?></span></p>
             <p class="task-text"><?= Html::encode($task->description) ?></p>
             <div class="footer-task">
                 <p class="info-text town-text"><?= Html::encode($task->address) ?></p>
                 <p class="info-text category-text"><?= Html::encode($task->category->name) ?></p>
-                <a href="#" class="button button--black">Смотреть Задание</a>
+                <a href="<?= Url::to(['tasks/view', 'id' => $task->id]) ?>" class="button button--black">Смотреть Задание</a>
             </div>
         </div>
     <?php endforeach; ?>

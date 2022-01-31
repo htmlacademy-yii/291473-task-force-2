@@ -5,9 +5,13 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\TasksSearchForm;
+use app\services\TasksFilterService;
+
+use yii\web\NotFoundHttpException;
+use app\services\TasksService;
+
 use app\models\Tasks;
 use app\models\Categories;
-use TaskForce\utils\TasksFilter;
 
 class TasksController extends Controller
 {
@@ -19,7 +23,7 @@ class TasksController extends Controller
             $model->load(Yii::$app->request->post());
 
             if ($model->validate()) {
-                $tasks = (new TasksFilter())->getFilteredTasks($model);
+                $tasks = (new TasksFilterService())->getFilteredTasks($model);
             }
         }
 
@@ -31,6 +35,22 @@ class TasksController extends Controller
             'tasks' => $tasks,
             'categories' => $categories,
             'period_values' => TasksSearchForm::PERIOD_VALUES
+        ]);
+    }
+
+    public function actionView(int $id)
+    {
+        $tasksService = new TasksService;
+        $task = $tasksService->getTask($id);
+        $replies = $tasksService->getReplies($id);
+
+        if (!$task) {
+            throw new NotFoundHttpException;
+        }
+
+        return $this->render('view', [
+            'task' => $task,
+            'replies' => $replies,
         ]);
     }
 }

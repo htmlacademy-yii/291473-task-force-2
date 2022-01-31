@@ -10,6 +10,9 @@ use Yii;
  * @property string|null $dt_add
  * @property int $rate
  * @property string|null $description
+ * 
+ * @property Tasks[] $task
+ * @property Profiles[] $profile
  */
 class Opinions extends \yii\db\ActiveRecord
 {
@@ -44,5 +47,25 @@ class Opinions extends \yii\db\ActiveRecord
             'rate' => 'Rate',
             'description' => 'Description',
         ];
+    }
+
+    /**
+     * Gets query for [[Task]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTask()
+    {
+        return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
+    }
+
+    /**
+     * Gets query for [[Task]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProfile()
+    {
+        return $this->hasOne(Profiles::className(), ['id' => 'customer_id']);
     }
 }

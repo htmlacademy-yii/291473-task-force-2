@@ -2,43 +2,43 @@
 
 return [
     'categories0' => [
-        'name' => 'illo',
-        'icon' => 'e:/openserver/userdata/temp\\70f5e64857ba2c79de4e72654c209da8.png',
+        'name' => 'Loan Interviewer',
+        'icon' => 'C:\\xampp\\tmp\\4b7c9df6321b8d5089be311db9026763.png',
     ],
     'categories1' => [
-        'name' => 'nam',
-        'icon' => 'e:/openserver/userdata/temp\\e5871db55c1bb837d32b8089f218c848.png',
+        'name' => 'Construction',
+        'icon' => 'C:\\xampp\\tmp\\5e249807531c3fec1be25c912d26213f.png',
     ],
     'categories2' => [
-        'name' => 'ea',
-        'icon' => 'e:/openserver/userdata/temp\\217d7cd74785d14ea1e56025800b11ad.png',
+        'name' => 'Mail Machine Operator',
+        'icon' => 'C:\\xampp\\tmp\\02cb3b8b3fdfdcb759e310b3e29360dc.png',
     ],
     'categories3' => [
-        'name' => 'eaque',
-        'icon' => 'e:/openserver/userdata/temp\\5517e601c86f26bf2c31202cb17a0395.png',
+        'name' => 'Plant Scientist',
+        'icon' => 'C:\\xampp\\tmp\\736a4f21f38f0fa9f2aa4ab9b4725986.png',
     ],
     'categories4' => [
-        'name' => 'aperiam',
-        'icon' => 'e:/openserver/userdata/temp\\73e633cece16c3c40a8fd99d0a01bb1e.png',
+        'name' => 'Electronics Engineering Technician',
+        'icon' => 'C:\\xampp\\tmp\\54c8b5a179b3ecf7ecbf2b78ada5f6c9.png',
     ],
     'categories5' => [
-        'name' => 'officia',
-        'icon' => 'e:/openserver/userdata/temp\\853a7b47eb0c24c14196953be244cb80.png',
+        'name' => 'Computer Software Engineer',
+        'icon' => 'C:\\xampp\\tmp\\33ebdc92b91a2ab4dc6c21af15c7148a.png',
     ],
     'categories6' => [
-        'name' => 'aliquid',
-        'icon' => 'e:/openserver/userdata/temp\\653f9181c54c1364d8da7dd44400bdf7.png',
+        'name' => 'Tile Setter OR Marble Setter',
+        'icon' => 'C:\\xampp\\tmp\\abaaad6880899729cd749ee6af7f927b.png',
     ],
     'categories7' => [
-        'name' => 'necessitatibus',
-        'icon' => 'e:/openserver/userdata/temp\\125ff096f89829933483be758e761fce.png',
+        'name' => 'Building Inspector',
+        'icon' => 'C:\\xampp\\tmp\\7d7c98b686b45affa6d525307df7b1b9.png',
     ],
     'categories8' => [
-        'name' => 'impedit',
-        'icon' => 'e:/openserver/userdata/temp\\b503d17ef192d744f2cf62ec119dc7cc.png',
+        'name' => 'Forestry Conservation Science Teacher',
+        'icon' => 'C:\\xampp\\tmp\\2744952a7e5f645dc1a3acd5aa46c807.png',
     ],
     'categories9' => [
-        'name' => 'beatae',
-        'icon' => 'e:/openserver/userdata/temp\\32e49e850f4eb09b49071fb2b93e7650.png',
+        'name' => 'Office Clerk',
+        'icon' => 'C:\\xampp\\tmp\\51604f1e119104c23151296f4ba3d91e.png',
     ],
 ];

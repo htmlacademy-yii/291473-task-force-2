@@ -27,7 +27,7 @@ CREATE TABLE profiles (
     messanger VARCHAR(128),
     role INT,  
     city_id INT UNSIGNED,
-    average_rating INT UNSIGNED,
+    average_rating FLOAT UNSIGNED,
     avatar_link VARCHAR(128),
     FOREIGN KEY (city_id) REFERENCES cities(id)
 );
@@ -63,7 +63,7 @@ CREATE TABLE tasks (
     budget INT UNSIGNED NOT NULL,
     latitude VARCHAR(128) NOT NULL,
     longitude VARCHAR(128) NOT NULL,
-    status INT UNSIGNED,
+    status VARCHAR(128),
     customer_id INT UNSIGNED,
     executor_id INT UNSIGNED,
     city_id INT UNSIGNED,

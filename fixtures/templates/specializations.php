@@ -5,6 +5,6 @@
  * @var $index integer
  */
 return [
-    'user_id' => $index + 1,
-    'specialization_id' => $faker->numberBetween(1, 20),
+    'user_id' => $faker->numberBetween(1, 10),
+    'specialization_id' => $faker->numberBetween(1, 10),
 ];

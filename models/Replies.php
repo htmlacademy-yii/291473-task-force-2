@@ -15,6 +15,7 @@ use Yii;
  *
  * @property Profiles $executor
  * @property Tasks $task
+ * @property Opinions $opinion
  */
 class Replies extends \yii\db\ActiveRecord
 {
@@ -73,5 +74,15 @@ class Replies extends \yii\db\ActiveRecord
     public function getTask()
     {
         return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
+    }
+
+    /**
+     * Gets query for [[Opinion]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOpinion()
+    {
+        return $this->hasMany(Opinions::className(), ['executor_id' => 'executor_id']);
     }
 }

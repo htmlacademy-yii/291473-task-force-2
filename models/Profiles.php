@@ -22,7 +22,9 @@ use Yii;
  * @property Cities $city
  * @property Replies[] $replies
  * @property Users[] $users
+ * @property User[] $user
  * @property Specializations[] $Specializations
+ * @property Tasks[] $executorTasks
  */
 class Profiles extends \yii\db\ActiveRecord
 {
@@ -98,6 +100,15 @@ class Profiles extends \yii\db\ActiveRecord
         return $this->hasMany(Users::className(), ['profile_id' => 'id']);
     }
 
+    /** Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(Users::className(), ['profile_id' => 'id']);
+    }
+
     /**
      * Gets query for [[Specializations]].
      *
@@ -106,5 +117,15 @@ class Profiles extends \yii\db\ActiveRecord
     public function getUsersSpecializations()
     {
         return $this->hasMany(Specializations::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Tasks]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getExecutorTasks()
+    {
+        return $this->hasMany(Tasks::className(), ['executor_id' => 'id']);
     }
 }

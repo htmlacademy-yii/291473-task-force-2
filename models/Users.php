@@ -15,8 +15,8 @@ use Yii;
  * @property int|null $profile_id
  *
  * @property Profiles $profile
- * @property Tasks[] $tasks
- * @property Tasks[] $tasks0
+ * @property Tasks[] $customerTasks
+ * @property Tasks[] $executorTasks
  */
 class Users extends \yii\db\ActiveRecord
 {
@@ -69,21 +69,21 @@ class Users extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Tasks]].
+     * Gets query for [[customerTasks]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getTasks()
+    public function getCustomerTasks()
     {
         return $this->hasMany(Tasks::className(), ['customer_id' => 'id']);
     }
 
     /**
-     * Gets query for [[Tasks0]].
+     * Gets query for [[executorTasks]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getTasks0()
+    public function getExecutorTasks()
     {
         return $this->hasMany(Tasks::className(), ['executor_id' => 'id']);
     }
