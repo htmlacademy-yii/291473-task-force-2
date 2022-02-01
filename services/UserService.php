@@ -2,10 +2,16 @@
 
 namespace app\services;
 
+use Yii;
 use app\models\Profiles;
 use app\models\Tasks;
 use app\models\Specializations;
 use app\models\Opinions;
+
+use app\models\Users;
+use app\models\Cities;
+use app\models\RegistrationForm;
+
 
 class UserService
 {
@@ -50,5 +56,22 @@ class UserService
             ->all();
 
         return array_search($id, array_column($usersRatings, 'id')) + 1;
+    }
+
+    // Сохранение нового пользователя;
+    public function SaveNewUserProfile(RegistrationForm $model): void
+    {
+        // print_r($model);
+
+        // При сохранении нового пользователя:
+        // 1. Создать запись Profiles 
+        // 2. Создать запись Users - с pfofile_id, как id у записи в Profiles
+
+        // Сохраняю имя -- модель Users
+        // Сохраняю email -- модель Users
+        // Сохраняю город -- модель Profiles
+        // Сохраняю пароль -- модуль Users
+        // Сохраняю роль - Модель Profiles
+
     }
 }

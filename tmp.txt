@@ -55,3 +55,6 @@ http://taskforce/tasks/view/6
 Страница пользователя 
 http://taskforce/index.php?r=user%2Fview&id=2
 http://taskforce/user/view/2
+
+Страница регистрации
+http://localhost/taskforce/web/site/registration
