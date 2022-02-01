@@ -61,4 +61,63 @@ class Profiles extends \yii\db\ActiveRecord
             'messanger' => 'Messanger',
         ];
     }
+
+    /**
+     * Gets query for [[City]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCity()
+    {
+        return $this->hasOne(Cities::className(), ['id' => 'city_id']);
+    }
+
+    /**
+     * Gets query for [[Replies]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReplies()
+    {
+        return $this->hasMany(Replies::className(), ['executor_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Users]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUsers()
+    {
+        return $this->hasMany(Users::className(), ['profile_id' => 'id']);
+    }
+
+    /** Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(Users::className(), ['profile_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Specializations]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUsersSpecializations()
+    {
+        return $this->hasMany(Specializations::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Tasks]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getExecutorTasks()
+    {
+        return $this->hasMany(Tasks::className(), ['executor_id' => 'id']);
+    }
 }

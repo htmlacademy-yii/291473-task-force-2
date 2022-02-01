@@ -17,20 +17,18 @@ class SiteController extends Controller
 
         $model = new RegistrationForm();
 
-        // $cities = Cities::find()
-        //     ->limit(10)
-        //     ->all();
-
-        $cities = Cities::find()->select(['id', 'city'])->indexBy('id')->asArray()->all();
+        $cities = Cities::find()
+            ->select(['id', 'city'])
+            ->indexBy('id')
+            ->asArray()
+            ->all();
 
         if (Yii::$app->request->getIsPost()) {
             $model->load(Yii::$app->request->post());
 
-            // print('getIsPost');
-
             if ($model->validate()) {
                 (new UserService())->SaveNewUserProfile($model);
-                // $this->goHome();
+                $this->redirect('/tasks');
             }
         }
 

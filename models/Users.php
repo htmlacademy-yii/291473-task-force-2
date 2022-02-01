@@ -7,16 +7,11 @@ use Yii;
 /**
  * This is the model class for table "users".
  *
- * @property int $id
  * @property string $email
  * @property string $name
  * @property string $password
  * @property string $dt_add
- * @property int|null $profile_id
- *
- * @property Profiles $profile
- * @property Tasks[] $customerTasks
- * @property Tasks[] $executorTasks
+ * @property int $profile_id
  */
 class Users extends \yii\db\ActiveRecord
 {
@@ -35,11 +30,10 @@ class Users extends \yii\db\ActiveRecord
     {
         return [
             [['email', 'name', 'password', 'dt_add'], 'required'],
-            [['profile_id'], 'integer'],
-            [['email', 'name', 'dt_add'], 'string', 'max' => 128],
+            [['dt_add'], 'safe'],
+            [['email', 'name'], 'string', 'max' => 128],
             [['password'], 'string', 'max' => 64],
             [['email'], 'unique'],
-            [['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => Profiles::className(), 'targetAttribute' => ['profile_id' => 'id']],
         ];
     }
 
@@ -49,7 +43,6 @@ class Users extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'email' => 'Email',
             'name' => 'Name',
             'password' => 'Password',

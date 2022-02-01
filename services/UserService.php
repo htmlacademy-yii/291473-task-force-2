@@ -11,6 +11,7 @@ use app\models\Opinions;
 use app\models\Users;
 use app\models\Cities;
 use app\models\RegistrationForm;
+use yii\db\Expression;
 
 class UserService
 {
@@ -71,8 +72,7 @@ class UserService
         $user->email = $model->email;
         $passwordHash = Yii::$app->getSecurity()->generatePasswordHash($model->password);
         $user->password = $passwordHash;
-        // $user->dt_add = new Expression('NOW()');
-        $user->dt_add = '01.01.1990';
+        $user->dt_add = date("Y.m.d H:i:s");
 
         $profile->save();
         $user->save();

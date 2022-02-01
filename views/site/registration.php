@@ -4,15 +4,6 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-
-// $cities_test = ArrayHelper::getValue($cities, 'city->city');
-// print_r($cities);
-
-// foreach ($cities as $city) {
-//     print_r($city['city']);
-// }
-
-
 ?>
 
 <div class="center-block">
@@ -48,11 +39,12 @@ use yii\widgets\ActiveForm;
         </div>
 
         <div class="form-group">
-            <?= $form->field($model, 'role')->checkbox(enclosedByLabel: false) ?>
+            <?= $form->field($model, 'role')->checkbox(enclosedByLabel: true) ?>
         </div>
 
         <?= Html::submitInput('Создать аккаунт', [
-            'class' => 'button button--blue' // нужно добавить стили, отцентровать
+            'class' => 'button button--blue',
+            'style' => 'width: 660px;'
         ]); ?>
 
         <?php ActiveForm::end(); ?>
