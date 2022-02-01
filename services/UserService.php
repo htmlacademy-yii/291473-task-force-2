@@ -9,9 +9,7 @@ use app\models\Specializations;
 use app\models\Opinions;
 
 use app\models\Users;
-use app\models\Cities;
 use app\models\RegistrationForm;
-use yii\db\Expression;
 
 class UserService
 {
@@ -58,35 +56,21 @@ class UserService
         return array_search($id, array_column($usersRatings, 'id')) + 1;
     }
 
-    // Сохранение нового пользователя;
-    public function SaveNewUserProfile(RegistrationForm $model): void
+    public function SaveNewUserProfile(RegistrationForm $RegistrationModel): void
     {
         $profile = new Profiles();
         $user = new Users();
 
-        // $city = Cities::findOne($model->city_id);
-        $profile->city_id = $model->city_id;
-        $profile->role = $model->role;
+        $profile->city_id = $RegistrationModel->city_id;
+        $profile->role = $RegistrationModel->role;
 
-        $user->name = $model->name;
-        $user->email = $model->email;
-        $passwordHash = Yii::$app->getSecurity()->generatePasswordHash($model->password);
+        $user->name = $RegistrationModel->name;
+        $user->email = $RegistrationModel->email;
+        $passwordHash = Yii::$app->getSecurity()->generatePasswordHash($RegistrationModel->password);
         $user->password = $passwordHash;
         $user->dt_add = date("Y.m.d H:i:s");
 
         $profile->save();
         $user->save();
-
-        // print_r($model);
-
-        // При сохранении нового пользователя:
-        // 1. Создать запись Profiles 
-        // 2. Создать запись Users - с pfofile_id, как id у записи в Profiles
-
-        // Сохраняю имя -- модель Users
-        // Сохраняю email -- модель Users
-        // Сохраняю город -- модель Profiles
-        // Сохраняю пароль -- модуль Users
-        // Сохраняю роль - Модель Profiles
     }
 }

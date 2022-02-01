@@ -10,12 +10,9 @@ use app\services\UserService;
 
 class SiteController extends Controller
 {
-
-
     public function actionRegistration()
     {
-
-        $model = new RegistrationForm();
+        $RegistrationModel = new RegistrationForm();
 
         $cities = Cities::find()
             ->select(['id', 'city'])
@@ -24,16 +21,16 @@ class SiteController extends Controller
             ->all();
 
         if (Yii::$app->request->getIsPost()) {
-            $model->load(Yii::$app->request->post());
+            $RegistrationModel->load(Yii::$app->request->post());
 
-            if ($model->validate()) {
-                (new UserService())->SaveNewUserProfile($model);
+            if ($RegistrationModel->validate()) {
+                (new UserService())->SaveNewUserProfile($RegistrationModel);
                 $this->redirect('/tasks');
             }
         }
 
         return $this->render('registration', [
-            'model' => $model,
+            'model' => $RegistrationModel,
             'cities' => $cities,
         ]);
     }
