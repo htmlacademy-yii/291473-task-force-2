@@ -12,7 +12,6 @@ use app\models\Users;
 use app\models\Cities;
 use app\models\RegistrationForm;
 
-
 class UserService
 {
 
@@ -61,6 +60,23 @@ class UserService
     // Сохранение нового пользователя;
     public function SaveNewUserProfile(RegistrationForm $model): void
     {
+        $profile = new Profiles();
+        $user = new Users();
+
+        // $city = Cities::findOne($model->city_id);
+        $profile->city_id = $model->city_id;
+        $profile->role = $model->role;
+
+        $user->name = $model->name;
+        $user->email = $model->email;
+        $passwordHash = Yii::$app->getSecurity()->generatePasswordHash($model->password);
+        $user->password = $passwordHash;
+        // $user->dt_add = new Expression('NOW()');
+        $user->dt_add = '01.01.1990';
+
+        $profile->save();
+        $user->save();
+
         // print_r($model);
 
         // При сохранении нового пользователя:
@@ -72,6 +88,5 @@ class UserService
         // Сохраняю город -- модель Profiles
         // Сохраняю пароль -- модуль Users
         // Сохраняю роль - Модель Profiles
-
     }
 }
