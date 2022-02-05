@@ -11,6 +11,8 @@ use app\models\Opinions;
 use app\models\Users;
 use app\models\RegistrationForm;
 
+use yii\db\Expression;
+
 class UserService
 {
 
@@ -68,7 +70,11 @@ class UserService
         $user->email = $RegistrationModel->email;
         $passwordHash = Yii::$app->getSecurity()->generatePasswordHash($RegistrationModel->password);
         $user->password = $passwordHash;
-        $user->dt_add = date("Y.m.d H:i:s");
+
+        $expression = new Expression('NOW()');
+        $now = (new \yii\db\Query)->select($expression)->scalar();  // ВЫБРАТЬ СЕЙЧАС ();
+
+        $user->dt_add = $now; //date("Y.m.d H:i:s");
 
         $transaction = Yii::$app->db->beginTransaction();
         try {;
