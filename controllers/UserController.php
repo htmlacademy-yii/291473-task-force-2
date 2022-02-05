@@ -10,13 +10,6 @@ class UserController extends Controller
 {
     public function actionView(int $id)
     {
-        // 'specializations' => $specializations,
-        // 'tasksFinishedCount' => $tasksFinishedCount,
-        // 'tasksFailedCount' => $tasksFailedCount,
-        // 'tasksInProgressCount' => $tasksInProgressCount,
-        // 'userRatingPosition' => $userRatingPosition,
-        // 'opinions' => $opinions,
-
         $userService = new UserService;
         $user = $userService->getExecutor($id);
         $tasksFinishedCount = $userService->getExecutorTasksCount($id, 'finished');
