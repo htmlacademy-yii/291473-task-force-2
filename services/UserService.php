@@ -16,9 +16,9 @@ class UserService
 
     public function getExecutor($id)
     {
-        return Profiles::find()
-            ->joinWith('user', 'city')
-            ->where(['profiles.id' => $id])
+        return Users::find()
+            ->joinWith('profile', 'city')
+            ->where(['id' => $id])
             ->one();
     }
 
@@ -47,8 +47,9 @@ class UserService
 
     public function getExecutorRatingPosition($id)
     {
-        $usersRatings = Profiles::find()
+        $usersRatings = Users::find()
             ->where(['role' => 1])
+            ->joinWith('profile')
             ->orderBy('average_rating ASC')
             ->asArray()
             ->all();

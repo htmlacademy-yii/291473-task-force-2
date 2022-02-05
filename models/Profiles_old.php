@@ -7,7 +7,10 @@ use Yii;
 /**
  * This is the model class for table "profiles".
  *
+ * @property int $id
  * @property string|null $about
+ * @property int|null $role
+ * @property int|null $city_id
  * @property string|null $avatar_link
  * @property float|null $average_rating
  * @property string|null $address
@@ -15,7 +18,6 @@ use Yii;
  * @property string|null $phone
  * @property string|null $skype
  * @property string|null $messanger
- * @property int $user_id
  */
 class Profiles extends \yii\db\ActiveRecord
 {
@@ -34,6 +36,7 @@ class Profiles extends \yii\db\ActiveRecord
     {
         return [
             [['about'], 'string'],
+            [['role', 'city_id'], 'integer'],
             [['average_rating'], 'number'],
             [['avatar_link', 'address', 'bd', 'phone', 'skype', 'messanger'], 'string', 'max' => 128],
         ];
@@ -45,7 +48,10 @@ class Profiles extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+            'id' => 'ID',
             'about' => 'About',
+            'role' => 'Role',
+            'city_id' => 'City ID',
             'avatar_link' => 'Avatar Link',
             'average_rating' => 'Average Rating',
             'address' => 'Address',
@@ -53,26 +59,6 @@ class Profiles extends \yii\db\ActiveRecord
             'phone' => 'Phone',
             'skype' => 'Skype',
             'messanger' => 'Messanger',
-            'user_id' => 'User ID',
         ];
     }
-
-    // /**
-    //  * Gets query for [[Users]].
-    //  *
-    //  * @return \yii\db\ActiveQuery
-    //  */
-    // public function getUsers()
-    // {
-    //     return $this->hasMany(Users::className(), ['profile_id' => 'id']);
-    // }
-
-    // /** Gets query for [[User]].
-    //  *
-    //  * @return \yii\db\ActiveQuery
-    //  */
-    // public function getUser()
-    // {
-    //     return $this->hasOne(Users::className(), ['profile_id' => 'id']);
-    // }
 }
