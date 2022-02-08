@@ -63,6 +63,8 @@ class UserService
     {
         $user = new Users();
         $profile = new Profiles();
+        $expression = new Expression('NOW()');
+        $now = (new \yii\db\Query)->select($expression)->scalar();  // ВЫБРАТЬ СЕЙЧАС ();
 
         $user->city_id = $RegistrationModel->city_id;
         $user->role = $RegistrationModel->role;
@@ -70,15 +72,12 @@ class UserService
         $user->email = $RegistrationModel->email;
         $passwordHash = Yii::$app->getSecurity()->generatePasswordHash($RegistrationModel->password);
         $user->password = $passwordHash;
-
-        $expression = new Expression('NOW()');
-        $now = (new \yii\db\Query)->select($expression)->scalar();  // ВЫБРАТЬ СЕЙЧАС ();
-
         $user->dt_add = $now; //date("Y.m.d H:i:s");
 
         $transaction = Yii::$app->db->beginTransaction();
-        try {;
+        try {
             $user->save();
+            $profile->user_id = $user->id;
             $profile->save();
             $transaction->commit();
         } catch (\Exception $e) {

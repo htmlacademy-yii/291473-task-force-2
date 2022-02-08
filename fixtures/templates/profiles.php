@@ -5,6 +5,7 @@
  * @var $index integer
  */
 return [
+    'user_id' => $index + 1,
     'address' => $faker->address(),
     'bd' => $faker->date(),
     'about' => $faker->sentence(10, true),
