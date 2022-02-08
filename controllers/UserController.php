@@ -11,7 +11,7 @@ class UserController extends Controller
     public function actionView(int $id)
     {
         $userService = new UserService;
-        $profile = $userService->getExecutor($id);
+        $user = $userService->getExecutor($id);
         $tasksFinishedCount = $userService->getExecutorTasksCount($id, 'finished');
         $tasksFailedCount = $userService->getExecutorTasksCount($id, 'failed');
         $tasksInProgressCount = $userService->getExecutorTasksCount($id, 'in_progress');
@@ -19,12 +19,12 @@ class UserController extends Controller
         $opinions = $userService->getExecutorOpinions($id);
         $userRatingPosition = $userService->getExecutorRatingPosition($id);
 
-        if (!$profile) {
+        if (!$user) {
             throw new NotFoundHttpException;
         }
 
         return $this->render('view', [
-            'profile' => $profile,
+            'user' => $user,
             'specializations' => $specializations,
             'tasksFinishedCount' => $tasksFinishedCount,
             'tasksFailedCount' => $tasksFailedCount,
