@@ -33,4 +33,11 @@ class UserController extends Controller
             'opinions' => $opinions,
         ]);
     }
+
+    public function actionLogout()
+    {
+        \Yii::$app->user->logout();
+
+        return $this->goHome();
+    }
 }

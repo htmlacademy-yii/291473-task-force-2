@@ -10,24 +10,6 @@ use app\services\UserService;
 
 class SiteController extends Controller
 {
-    // public function behaviors()
-    // {
-    //     return [
-    //         'access' => [
-    //             'class' => AccessControl::class,
-    //             'only' => ['index'],
-    //             'rules' => [
-    //                 [
-    //                     'allow' => true,
-    //                     'actions' => ['index'],
-    //                     'roles' => ['?'] // ? - группа анонимных пользователей; @ - группа аутентифицированных пользователей;
-    //                 ]
-    //             ]
-    //         ]
-    //     ];
-    // }
-
-
     public function actionRegistration()
     {
         $RegistrationModel = new RegistrationForm();
@@ -43,7 +25,8 @@ class SiteController extends Controller
 
             if ($RegistrationModel->validate()) {
                 (new UserService())->SaveNewUserProfile($RegistrationModel);
-                $this->redirect('/tasks');
+                return $this->goHome();
+                // $this->redirect('/tasks');
             }
         }
 
