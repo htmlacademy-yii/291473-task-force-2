@@ -21,10 +21,6 @@ class LandingController extends Controller
                 \Yii::$app->user->login($user); //Вызываем логин пользователя средствами встроенного компонента User;
 
                 return $this->goHome(); // Переадресуем на главную страницу;
-                // $this->redirect('/taskforce71/web/tasks'); // Временно редиректчу в таски;
-
-                print('OK');
-                print_r($user);
             }
         }
 

@@ -3,12 +3,11 @@
 namespace app\controllers;
 
 use Yii;
-use yii\web\Controller;
 use app\models\RegistrationForm;
 use app\models\Cities;
 use app\services\UserService;
 
-class SiteController extends Controller
+class SiteController extends SecuredController //extends Controller
 {
     public function actionRegistration()
     {
@@ -26,7 +25,6 @@ class SiteController extends Controller
             if ($RegistrationModel->validate()) {
                 (new UserService())->SaveNewUserProfile($RegistrationModel);
                 return $this->goHome();
-                // $this->redirect('/tasks');
             }
         }
 

@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use Yii;
-use yii\web\Controller;
 use app\models\TasksSearchForm;
 use app\services\TasksFilterService;
 

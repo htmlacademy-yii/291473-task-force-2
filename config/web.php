@@ -56,7 +56,8 @@ $config = [
             'showScriptName' => false,
             'enableStrictParsing' => false,
             'rules' => [
-                '/' => 'tasks', // Задает '/' домашней страницей для '/tasks'
+                '/' => 'tasks/index', // Задает '/' домашней страницей для '/tasks'
+                '/logout' => '/landing/index',
                 'tasks/view/<id>' => 'tasks/view',
                 'user/view/<id>' => 'user/view',
             ],

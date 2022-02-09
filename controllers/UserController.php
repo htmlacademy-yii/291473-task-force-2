@@ -6,7 +6,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use app\services\UserService;
 
-class UserController extends Controller
+class UserController extends SecuredController //extends Controller
 {
     public function actionView(int $id)
     {
@@ -32,12 +32,5 @@ class UserController extends Controller
             'userRatingPosition' => $userRatingPosition,
             'opinions' => $opinions,
         ]);
-    }
-
-    public function actionLogout()
-    {
-        \Yii::$app->user->logout();
-
-        return $this->goHome();
     }
 }
