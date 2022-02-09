@@ -20,8 +20,8 @@ class LandingController extends Controller
                 $user = $loginForm->getUser(); // Если валидация прошла, то получим модель найденного пользователя из формы;
                 \Yii::$app->user->login($user); //Вызываем логин пользователя средствами встроенного компонента User;
 
-                // return $this->goHome(); // Переадресуем на главную страницу;
-                $this->redirect('/taskforce71/web/tasks'); // Временно редиректчу в таски;
+                return $this->goHome(); // Переадресуем на главную страницу;
+                // $this->redirect('/taskforce71/web/tasks'); // Временно редиректчу в таски;
 
                 print('OK');
                 print_r($user);

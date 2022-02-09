@@ -10,6 +10,24 @@ use app\services\UserService;
 
 class SiteController extends Controller
 {
+    // public function behaviors()
+    // {
+    //     return [
+    //         'access' => [
+    //             'class' => AccessControl::class,
+    //             'only' => ['index'],
+    //             'rules' => [
+    //                 [
+    //                     'allow' => true,
+    //                     'actions' => ['index'],
+    //                     'roles' => ['?'] // ? - группа анонимных пользователей; @ - группа аутентифицированных пользователей;
+    //                 ]
+    //             ]
+    //         ]
+    //     ];
+    // }
+
+
     public function actionRegistration()
     {
         $RegistrationModel = new RegistrationForm();

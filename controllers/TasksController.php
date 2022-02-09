@@ -13,7 +13,7 @@ use app\services\TasksService;
 use app\models\Tasks;
 use app\models\Categories;
 
-class TasksController extends Controller
+class TasksController extends SecuredController //extends Controller 
 {
     public function actionIndex()
     {

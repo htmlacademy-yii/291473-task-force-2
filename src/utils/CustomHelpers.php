@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace TaskForce\utils;
 
+use Yii;
+use app\models\User;
+
 const ALL_STARS_COUNT = 5;
 
 class CustomHelpers
@@ -95,5 +98,13 @@ class CustomHelpers
         ];
 
         return $taskStatusesMap[$taskStatus];
+    }
+
+    public static function checkAuthorization(): ?object
+    {
+        if (Yii::$app->user->isGuest) {
+            return null;
+        }
+        return User::findIdentity(Yii::$app->user->getId());
     }
 }
