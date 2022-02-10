@@ -55,13 +55,7 @@ abstract class SecuredController extends Controller
         return true;
     }
 
-    // Разлогинивает пользователя;
-    public function actionLogout()
-    {
-        \Yii::$app->user->logout();
 
-        return $this->goHome();
-    }
 
     // Данные пользователя;
     public function actionProfile()
