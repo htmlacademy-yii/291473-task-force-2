@@ -35,8 +35,8 @@ LandingAsset::register($this);
         <header class=" page-header--index">
             <div class="main-container page-header__container page-header__container--index">
                 <div class="page-header__logo--index">
-                    <a>
-                        <svg class="logo-image--index" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1634 646.35">
+                    <a href="<?= Url::to('/') ?>">
+                        <svg class=" logo-image--index" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1634 646.35">
                             <title>taskforce_logo2-01</title>
                             <g>
                                 <g>
@@ -67,7 +67,8 @@ LandingAsset::register($this);
                     <a href="#" class="header__account-enter open-modal" data-for="enter-form">
                         <span>Вход</span></a>
                     или
-                    <a href="<?= Url::to('/site/registration') ?>" class="header__account-registration">
+                    <a href="<?= Url::to('/taskforce/web/site/registration') ?>" class="header__account-registration">
+                        <!--  <a href="<?= Url::to('/site/registration') ?>" class="header__account-registration"> -->
                         Регистрация
                     </a>
                 </div>
