@@ -26,7 +26,11 @@ class SiteController extends Controller
 
             if ($RegistrationModel->validate()) {
                 (new UserService())->SaveNewUserProfile($RegistrationModel);
+
+                $user = $RegistrationModel->getUser(); // Если валидация прошла, то получим модель найденного пользователя из формы;
+                Yii::$app->user->login($user); //Вызываем логин пользователя средствами встроенного компонента User;
                 return $this->goHome();
+                // $this->redirect('/tasks');
             }
         }
 
