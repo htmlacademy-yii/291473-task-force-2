@@ -2,15 +2,11 @@
 
 namespace app\controllers;
 
-use Yii;
 use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-
 use yii\web\Controller;
 use yii\web\HttpException;
 use TaskForce\utils\CustomHelpers;
 use app\models\User;
-
 
 abstract class SecuredController extends Controller
 {
@@ -18,14 +14,6 @@ abstract class SecuredController extends Controller
     public function behaviors()
     {
         return [
-            // 'verbs' => [
-            //     'class' => VerbFilter::className(),
-            //     'actions' => [
-            //         'logout' => ['get'],
-            //         'registration' => ['post', 'get'],
-            //         'login' => ['post'],
-            //     ],
-            // ],
             'access' => [
                 'class' => AccessControl::className(),
                 'rules' => [
@@ -49,21 +37,9 @@ abstract class SecuredController extends Controller
     public function beforeAction($action)
     {
         if (CustomHelpers::checkAuthorization() === null) {
-            $this->redirect('/taskforce/web/landing'); // /landing
+            $this->redirect('/landing');
             return false;
         }
         return true;
-    }
-
-
-
-    // Данные пользователя;
-    public function actionProfile()
-    {
-        if ($id = \Yii::$app->user->getId()) {
-            $user = User::findOne($id);
-
-            print($user->email);
-        }
     }
 }

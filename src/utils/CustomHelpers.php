@@ -100,6 +100,7 @@ class CustomHelpers
         return $taskStatusesMap[$taskStatus];
     }
 
+    // Проверка на авторизацию, получение данных пользователя;
     public static function checkAuthorization(): ?object
     {
         if (Yii::$app->user->isGuest) {

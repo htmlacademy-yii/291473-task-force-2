@@ -2,11 +2,10 @@
 
 namespace app\controllers;
 
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use app\services\UserService;
 
-class UserController extends SecuredController //extends Controller
+class UserController extends SecuredController
 {
     public function actionView(int $id)
     {

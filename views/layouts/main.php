@@ -14,7 +14,6 @@ use TaskForce\utils\CustomHelpers;
 
 AppAsset::register($this);
 
-
 $user = CustomHelpers::checkAuthorization();
 // Дополнитльная проверка на наличие данных пользователе в базе;
 if ($user) {

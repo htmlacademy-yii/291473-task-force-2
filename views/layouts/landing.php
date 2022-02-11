@@ -22,9 +22,6 @@ LandingAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <!-- <title>TaskForce</title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/landing.css"> -->
     <?php $this->head() ?>
 </head>
 
@@ -67,8 +64,7 @@ LandingAsset::register($this);
                     <a href="#" class="header__account-enter open-modal" data-for="enter-form">
                         <span>Вход</span></a>
                     или
-                    <a href="<?= Url::to('/taskforce/web/site/registration') ?>" class="header__account-registration">
-                        <!--  <a href="<?= Url::to('/site/registration') ?>" class="header__account-registration"> -->
+                    <a href="<?= Url::to('/site/registration') ?>" class="header__account-registration">
                         Регистрация
                     </a>
                 </div>

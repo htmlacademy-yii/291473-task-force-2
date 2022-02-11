@@ -2,13 +2,11 @@
 
 use yii\bootstrap4\Html;
 use yii\widgets\ActiveForm;
-// print_r($loginForm);
+use yii\helpers\Url;
 ?>
 
 <section class="modal enter-form form-modal" id="enter-form">
     <h2>Вход на сайт</h2>
-
-
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
         // 'errorCssClass' => 'field--error',
@@ -16,6 +14,7 @@ use yii\widgets\ActiveForm;
         // 'action' => 'login',
         // 'enableAjaxValidation' => true,
         // 'options' => ['autocomplete' => 'off'],
+        'enableAjaxValidation' => true,
         'fieldConfig' => [
             'labelOptions' => ['class' => 'form-modal-description'],
             'inputOptions' => ['class' => 'enter-form-email input input-middle']
@@ -32,22 +31,6 @@ use yii\widgets\ActiveForm;
     <?= Html::button('Закрыть', ['class' => 'form-modal-close']) ?>
 </section>
 
-<!-- <section class="modal enter-form form-modal" id="enter-form">
-    <h2>Вход на сайт</h2>
-    <form action="#" method="post">
-        <p>
-            <label class="form-modal-description" for="enter-email">Email</label>
-            <input class="enter-form-email input input-middle" type="email" name="enter-email" id="enter-email">
-        </p>
-        <p>
-            <label class="form-modal-description" for="enter-password">Пароль</label>
-            <input class="enter-form-email input input-middle" type="password" name="enter-email" id="enter-password">
-        </p>
-        <button class="button" type="submit">Войти</button>
-    </form>
-    <button class="form-modal-close" type="button">Закрыть</button>
-</section> -->
-
 <div class="landing-container">
     <div class="landing-top">
         <h1>Работа для всех.<br>
@@ -55,7 +38,7 @@ use yii\widgets\ActiveForm;
         <p>Сломался кран на кухне? Надо отправить документы? Нет времени самому гулять с собакой?
             У нас вы быстро найдёте исполнителя для любой жизненной ситуации?<br>
             Быстро, безопасно и с гарантией. Просто, как раз, два, три. </p>
-        <button class="button">Создать аккаунт</button>
+        <a class="button" href="<?= Url::to('/site/registration') ?>">Создать аккаунт</a>
         <!-- Url::to('/site/registration')?> -->
     </div>
     <div class="landing-center">

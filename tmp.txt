@@ -61,6 +61,3 @@ http://taskforce/site/registration
 
 Страница авторизации
 http://taskforce/landing
-
-RegistrationForm -> SiteController.php
-LoginForm -> LandingController.php
