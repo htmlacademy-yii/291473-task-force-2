@@ -9,11 +9,6 @@ use yii\helpers\Url;
     <h2>Вход на сайт</h2>
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
-        // 'errorCssClass' => 'field--error',
-        // 'options' => ['class' => 'log-in'],
-        // 'action' => 'login',
-        // 'enableAjaxValidation' => true,
-        // 'options' => ['autocomplete' => 'off'],
         'enableAjaxValidation' => true,
         'fieldConfig' => [
             'labelOptions' => ['class' => 'form-modal-description'],
@@ -39,7 +34,6 @@ use yii\helpers\Url;
             У нас вы быстро найдёте исполнителя для любой жизненной ситуации?<br>
             Быстро, безопасно и с гарантией. Просто, как раз, два, три. </p>
         <a class="button" href="<?= Url::to('/site/registration') ?>">Создать аккаунт</a>
-        <!-- Url::to('/site/registration')?> -->
     </div>
     <div class="landing-center">
         <div class="landing-instruction">
