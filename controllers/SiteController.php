@@ -31,7 +31,7 @@ class SiteController extends Controller
         }
 
         if (CustomHelpers::checkAuthorization() !== null) {
-            return $this->goHome();
+            $this->goHome();
         }
 
         return $this->render('registration', [

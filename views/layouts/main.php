@@ -15,6 +15,7 @@ use TaskForce\utils\CustomHelpers;
 AppAsset::register($this);
 
 $user = CustomHelpers::checkAuthorization();
+
 // Дополнитльная проверка на наличие данных пользователе в базе;
 if ($user) {
     $userName = $user->name;
@@ -40,7 +41,7 @@ if ($user) {
 
     <header class="page-header">
         <nav class="main-nav">
-            <a href='#' class="header-logo">
+            <a href='<?= Url::to('/') ?>' class="header-logo">
                 <img class="logo-image" src="/img/logotype.png" width=227 height=60 alt="taskforce">
             </a>
             <?php if (Url::current() !== Url::to(['site/registration'])) : ?>

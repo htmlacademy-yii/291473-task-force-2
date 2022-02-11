@@ -6,7 +6,6 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\HttpException;
 use TaskForce\utils\CustomHelpers;
-use app\models\User;
 
 abstract class SecuredController extends Controller
 {
