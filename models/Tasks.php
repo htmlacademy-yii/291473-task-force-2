@@ -11,7 +11,7 @@ use Yii;
  * @property string|null $dt_add
  * @property int $category_id
  * @property string|null $description
- * @property string|null $expire
+ * @property string|null $deadline
  * @property string $name
  * @property string $address
  * @property int $budget
@@ -49,6 +49,7 @@ class Tasks extends \yii\db\ActiveRecord
             [['category_id', 'name', 'address', 'budget', 'latitude', 'longitude'], 'required'],
             [['category_id', 'budget', 'status', 'customer_id', 'executor_id', 'city_id'], 'integer'],
             [['description'], 'string'],
+            [['deadline'], 'string'], // Добавить проверку, что время исполнения задачи не может быть меньше, чем сейчас/сегодня;
             [['name', 'address', 'latitude', 'longitude', 'file_link'], 'string', 'max' => 128],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['customer_id' => 'id']],
             [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['executor_id' => 'id']],
@@ -67,7 +68,7 @@ class Tasks extends \yii\db\ActiveRecord
             'dt_add' => 'Dt Add',
             'category_id' => 'Category ID',
             'description' => 'Description',
-            'expire' => 'Expire',
+            'deadline' => 'Expire',
             'name' => 'Name',
             'address' => 'Address',
             'budget' => 'Budget',
