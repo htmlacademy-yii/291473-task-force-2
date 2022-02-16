@@ -73,8 +73,7 @@ class TasksController extends SecuredController
 
             if ($addTaskFormModel->validate()) {
                 $taskId = $tasksService->createTask($addTaskFormModel);
-                // $this->redirect(['tasks/view', 'id' => $taskId]);
-                // print_r($taskId);
+                $this->redirect(['tasks/view', 'id' => $taskId]);
             }
         }
 

@@ -31,24 +31,19 @@ class TasksService
     {
         $task = new Tasks;
 
-        // 'name' => 'Name',
         $task->name = $addTaskFormModel->name;
-        // 'description' => 'Description', +
         $task->description = $addTaskFormModel->description;
-        // 'category_id' => 'Category ID', +
         $task->category_id = $addTaskFormModel->category_id;
-        // 'customer_id' => 'Customer ID',
         $task->customer_id = Yii::$app->user->id;
-        // 'status' => 'Status', +
         $task->status = 'new';
-        // 'dt_add' => 'Dt Add', +
         $task->dt_add = CustomHelpers::getCurrentDate();
+        $task->save();
+
+        $task_id = $task->id;
+        return $task_id;
 
         // // $task->executor_id = '2'; // Временная заглушка;
-
         // // 'id' => 'ID', +
-
-
 
         // // 'deadline' => 'deadline', +
         // $task->deadline = $addTaskFormModel->deadline;
@@ -76,13 +71,7 @@ class TasksService
 
         // // $this->upload($addTaskFormModel, $task->id);
 
-        $task->save();
         // print($task->id);
         // print_r($task);
-
-
-        // $task_id = $task->id;
-
-        // return 1;
     }
 }
