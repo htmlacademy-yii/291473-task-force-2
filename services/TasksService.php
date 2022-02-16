@@ -6,7 +6,7 @@ use Yii;
 use app\models\Tasks;
 use app\models\Replies;
 use app\models\AddTaskForm;
-use yii\db\Expression;
+use TaskForce\utils\CustomHelpers;
 
 class TasksService
 {
@@ -30,56 +30,59 @@ class TasksService
     public function createTask(AddTaskForm $addTaskFormModel)
     {
         $task = new Tasks;
-        $expression = new Expression('NOW()'); // Вынести в хелпер!!!
-        $now = (new \yii\db\Query)->select($expression)->scalar();  // ВЫБРАТЬ СЕЙЧАС ();
 
-        $task->dt_add = $now;
-        $task->category_id = $addTaskFormModel->category_id;
-        $task->description = $addTaskFormModel->description;
-        $task->deadline = $addTaskFormModel->deadline;
-        $task->name = $addTaskFormModel->name;
-        $task->address = $addTaskFormModel->location; // Проверить, это город???
-        $task->budget = $addTaskFormModel->budget;
-        $task->latitude = '123'; // Временная заглушка;
-        $task->latitude = '123'; // Временная заглушка;
-        $task->status = 'new';
-        $task->customer_id = Yii::$app->user->id;
         // $task->executor_id = '2'; // Временная заглушка;
+
+        // 'id' => 'ID', +
+
+        // 'dt_add' => 'Dt Add', +
+        $task->dt_add = CustomHelpers::getCurrentDate();
+
+        // 'category_id' => 'Category ID', +
+        $task->category_id = $addTaskFormModel->category_id;
+
+        // 'description' => 'Description', +
+        $task->description = $addTaskFormModel->description;
+
+        // 'deadline' => 'deadline', +
+        $task->deadline = $addTaskFormModel->deadline;
+
+        // 'name' => 'Name',
+        $task->name = $addTaskFormModel->name;
+
+        // 'address' => 'Address', +
+        $task->address = $addTaskFormModel->location; // Проверить, это город???
+
+        // 'budget' => 'Budget', +
+        $task->budget = $addTaskFormModel->budget;
+
+        // 'latitude' => 'Latitude', +
+        $task->latitude = '123'; // Временная заглушка;
+
+        // 'longitude' => 'Longitude', +
+        $task->latitude = '123'; // Временная заглушка;
+
+        // 'status' => 'Status', +
+        $task->status = 'new';
+
+        // 'customer_id' => 'Customer ID',
+        $task->customer_id = Yii::$app->user->id;
+
+        // 'executor_id' => 'Executor ID',
+        $task->executor_id = '2';
+
+        // 'city_id' => 'City ID',
         $task->city_id = '1'; // Временная заглушка;
+
+        // 'file_link' => 'File Link',
         $task->file_link = 'abc'; // Временная заглушка;
 
-
-        $task_id = $task->id;
-
-        $task->save();
         // $this->upload($addTaskFormModel, $task->id);
 
-        return $task_id;
+        $task->save();
 
-        // Tasks Model
-        // 'id' => 'ID', +
-        // 'dt_add' => 'Dt Add', +
-        // 'category_id' => 'Category ID', +
-        // 'description' => 'Description', +
-        // 'expire' => 'Expire', +
-        // 'name' => 'Name',
-        // 'address' => 'Address', +
-        // 'budget' => 'Budget', +
-        // 'latitude' => 'Latitude', +
-        // 'longitude' => 'Longitude', +
-        // 'status' => 'Status', +
-        // 'customer_id' => 'Customer ID',
-        // 'executor_id' => 'Executor ID',
-        // 'city_id' => 'City ID',
-        // 'file_link' => 'File Link',
+        // $task_id = $task->id;
 
-        // AddTaskForm Model
-        // 'name' => 'Опишите суть работы',
-        // 'description' => 'Подробности задания',
-        // 'category_id' => 'Категория',
-        // 'location' => 'Локация',
-        // 'budget' => 'Бюджет',
-        // 'expire' => 'Срок исполнения',
-        // 'files' => 'Добавить новый файл',
+        return 1;
     }
 }

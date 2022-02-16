@@ -6,6 +6,7 @@ namespace TaskForce\utils;
 
 use Yii;
 use app\models\User;
+use yii\db\Expression;
 
 const ALL_STARS_COUNT = 5;
 
@@ -107,5 +108,12 @@ class CustomHelpers
             return null;
         }
         return User::findIdentity(Yii::$app->user->getId());
+    }
+
+    public static function getCurrentDate()
+    {
+        $expression = new Expression('NOW()');
+        $now = (new \yii\db\Query)->select($expression)->scalar();  // ВЫБРАТЬ СЕЙЧАС ();
+        return $now;
     }
 }

@@ -8,21 +8,26 @@ use Yii;
  * This is the model class for table "tasks".
  *
  * @property int $id
- * @property string $dt_add
+ * @property string|null $dt_add
  * @property int $category_id
  * @property string|null $description
- * @property string $deadline срок выполнения задания
- * @property string $fin_date фактический срок выполнения задания
+ * @property string|null $deadline
  * @property string $name
  * @property string $address
  * @property int $budget
  * @property string $latitude
  * @property string $longitude
- * @property int $customer_id заказчик
- * @property int $executor_id исполнитель
- * @property int $city_id город
- * @property string $file_link
- * @property string $status
+ * @property int|null $status
+ * @property int|null $customer_id
+ * @property int|null $executor_id
+ * @property int|null $city_id
+ * @property string|null $file_link
+ *
+ * @property Categories $category
+ * @property Cities $city
+ * @property Users $customer
+ * @property Users $executor
+ * @property Replies[] $replies
  */
 class Tasks extends \yii\db\ActiveRecord
 {
@@ -40,11 +45,16 @@ class Tasks extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dt_add', 'category_id', 'deadline', 'fin_date', 'name', 'address', 'budget', 'latitude', 'longitude', 'customer_id', 'executor_id', 'city_id', 'file_link', 'status'], 'required'],
-            [['dt_add', 'deadline', 'fin_date'], 'safe'],
-            [['category_id', 'budget', 'customer_id', 'executor_id', 'city_id'], 'integer'],
+            [['dt_add', 'expire'], 'safe'],
+            [['category_id', 'name', 'address', 'budget', 'latitude', 'longitude'], 'required'],
+            [['category_id', 'budget', 'status', 'customer_id', 'executor_id', 'city_id'], 'integer'],
             [['description'], 'string'],
-            [['name', 'address', 'latitude', 'longitude', 'file_link', 'status'], 'string', 'max' => 128],
+            [['deadline'], 'string'], // Добавить проверку, что время исполнения задачи не может быть меньше, чем сейчас/сегодня;
+            [['name', 'address', 'latitude', 'longitude', 'file_link'], 'string', 'max' => 128],
+            [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['customer_id' => 'id']],
+            [['executor_id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['executor_id' => 'id']],
+            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => Categories::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [['city_id'], 'exist', 'skipOnError' => true, 'targetClass' => Cities::className(), 'targetAttribute' => ['city_id' => 'id']],
         ];
     }
 
@@ -58,18 +68,17 @@ class Tasks extends \yii\db\ActiveRecord
             'dt_add' => 'Dt Add',
             'category_id' => 'Category ID',
             'description' => 'Description',
-            'deadline' => 'Deadline',
-            'fin_date' => 'Fin Date',
+            'deadline' => 'Expire',
             'name' => 'Name',
             'address' => 'Address',
             'budget' => 'Budget',
             'latitude' => 'Latitude',
             'longitude' => 'Longitude',
+            'status' => 'Status',
             'customer_id' => 'Customer ID',
             'executor_id' => 'Executor ID',
             'city_id' => 'City ID',
             'file_link' => 'File Link',
-            'status' => 'Status',
         ];
     }
 
