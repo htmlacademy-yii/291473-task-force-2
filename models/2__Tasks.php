@@ -11,18 +11,18 @@ use Yii;
  * @property string $dt_add
  * @property int $category_id
  * @property string|null $description
+ * @property string $deadline срок выполнения задания
+ * @property string $fin_date фактический срок выполнения задания
  * @property string $name
+ * @property string $address
+ * @property int $budget
+ * @property string $latitude
+ * @property string $longitude
  * @property int $customer_id заказчик
- * @property string|null $deadline срок выполнения задания
- * @property string|null $fin_date фактический срок выполнения задания
- * @property string|null $address
- * @property int|null $budget
- * @property string|null $latitude
- * @property string|null $longitude
- * @property string|null $status
- * @property int|null $executor_id заказчик
- * @property int|null $city_id город
- * @property string|null $file_link
+ * @property int $executor_id исполнитель
+ * @property int $city_id город
+ * @property string $file_link
+ * @property string $status
  */
 class Tasks extends \yii\db\ActiveRecord
 {
@@ -40,11 +40,11 @@ class Tasks extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dt_add', 'category_id', 'name', 'customer_id'], 'required'],
+            [['dt_add', 'category_id', 'deadline', 'fin_date', 'name', 'address', 'budget', 'latitude', 'longitude', 'customer_id', 'executor_id', 'city_id', 'file_link', 'status'], 'required'],
             [['dt_add', 'deadline', 'fin_date'], 'safe'],
-            [['category_id', 'customer_id', 'budget', 'executor_id', 'city_id'], 'integer'],
+            [['category_id', 'budget', 'customer_id', 'executor_id', 'city_id'], 'integer'],
             [['description'], 'string'],
-            [['name', 'address', 'latitude', 'longitude', 'status', 'file_link'], 'string', 'max' => 128],
+            [['name', 'address', 'latitude', 'longitude', 'file_link', 'status'], 'string', 'max' => 128],
         ];
     }
 
@@ -58,18 +58,18 @@ class Tasks extends \yii\db\ActiveRecord
             'dt_add' => 'Dt Add',
             'category_id' => 'Category ID',
             'description' => 'Description',
-            'name' => 'Name',
-            'customer_id' => 'Customer ID',
             'deadline' => 'Deadline',
             'fin_date' => 'Fin Date',
+            'name' => 'Name',
             'address' => 'Address',
             'budget' => 'Budget',
             'latitude' => 'Latitude',
             'longitude' => 'Longitude',
-            'status' => 'Status',
+            'customer_id' => 'Customer ID',
             'executor_id' => 'Executor ID',
             'city_id' => 'City ID',
             'file_link' => 'File Link',
+            'status' => 'Status',
         ];
     }
 

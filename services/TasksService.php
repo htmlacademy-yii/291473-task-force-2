@@ -31,58 +31,58 @@ class TasksService
     {
         $task = new Tasks;
 
-        // $task->executor_id = '2'; // Временная заглушка;
-
-        // 'id' => 'ID', +
-
+        // 'name' => 'Name',
+        $task->name = $addTaskFormModel->name;
+        // 'description' => 'Description', +
+        $task->description = $addTaskFormModel->description;
+        // 'category_id' => 'Category ID', +
+        $task->category_id = $addTaskFormModel->category_id;
+        // 'customer_id' => 'Customer ID',
+        $task->customer_id = Yii::$app->user->id;
+        // 'status' => 'Status', +
+        $task->status = 'new';
         // 'dt_add' => 'Dt Add', +
         $task->dt_add = CustomHelpers::getCurrentDate();
 
-        // 'category_id' => 'Category ID', +
-        $task->category_id = $addTaskFormModel->category_id;
+        // // $task->executor_id = '2'; // Временная заглушка;
 
-        // 'description' => 'Description', +
-        $task->description = $addTaskFormModel->description;
+        // // 'id' => 'ID', +
 
-        // 'deadline' => 'deadline', +
-        $task->deadline = $addTaskFormModel->deadline;
 
-        // 'name' => 'Name',
-        $task->name = $addTaskFormModel->name;
 
-        // 'address' => 'Address', +
-        $task->address = $addTaskFormModel->location; // Проверить, это город???
+        // // 'deadline' => 'deadline', +
+        // $task->deadline = $addTaskFormModel->deadline;
 
-        // 'budget' => 'Budget', +
-        $task->budget = $addTaskFormModel->budget;
+        // // 'address' => 'Address', +
+        // $task->address = $addTaskFormModel->location; // Проверить, это город???
 
-        // 'latitude' => 'Latitude', +
-        $task->latitude = '123'; // Временная заглушка;
+        // // 'budget' => 'Budget', +
+        // $task->budget = $addTaskFormModel->budget;
 
-        // 'longitude' => 'Longitude', +
-        $task->latitude = '123'; // Временная заглушка;
+        // // 'latitude' => 'Latitude', +
+        // $task->latitude = '123'; // Временная заглушка;
 
-        // 'status' => 'Status', +
-        $task->status = 'new';
+        // // 'longitude' => 'Longitude', +
+        // $task->latitude = '123'; // Временная заглушка;
 
-        // 'customer_id' => 'Customer ID',
-        $task->customer_id = Yii::$app->user->id;
+        // // 'executor_id' => 'Executor ID',
+        // $task->executor_id = '2';
 
-        // 'executor_id' => 'Executor ID',
-        $task->executor_id = '2';
+        // // 'city_id' => 'City ID',
+        // $task->city_id = '1'; // Временная заглушка;
 
-        // 'city_id' => 'City ID',
-        $task->city_id = '1'; // Временная заглушка;
+        // // 'file_link' => 'File Link',
+        // $task->file_link = 'abc'; // Временная заглушка;
 
-        // 'file_link' => 'File Link',
-        $task->file_link = 'abc'; // Временная заглушка;
-
-        // $this->upload($addTaskFormModel, $task->id);
+        // // $this->upload($addTaskFormModel, $task->id);
 
         $task->save();
+        // print($task->id);
+        // print_r($task);
+
 
         // $task_id = $task->id;
 
-        return 1;
+        // return 1;
     }
 }
