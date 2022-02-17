@@ -14,9 +14,36 @@ use app\models\AddTaskForm;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
+use app\services\UserService;
+use yii\filters\AccessControl;
+use yii\web\HttpException;
 
 class TasksController extends SecuredController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'actions' => ['add'],
+                        'denyCallback' => function ($rule, $action) {
+                            throw new HttpException(401, "Вы не авторизованы!");
+                        }
+                    ],
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'actions' => ['index', 'view']
+                    ]
+                ]
+            ]
+        ];
+    }
+
     public function actionIndex()
     {
         $model = new TasksSearchForm();
@@ -60,6 +87,10 @@ class TasksController extends SecuredController
 
     public function actionAdd()
     {
+        $new_user_service = new UserService();
+        $test_role = $new_user_service->isCustomer(Yii::$app->user->id);
+        print($test_role);
+
         $addTaskFormModel = new AddTaskForm();
         $tasksService = new TasksService;
 
@@ -75,7 +106,7 @@ class TasksController extends SecuredController
 
             if ($addTaskFormModel->validate()) {
                 $taskId = $tasksService->createTask($addTaskFormModel);
-                // $this->redirect(['tasks/view', 'id' => $taskId]);
+                $this->redirect(['tasks/view', 'id' => $taskId]);
             }
         }
 

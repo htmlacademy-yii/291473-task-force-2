@@ -18,34 +18,36 @@ use TaskForce\utils\CustomHelpers;
         <p class="map-address"><?= Html::encode($task->address) ?></p>
     </div>
 
-    <h4 class="head-regular">Отклики на задание</h4>
+    <?php if (count($replies) > 0) : ?>
+        <h4 class="head-regular">Отклики на задание</h4>
 
-    <?php foreach ($replies as $reply) : ?>
-        <div class="response-card">
-            <img class="customer-photo" src="<?= (Html::encode($reply->executor->avatar_link)); ?>" width="146" height="156" alt="Фото заказчиков">
-            <div class="feedback-wrapper">
-                <a href="#" class="link link--block link--big"></a>
-                <div class="response-wrapper">
-                    <div class="stars-rating small">
-                        <?= CustomHelpers::getRatingStars(Html::encode($reply->executor->average_rating)); ?>
+        <?php foreach ($replies as $reply) : ?>
+            <div class="response-card">
+                <img class="customer-photo" src="<?= (Html::encode($reply->executor->avatar_link)); ?>" width="146" height="156" alt="Фото заказчиков">
+                <div class="feedback-wrapper">
+                    <a href="#" class="link link--block link--big"></a>
+                    <div class="response-wrapper">
+                        <div class="stars-rating small">
+                            <?= CustomHelpers::getRatingStars(Html::encode($reply->executor->average_rating)); ?>
+                        </div>
+                        <p class="reviews"><?= (count($reply->opinion)); ?> <?= NounPluralConverter::getOpinionsTitle(count($reply->opinion)); ?></p>
                     </div>
-                    <p class="reviews"><?= (count($reply->opinion)); ?> <?= NounPluralConverter::getOpinionsTitle(count($reply->opinion)); ?></p>
-                </div>
-                <p class="response-message">
-                    <?= Html::encode($reply->description); ?>
-                </p>
+                    <p class="response-message">
+                        <?= Html::encode($reply->description); ?>
+                    </p>
 
+                </div>
+                <div class="feedback-wrapper">
+                    <p class="info-text"><span class="current-time"><?= NounPluralConverter::getTaskRelativeTime($reply->dt_add); ?></span></p>
+                    <p class="price price--small"><?= Html::encode($reply->rate); ?> ₽</p>
+                </div>
+                <div class="button-popup">
+                    <a href="#" class="button button--blue button--small">Принять</a>
+                    <a href="#" class="button button--orange button--small">Отказать</a>
+                </div>
             </div>
-            <div class="feedback-wrapper">
-                <p class="info-text"><span class="current-time"><?= NounPluralConverter::getTaskRelativeTime($reply->dt_add); ?></span></p>
-                <p class="price price--small"><?= Html::encode($reply->rate); ?> ₽</p>
-            </div>
-            <div class="button-popup">
-                <a href="#" class="button button--blue button--small">Принять</a>
-                <a href="#" class="button button--orange button--small">Отказать</a>
-            </div>
-        </div>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </div>
 
 <div class="right-column">
@@ -63,7 +65,6 @@ use TaskForce\utils\CustomHelpers;
         </dl>
     </div>
 
-
     <?php if (count($task_files) > 0) : ?>
         <div class="right-card white file-card">
             <h4 class="head-card">Файлы задания</h4>
@@ -74,11 +75,6 @@ use TaskForce\utils\CustomHelpers;
                         <p class="file-size"><?= CustomHelpers::getFileSize($task_file->link) ?> Кб</p>
                     </li>
                 <?php endforeach; ?>
-
-                <!-- <li class="enumeration-item">
-                    <a href="#" class="link link--block link--clip">information.docx</a>
-                    <p class="file-size">12 Кб</p>
-                </li> -->
             </ul>
         </div>
     <?php endif; ?>
