@@ -6,6 +6,7 @@ use Yii;
 use app\models\Tasks;
 use app\models\Replies;
 use app\models\AddTaskForm;
+use app\models\TasksFiles;
 use TaskForce\utils\CustomHelpers;
 
 class TasksService
@@ -39,14 +40,25 @@ class TasksService
         $task->dt_add = CustomHelpers::getCurrentDate();
         $task->deadline = $addTaskFormModel->deadline;
 
+        $task->save();
+        $task_id = $task->id;
+
         foreach ($addTaskFormModel->files as $file) {
             $file_path = uniqid('file_') . '.' . $file->extension;
+            $file->saveAs(Yii::getAlias('@webroot') . '/uploads/' . $file_path);
+
+            $task_file = new TasksFiles;
+            $task_file->link = $file_path;
+            $task_file->task_id = $task_id;
+            $task_file->save();
+
             // $file->saveAs(Yii::getAlias('@files') . '/' . $file_path);
 
-            $file->saveAs(Yii::getAlias('@webroot') . '/uploads/' . $file->name);
             print($file);
             print('<br>');
         }
+
+        return $task_id;
 
         // $file_path = uniqid('file_') . '.' . $file->extension;
         // $file->saveAs(Yii::getAlias('@files') . '/' . $file_path);
@@ -63,9 +75,7 @@ class TasksService
         // $task_file->save();
         // print_r($addTaskFormModel->files);
 
-        $task->save();
-        $task_id = $task->id;
-        return $task_id;
+
 
         // // $task->executor_id = '2'; // Временная заглушка;
         // // 'id' => 'ID', +
