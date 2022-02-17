@@ -116,4 +116,13 @@ class CustomHelpers
         $now = (new \yii\db\Query)->select($expression)->scalar();  // ВЫБРАТЬ СЕЙЧАС ();
         return $now;
     }
+
+    public static function checkNullDate($date)
+    {
+        if (isset($date)) {
+            return date("j F Y, g:i a", strtotime($date));
+        } else {
+            return 'Время не задано';
+        }
+    }
 }

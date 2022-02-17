@@ -17,6 +17,7 @@ use TaskForce\utils\CustomHelpers;
         <p class="map-address town"><?= Html::encode(isset($task->city->city)); ?></p>
         <p class="map-address"><?= Html::encode($task->address) ?></p>
     </div>
+
     <h4 class="head-regular">Отклики на задание</h4>
 
     <?php foreach ($replies as $reply) : ?>
@@ -56,7 +57,7 @@ use TaskForce\utils\CustomHelpers;
             <dt>Дата публикации</dt>
             <dd><?= NounPluralConverter::getTaskRelativeTime($task->dt_add); ?></dd>
             <dt>Срок выполнения</dt>
-            <dd><?= date("j F Y, g:i a", strtotime(Html::encode($task->deadline))); ?></dd>
+            <dd><?= Html::encode(CustomHelpers::checkNullDate($task->deadline)); ?></dd>
             <dt>Статус</dt>
             <dd><?= CustomHelpers::getTaskStatusName(Html::encode($task->status)); ?></dd>
         </dl>

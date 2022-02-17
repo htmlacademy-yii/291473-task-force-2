@@ -37,16 +37,17 @@ class TasksService
         $task->customer_id = Yii::$app->user->id;
         $task->status = 'new';
         $task->dt_add = CustomHelpers::getCurrentDate();
-        $task->save();
 
+        $task->deadline = $addTaskFormModel->deadline;
+
+        $task->save();
         $task_id = $task->id;
         return $task_id;
 
         // // $task->executor_id = '2'; // Временная заглушка;
         // // 'id' => 'ID', +
 
-        // // 'deadline' => 'deadline', +
-        // $task->deadline = $addTaskFormModel->deadline;
+        // 'deadline' => 'deadline', +
 
         // // 'address' => 'Address', +
         // $task->address = $addTaskFormModel->location; // Проверить, это город???
