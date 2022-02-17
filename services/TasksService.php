@@ -37,8 +37,19 @@ class TasksService
         $task->customer_id = Yii::$app->user->id;
         $task->status = 'new';
         $task->dt_add = CustomHelpers::getCurrentDate();
-
         $task->deadline = $addTaskFormModel->deadline;
+
+        foreach ($addTaskFormModel->files as $file) {
+            $file_path = uniqid('file_') . '.' . $file->extension;
+            // $file->saveAs(Yii::getAlias('@files') . '/' . $file_path);
+
+            $file->saveAs(Yii::getAlias('@webroot') . '/uploads/' . $file->name);
+            print($file);
+            print('<br>');
+        }
+
+        // $file_path = uniqid('file_') . '.' . $file->extension;
+        // $file->saveAs(Yii::getAlias('@files') . '/' . $file_path);
 
         // $file_link = 
 
@@ -50,9 +61,7 @@ class TasksService
         // $task_file->task_id = $task_id;
 
         // $task_file->save();
-
-
-        print_r($addTaskFormModel->files);
+        // print_r($addTaskFormModel->files);
 
         $task->save();
         $task_id = $task->id;
