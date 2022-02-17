@@ -62,17 +62,25 @@ use TaskForce\utils\CustomHelpers;
             <dd><?= CustomHelpers::getTaskStatusName(Html::encode($task->status)); ?></dd>
         </dl>
     </div>
-    <div class="right-card white file-card">
-        <h4 class="head-card">Файлы задания</h4>
-        <ul class="enumeration-list">
-            <li class="enumeration-item">
-                <a href="#" class="link link--block link--clip">my_picture.jpg</a>
-                <p class="file-size">356 Кб</p>
-            </li>
-            <li class="enumeration-item">
-                <a href="#" class="link link--block link--clip">information.docx</a>
-                <p class="file-size">12 Кб</p>
-            </li>
-        </ul>
-    </div>
+
+
+    <?php if (count($task_files) > 0) : ?>
+        <div class="right-card white file-card">
+            <h4 class="head-card">Файлы задания</h4>
+            <ul class="enumeration-list">
+                <?php foreach ($task_files as $task_file) : ?>
+                    <li class="enumeration-item">
+                        <a target="_blank" href="<?= '/uploads/' . $task_file->link ?>" class="link link--block link--clip"><?= $task_file->link ?></a>
+                        <p class="file-size"><?= CustomHelpers::getFileSize($task_file->link) ?> Кб</p>
+                    </li>
+                <?php endforeach; ?>
+
+                <!-- <li class="enumeration-item">
+                    <a href="#" class="link link--block link--clip">information.docx</a>
+                    <p class="file-size">12 Кб</p>
+                </li> -->
+            </ul>
+        </div>
+    <?php endif; ?>
+
 </div>

@@ -45,6 +45,7 @@ class TasksController extends SecuredController
         $tasksService = new TasksService;
         $task = $tasksService->getTask($id);
         $replies = $tasksService->getReplies($id);
+        $task_files = $tasksService->getTaskFiles($id);
 
         if (!$task) {
             throw new NotFoundHttpException;
@@ -53,6 +54,7 @@ class TasksController extends SecuredController
         return $this->render('view', [
             'task' => $task,
             'replies' => $replies,
+            'task_files' => $task_files,
         ]);
     }
 

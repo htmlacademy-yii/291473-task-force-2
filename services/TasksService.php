@@ -16,8 +16,16 @@ class TasksService
     {
         return Tasks::find()
             ->joinWith('city', 'category')
+            // ->joinWith('city', 'files')
             ->where(['tasks.id' => $id])
             ->one();
+    }
+
+    public function getTaskFiles($id)
+    {
+        return TasksFiles::find()
+            ->where(['task_id' => $id])
+            ->all();
     }
 
     public function getReplies($id)

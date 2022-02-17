@@ -9,6 +9,7 @@ use app\models\User;
 use yii\db\Expression;
 
 const ALL_STARS_COUNT = 5;
+const COUNT_BYTES_IN_KILOBYTE = 1024;
 
 class CustomHelpers
 {
@@ -124,5 +125,12 @@ class CustomHelpers
         } else {
             return 'Время не задано';
         }
+    }
+
+    public static function getFileSize(string $file_path)
+    {
+        $fileSize = filesize(Yii::getAlias('@webroot') . '/uploads/' . $file_path) / COUNT_BYTES_IN_KILOBYTE;
+
+        return ceil($fileSize);
     }
 }
