@@ -13,7 +13,7 @@ use app\models\Categories;
 use app\models\AddTaskForm;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
-
+use yii\web\UploadedFile;
 
 class TasksController extends SecuredController
 {
@@ -63,7 +63,7 @@ class TasksController extends SecuredController
 
         if (Yii::$app->request->isPost) {
             $addTaskFormModel->load(Yii::$app->request->post());
-            // $addTaskForm->files = UploadedFile::getInstances($addTaskForm, 'files');
+            $addTaskFormModel->files = UploadedFile::getInstances($addTaskFormModel, 'files');
 
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
@@ -73,7 +73,7 @@ class TasksController extends SecuredController
 
             if ($addTaskFormModel->validate()) {
                 $taskId = $tasksService->createTask($addTaskFormModel);
-                $this->redirect(['tasks/view', 'id' => $taskId]);
+                // $this->redirect(['tasks/view', 'id' => $taskId]);
             }
         }
 

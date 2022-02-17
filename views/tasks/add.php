@@ -5,6 +5,11 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use TaskForce\utils\NounPluralConverter;
+
+$this->registerJsFile('/js/fileInputHandler.js');
+
+$this->title = 'Создать задание';
+$this->params['mainClass'] = ' main-content--center';
 ?>
 
 <div class="add-task-form regular-form">

@@ -40,6 +40,20 @@ class TasksService
 
         $task->deadline = $addTaskFormModel->deadline;
 
+        // $file_link = 
+
+        // $file_path = uniqid('file_') . '.' . $file->extension;
+        // $file->saveAs(Yii::getAlias('@files') . '/' . $file_path);
+
+        // $task_file = new TaskFile;
+        // $task_file->path = $file_path;
+        // $task_file->task_id = $task_id;
+
+        // $task_file->save();
+
+
+        print_r($addTaskFormModel->files);
+
         $task->save();
         $task_id = $task->id;
         return $task_id;
