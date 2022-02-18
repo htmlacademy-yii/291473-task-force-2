@@ -2,10 +2,12 @@
 
 namespace app\controllers;
 
+use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\HttpException;
 use TaskForce\utils\CustomHelpers;
+use app\models\Users;
 
 abstract class SecuredController extends Controller
 {
@@ -14,18 +16,11 @@ abstract class SecuredController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'allow' => true,
                         'roles' => ['@']
-                    ],
-                    [
-                        'allow' => false,
-                        'roles' => ['?'],
-                        'denyCallback' => function ($rule, $action) {
-                            throw new HttpException(401, "Вы не авторизованы!");
-                        }
                     ]
                 ]
             ]
@@ -40,5 +35,13 @@ abstract class SecuredController extends Controller
             return false;
         }
         return true;
+    }
+
+    public function init()
+    {
+        parent::init();
+        if ($id = Yii::$app->user->getId()) {
+            Yii::$app->params['user'] = Users::findOne($id);
+        }
     }
 }

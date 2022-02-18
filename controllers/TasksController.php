@@ -19,28 +19,43 @@ use yii\filters\AccessControl;
 
 class TasksController extends SecuredController
 {
+    // public function behaviors()
+    // {
+    //     return [
+    //         'access' => [
+    //             'class' => AccessControl::class,
+    //             'rules' => [
+    //                 [
+    //                     'allow' => true,
+    //                     'roles' => ['@'],
+    //                     'actions' => ['add'],
+    //                     'matchCallback' => function ($rule, $action) {
+    //                         return (new UserService())->isCustomer(Yii::$app->user->id);
+    //                     }
+    //                 ],
+    //                 [
+    //                     'allow' => true,
+    //                     'roles' => ['@'],
+    //                     'actions' => ['index', 'view']
+    //                 ]
+    //             ]
+    //         ]
+    //     ];
+    // }
+
     public function behaviors()
     {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                        'actions' => ['add'],
-                        'matchCallback' => function ($rule, $action) {
-                            return (new UserService())->isCustomer(Yii::$app->user->id);
-                        }
-                    ],
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                        'actions' => ['index', 'view']
-                    ]
-                ]
-            ]
+        $rules = parent::behaviors();
+        $rule = [
+            'allow' => false,
+            'actions' => ['add'],
+            'matchCallback' => function ($rule, $action) {
+                return false; // Даже когда возвращаю false, страница остается доступна.
+            }
         ];
+
+        array_unshift($rules['access']['rules'], $rule);
+        return $rules;
     }
 
     // Средиректит на задания, если не постановщик зайдет на страницу создания задания;
