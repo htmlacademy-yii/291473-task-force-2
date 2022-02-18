@@ -22,7 +22,6 @@ use Yii;
  * @property string|null $status
  * @property int|null $executor_id заказчик
  * @property int|null $city_id город
- * @property string|null $file_link
  */
 class Tasks extends \yii\db\ActiveRecord
 {
@@ -44,7 +43,7 @@ class Tasks extends \yii\db\ActiveRecord
             [['dt_add', 'deadline', 'fin_date'], 'safe'],
             [['category_id', 'customer_id', 'budget', 'executor_id', 'city_id'], 'integer'],
             [['description'], 'string'],
-            [['name', 'address', 'latitude', 'longitude', 'status', 'file_link'], 'string', 'max' => 128],
+            [['name', 'address', 'latitude', 'longitude', 'status'], 'string', 'max' => 128],
         ];
     }
 
@@ -69,7 +68,6 @@ class Tasks extends \yii\db\ActiveRecord
             'status' => 'Status',
             'executor_id' => 'Executor ID',
             'city_id' => 'City ID',
-            'file_link' => 'File Link',
         ];
     }
 

@@ -53,9 +53,11 @@ if ($user) {
                         <li class="list-item">
                             <a href="#" class="link link--nav">Мои задания</a>
                         </li>
-                        <li class="list-item">
-                            <a href="<?= Url::to('/tasks/add') ?>" class="link link--nav">Создать задание</a>
-                        </li>
+                        <?php if ($user->role === 0) : ?>
+                            <li class="list-item">
+                                <a href="<?= Url::to('/tasks/add') ?>" class="link link--nav">Создать задание</a>
+                            </li>
+                        <?php endif; ?>
                         <li class="list-item">
                             <a href="#" class="link link--nav">Настройки</a>
                         </li>

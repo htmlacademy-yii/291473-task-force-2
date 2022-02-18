@@ -16,9 +16,6 @@ use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
 use app\services\UserService;
 use yii\filters\AccessControl;
-use yii\web\HttpException;
-use TaskForce\utils\CustomHelpers;
-use yii\web\ForbiddenHttpException;
 
 class TasksController extends SecuredController
 {
@@ -36,36 +33,27 @@ class TasksController extends SecuredController
                             return (new UserService())->isCustomer(Yii::$app->user->id);
                         }
                     ],
-                    [
-                        'allow' => true,
-                        'roles' => ['@'],
-                        'actions' => ['index', 'view']
-                    ]
+                    // [
+                    //     'allow' => true,
+                    //     'roles' => ['@'],
+                    //     'actions' => ['index', 'view']
+                    // ]
                 ]
             ]
         ];
     }
 
-    // // Редиректит на лендинг, если не авторизован;
+    // Средиректит на задания, если не постановщик зайдет на страницу создания задания;
     // public function beforeAction($action)
     // {
-    //     if ((new UserService())->isCustomer(Yii::$app->user->id) == null) {
-    //         $this->redirect('/tasks');
-    //         return true;
+    //     if ($action->id === 'add') {
+    //         $user = CustomHelpers::checkAuthorization();
+    //         if ($user->role === 1) {
+    //             $this->redirect('/tasks');
+    //         }
     //     }
-    //     return false;
+    //     return parent::beforeAction($action);
     // }
-    public function beforeAction($action)
-    {
-        if ($action->id === 'add') {
-            $user = CustomHelpers::checkAuthorization();
-            if ($user->role === 1) {
-                $this->redirect('/tasks');
-                // throw new ForbiddenHttpException('Вы не являетесь постановщиком задач!');
-            }
-        }
-        return parent::beforeAction($action);
-    }
 
     public function actionIndex()
     {
@@ -110,10 +98,6 @@ class TasksController extends SecuredController
 
     public function actionAdd()
     {
-        // $new_user_service = new UserService();
-        // $test_role = $new_user_service(new UserService())->isCustomer(Yii::$app->user->id);
-        // print($test_role);
-
         $addTaskFormModel = new AddTaskForm();
         $tasksService = new TasksService;
 
