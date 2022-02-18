@@ -82,7 +82,7 @@ if ($user) {
                                 <a href="#" class="link">Связаться с нами</a>
                             </li>
                             <li class="menu-item">
-                                <a href="<?= Url::to('site/logout'); ?>" class="link">Выход из системы</a>
+                                <a href="<?= Url::to('/site/logout'); ?>" class="link">Выход из системы</a>
                             </li>
 
                         </ul>

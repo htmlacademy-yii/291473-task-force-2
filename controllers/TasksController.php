@@ -33,11 +33,11 @@ class TasksController extends SecuredController
                             return (new UserService())->isCustomer(Yii::$app->user->id);
                         }
                     ],
-                    // [
-                    //     'allow' => true,
-                    //     'roles' => ['@'],
-                    //     'actions' => ['index', 'view']
-                    // ]
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                        'actions' => ['index', 'view']
+                    ]
                 ]
             ]
         ];
