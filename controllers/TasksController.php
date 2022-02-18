@@ -17,6 +17,8 @@ use yii\web\UploadedFile;
 use app\services\UserService;
 use yii\filters\AccessControl;
 use yii\web\HttpException;
+use TaskForce\utils\CustomHelpers;
+use yii\web\ForbiddenHttpException;
 
 class TasksController extends SecuredController
 {
@@ -24,14 +26,14 @@ class TasksController extends SecuredController
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'allow' => true,
                         'roles' => ['@'],
                         'actions' => ['add'],
-                        'denyCallback' => function ($rule, $action) {
-                            throw new HttpException(401, "Вы не авторизованы!");
+                        'matchCallback' => function ($rule, $action) {
+                            return (new UserService())->isCustomer(Yii::$app->user->id);
                         }
                     ],
                     [
@@ -42,6 +44,27 @@ class TasksController extends SecuredController
                 ]
             ]
         ];
+    }
+
+    // // Редиректит на лендинг, если не авторизован;
+    // public function beforeAction($action)
+    // {
+    //     if ((new UserService())->isCustomer(Yii::$app->user->id) == null) {
+    //         $this->redirect('/tasks');
+    //         return true;
+    //     }
+    //     return false;
+    // }
+    public function beforeAction($action)
+    {
+        if ($action->id === 'add') {
+            $user = CustomHelpers::checkAuthorization();
+            if ($user->role === 1) {
+                $this->redirect('/tasks');
+                // throw new ForbiddenHttpException('Вы не являетесь постановщиком задач!');
+            }
+        }
+        return parent::beforeAction($action);
     }
 
     public function actionIndex()
@@ -87,9 +110,9 @@ class TasksController extends SecuredController
 
     public function actionAdd()
     {
-        $new_user_service = new UserService();
-        $test_role = $new_user_service->isCustomer(Yii::$app->user->id);
-        print($test_role);
+        // $new_user_service = new UserService();
+        // $test_role = $new_user_service(new UserService())->isCustomer(Yii::$app->user->id);
+        // print($test_role);
 
         $addTaskFormModel = new AddTaskForm();
         $tasksService = new TasksService;
