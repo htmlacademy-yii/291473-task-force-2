@@ -57,8 +57,6 @@ $config = [
             'enableStrictParsing' => false,
             'rules' => [
                 '/' => '/landing/index',
-                // '/' => 'tasks/index', // Задает '/' домашней страницей для '/tasks';
-                // '/logout' => '/landing/index',
                 'tasks/view/<id>' => 'tasks/view',
                 'user/view/<id>' => 'user/view',
             ],

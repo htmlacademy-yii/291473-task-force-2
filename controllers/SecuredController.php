@@ -26,7 +26,7 @@ abstract class SecuredController extends Controller
     }
 
     // Редиректит на лендинг, если не авторизован;
-
+    // Редиректит в задачи, если пользователь не является постановщиком;
     public function beforeAction($action)
     {
         if (CustomHelpers::checkAuthorization() === null) {

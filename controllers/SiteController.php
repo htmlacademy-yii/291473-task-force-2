@@ -8,6 +8,7 @@ use app\models\Cities;
 use app\services\UserService;
 use yii\web\Controller;
 use TaskForce\utils\CustomHelpers;
+use yii\filters\AccessControl;
 
 class SiteController extends Controller
 {
@@ -33,10 +34,6 @@ class SiteController extends Controller
             }
         }
 
-        if (CustomHelpers::checkAuthorization() !== null) {
-            $this->redirect('/tasks/index');
-        }
-
         return $this->render('registration', [
             'model' => $RegistrationModel,
             'cities' => $cities,
@@ -47,7 +44,18 @@ class SiteController extends Controller
     public function actionLogout()
     {
         \Yii::$app->user->logout();
-
         return $this->goHome();
+    }
+
+    // Редиректит в задачи со страницы регистрации, если уже авторизован;
+    public function beforeAction($action)
+    {
+        if ($action->id === 'registration') {
+            if (CustomHelpers::checkAuthorization() !== null) {
+                $this->redirect('/tasks/index');
+                return false;
+            }
+        }
+        return true;
     }
 }
