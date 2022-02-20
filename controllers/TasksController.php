@@ -19,30 +19,6 @@ use yii\filters\AccessControl;
 
 class TasksController extends SecuredController
 {
-    // public function behaviors()
-    // {
-    //     return [
-    //         'access' => [
-    //             'class' => AccessControl::class,
-    //             'rules' => [
-    //                 [
-    //                     'allow' => true,
-    //                     'roles' => ['@'],
-    //                     'actions' => ['add'],
-    //                     'matchCallback' => function ($rule, $action) {
-    //                         return (new UserService())->isCustomer(Yii::$app->user->id);
-    //                     }
-    //                 ],
-    //                 [
-    //                     'allow' => true,
-    //                     'roles' => ['@'],
-    //                     'actions' => ['index', 'view']
-    //                 ]
-    //             ]
-    //         ]
-    //     ];
-    // }
-
     public function behaviors()
     {
         $rules = parent::behaviors();
@@ -50,7 +26,9 @@ class TasksController extends SecuredController
             'allow' => false,
             'actions' => ['add'],
             'matchCallback' => function ($rule, $action) {
-                return false; // Даже когда возвращаю false, страница остается доступна.
+                if (isset(\Yii::$app->user->identity->role)) {
+                    return \Yii::$app->user->identity->role !== 0;
+                }
             }
         ];
 

@@ -27,21 +27,21 @@ abstract class SecuredController extends Controller
         ];
     }
 
-    // Редиректит на лендинг, если не авторизован;
-    public function beforeAction($action)
-    {
-        if (CustomHelpers::checkAuthorization() === null) {
-            $this->redirect('/landing');
-            return false;
-        }
-        return true;
-    }
+    // // Редиректит на лендинг, если не авторизован;
+    // public function beforeAction($action)
+    // {
+    //     if (CustomHelpers::checkAuthorization() === null) {
+    //         $this->redirect('/landing');
+    //         return false;
+    //     }
+    //     return true;
+    // }
 
-    public function init()
-    {
-        parent::init();
-        if ($id = Yii::$app->user->getId()) {
-            Yii::$app->params['user'] = Users::findOne($id);
-        }
-    }
+    // public function init()
+    // {
+    //     parent::init();
+    //     if ($id = Yii::$app->user->getId()) {
+    //         Yii::$app->params['user'] = Users::findOne($id);
+    //     }
+    // }
 }
