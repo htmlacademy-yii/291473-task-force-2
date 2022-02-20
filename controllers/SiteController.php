@@ -22,7 +22,10 @@ class SiteController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['?']
+                        'actions' => ['registration'],
+                        'matchCallback' => function ($rule, $action) {
+                            return CustomHelpers::checkAuthorization() === null;
+                        }
                     ]
                 ]
             ]
