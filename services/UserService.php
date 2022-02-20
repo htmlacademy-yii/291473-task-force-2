@@ -85,11 +85,11 @@ class UserService
     }
 
 
-    public function isCustomer(int $id): bool
-    {
-        $query = Users::find()
-            ->where(['id' => $id, 'role' => 0]);
+    // public function isCustomer(int $id): bool
+    // {
+    //     $query = Users::find()
+    //         ->where(['id' => $id, 'role' => 0]);
 
-        return $query->exists();
-    }
+    //     return $query->exists();
+    // }
 }

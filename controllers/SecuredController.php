@@ -27,15 +27,23 @@ abstract class SecuredController extends Controller
         ];
     }
 
-    // // Редиректит на лендинг, если не авторизован;
-    // public function beforeAction($action)
-    // {
-    //     if (CustomHelpers::checkAuthorization() === null) {
-    //         $this->redirect('/landing');
-    //         return false;
-    //     }
-    //     return true;
-    // }
+    // Редиректит на лендинг, если не авторизован;
+    public function beforeAction($action)
+    {
+        if (CustomHelpers::checkAuthorization() === null) {
+            $this->redirect('/landing');
+            return false;
+        }
+
+        if ($action->id === 'add') {
+            if (\Yii::$app->user->identity->role !== 0) {
+                $this->redirect('/tasks');
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     // public function init()
     // {

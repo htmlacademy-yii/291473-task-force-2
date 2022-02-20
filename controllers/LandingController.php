@@ -29,7 +29,8 @@ class LandingController extends Controller
                 $user = $loginForm->getUser(); // Если валидация прошла, то получим модель найденного пользователя из формы;
                 Yii::$app->user->login($user); //Вызываем логин пользователя средствами встроенного компонента User;
 
-                return $this->goHome(); // Переадресуем на главную страницу;
+                // return $this->goHome(); // Переадресуем на главную страницу;
+                $this->redirect('/tasks'); // Переадресуем на страницу списка задач;
             }
         }
 
