@@ -12,6 +12,24 @@ use yii\filters\AccessControl;
 
 class SiteController extends Controller
 {
+    // Применяет правила авторизации к контроллерам;
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['registration'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['?']
+                    ]
+                ]
+            ]
+        ];
+    }
+
+
     public function actionRegistration()
     {
         $RegistrationModel = new RegistrationForm();
