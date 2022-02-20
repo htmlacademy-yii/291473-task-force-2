@@ -7,6 +7,7 @@ use yii\widgets\ActiveForm;
 use app\models\LoginForm;
 use yii\web\Controller;
 use yii\web\Response;
+use TaskForce\utils\CustomHelpers;
 
 class LandingController extends Controller
 {
@@ -35,5 +36,16 @@ class LandingController extends Controller
         }
 
         return $this->render('index', ['loginForm' => $loginForm]); //Показываем страницу с передачей в шаблон модели для формы входа;
+    }
+
+    // Редиректит на список задач, если уже авторизован;
+    public function beforeAction($action)
+    {
+        if (CustomHelpers::checkAuthorization() !== null) {
+            $this->redirect('/tasks/index');
+            return false;
+        }
+
+        return true;
     }
 }

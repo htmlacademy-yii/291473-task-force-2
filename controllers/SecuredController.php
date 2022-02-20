@@ -5,9 +5,7 @@ namespace app\controllers;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
-use yii\web\HttpException;
 use TaskForce\utils\CustomHelpers;
-use app\models\Users;
 
 abstract class SecuredController extends Controller
 {
@@ -28,6 +26,7 @@ abstract class SecuredController extends Controller
     }
 
     // Редиректит на лендинг, если не авторизован;
+
     public function beforeAction($action)
     {
         if (CustomHelpers::checkAuthorization() === null) {
@@ -37,19 +36,11 @@ abstract class SecuredController extends Controller
 
         if ($action->id === 'add') {
             if (\Yii::$app->user->identity->role !== 0) {
-                $this->redirect('/tasks');
+                $this->redirect('/tasks/index');
                 return false;
             }
         }
 
         return true;
     }
-
-    // public function init()
-    // {
-    //     parent::init();
-    //     if ($id = Yii::$app->user->getId()) {
-    //         Yii::$app->params['user'] = Users::findOne($id);
-    //     }
-    // }
 }

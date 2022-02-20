@@ -83,13 +83,4 @@ class UserService
             $transaction->rollBack();
         }
     }
-
-
-    // public function isCustomer(int $id): bool
-    // {
-    //     $query = Users::find()
-    //         ->where(['id' => $id, 'role' => 0]);
-
-    //     return $query->exists();
-    // }
 }

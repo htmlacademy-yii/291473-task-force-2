@@ -14,8 +14,6 @@ use app\models\AddTaskForm;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
-use app\services\UserService;
-use yii\filters\AccessControl;
 
 class TasksController extends SecuredController
 {
@@ -35,18 +33,6 @@ class TasksController extends SecuredController
         array_unshift($rules['access']['rules'], $rule);
         return $rules;
     }
-
-    // Средиректит на задания, если не постановщик зайдет на страницу создания задания;
-    // public function beforeAction($action)
-    // {
-    //     if ($action->id === 'add') {
-    //         $user = CustomHelpers::checkAuthorization();
-    //         if ($user->role === 1) {
-    //             $this->redirect('/tasks');
-    //         }
-    //     }
-    //     return parent::beforeAction($action);
-    // }
 
     public function actionIndex()
     {

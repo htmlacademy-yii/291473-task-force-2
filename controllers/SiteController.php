@@ -29,12 +29,12 @@ class SiteController extends Controller
 
                 $user = $RegistrationModel->getUser(); // Если валидация прошла, то получим модель найденного пользователя из формы;
                 Yii::$app->user->login($user); //Вызываем логин пользователя средствами встроенного компонента User;
-                return $this->goHome();
+                $this->redirect('/tasks/index');
             }
         }
 
         if (CustomHelpers::checkAuthorization() !== null) {
-            $this->goHome();
+            $this->redirect('/tasks/index');
         }
 
         return $this->render('registration', [
