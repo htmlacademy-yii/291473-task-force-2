@@ -7,6 +7,7 @@ use app\models\TasksSearchForm;
 use app\services\TasksFilterService;
 use yii\web\NotFoundHttpException;
 use app\services\TasksService;
+use app\services\RepliesService;
 use app\services\CategoriesService;
 use app\models\Tasks;
 use app\models\Categories;
@@ -103,5 +104,14 @@ class TasksController extends SecuredController
             'addTaskFormModel' => $addTaskFormModel,
             'categories' => $categories
         ]);
+    }
+
+    // Принять отклик исполнителя;
+    public function actionAccept(int $id)
+    {
+        $RepliesService = new RepliesService;
+        $reply = $RepliesService->AcceptReply($id);
+
+        return $this->actionView($reply->task_id);
     }
 }

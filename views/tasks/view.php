@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use TaskForce\utils\NounPluralConverter;
 use TaskForce\utils\CustomHelpers;
+
+$userId = Yii::$app->user->getId();
 ?>
 
 <div class="left-column">
@@ -18,10 +20,13 @@ use TaskForce\utils\CustomHelpers;
         <p class="map-address"><?= Html::encode($task->address) ?></p>
     </div>
 
-    <?php if (count($replies) > 0) : ?>
-        <h4 class="head-regular">Отклики на задание</h4>
 
-        <?php foreach ($replies as $reply) : ?>
+    <?php if (CustomHelpers::checkCustomerOrExecutor($replies, $task, $userId)) : ?>
+        <h4 class="head-regular">Отклики на задание</h4>
+    <?php endif; ?>
+
+    <?php foreach ($replies as $reply) : ?>
+        <?php if ($reply->executor_id === $userId || $task->customer_id === $userId) : ?>
             <div class="response-card">
                 <img class="customer-photo" src="<?= (Html::encode($reply->executor->avatar_link)); ?>" width="146" height="156" alt="Фото заказчиков">
                 <div class="feedback-wrapper">
@@ -41,13 +46,18 @@ use TaskForce\utils\CustomHelpers;
                     <p class="info-text"><span class="current-time"><?= NounPluralConverter::getTaskRelativeTime($reply->dt_add); ?></span></p>
                     <p class="price price--small"><?= Html::encode($reply->rate); ?> ₽</p>
                 </div>
-                <div class="button-popup">
-                    <a href="#" class="button button--blue button--small">Принять</a>
-                    <a href="#" class="button button--orange button--small">Отказать</a>
-                </div>
+                <?php if ($task->customer_id === $userId && !isset($reply->status)) : ?>
+                    <div class="button-popup">
+                        <a href="<?= '/accept/' . $reply->id ?>" class="button button--blue button--small">Принять</a>
+                        <a href="<?= '/reject/' . $reply->id ?>" class="button button--orange button--small">Отказать</a>
+                    </div>
+                <?php endif; ?>
             </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
+        <?php endif; ?>
+    <?php endforeach; ?>
+
+
+
 </div>
 
 <div class="right-column">

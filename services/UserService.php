@@ -74,6 +74,8 @@ class UserService
         try {
             $user->save();
             $profile->user_id = $user->id;
+            $profile->avatar_link = '/img/avatars/' . random_int(1, 5) . '.png';
+            $profile->average_rating = 0;
             $profile->save();
             $transaction->commit();
         } catch (\Exception $e) {
