@@ -157,15 +157,27 @@ class CustomHelpers
         return false;
     }
 
-    // // Проверяет есть ли среди откликов к задаче хотя бы один со статусом "Принят"
-    // // Если задача со статусом "Принят" есть, возвращает false (позволяет спрятать кнопки принять/отказать у всех задач);
-    // public static function checkRepliesStatus(array $replies)
-    // {
-    //     foreach ($replies as $reply) {
-    //         if ($reply['status'] === 1) {
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
+    // Проверяет есть ли среди откликов к задаче хотя бы один со статусом "Принят"
+    // Если задача со статусом "Принят" есть, возвращает false (позволяет спрятать кнопки принять/отказать у всех задач);
+    public static function checkRepliesStatus(array $replies)
+    {
+        foreach ($replies as $reply) {
+            if ($reply['status'] === 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static function checkExecutor(array $replies, int $userId)
+    {
+        foreach ($replies as $reply) {
+            if ($reply['executor_id'] === $userId) {
+                return false;
+            }
+        }
+
+        // Если откликов нет И пользователь не постановщик ИЛИ не исполнитель - возвращаю false;
+        return true;
+    }
 }

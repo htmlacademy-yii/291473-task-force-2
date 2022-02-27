@@ -28,6 +28,7 @@ class RepliesService
         $task = Tasks::findOne(['id' => $reply->task_id]);
         $reply->status = 1;
         $task->executor_id = $reply->executor_id;
+        $task->budget = $reply->rate;
         $task->status = 'in_progress';
 
         $transaction = Yii::$app->db->beginTransaction();

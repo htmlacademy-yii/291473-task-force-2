@@ -12,6 +12,7 @@ use app\services\CategoriesService;
 use app\models\Tasks;
 use app\models\Categories;
 use app\models\AddTaskForm;
+use app\models\Replies;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
@@ -60,6 +61,7 @@ class TasksController extends SecuredController
 
     public function actionView(int $id)
     {
+        $userId = Yii::$app->user->getId();
         $tasksService = new TasksService;
         $task = $tasksService->getTask($id);
         $replies = $tasksService->getReplies($id);
@@ -69,9 +71,28 @@ class TasksController extends SecuredController
             throw new NotFoundHttpException;
         }
 
+
+        // Оставить отклик на задание;
+        $repliesModel = new Replies();
+        if (Yii::$app->request->isPost) {
+            $repliesModel->load(Yii::$app->request->post());
+
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($repliesModel);
+            }
+
+            if ($repliesModel->validate()) {
+                (new RepliesService())->createReply($userId, $id, $repliesModel);
+                // $this->redirect(['tasks/view', 'id' => $taskId]);
+                return $this->refresh();
+            }
+        }
+
         return $this->render('view', [
             'task' => $task,
             'replies' => $replies,
+            'repliesModel' => $repliesModel,
             'task_files' => $task_files,
         ]);
     }

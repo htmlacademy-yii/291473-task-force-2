@@ -3,8 +3,14 @@
 use yii\helpers\Html;
 use TaskForce\utils\NounPluralConverter;
 use TaskForce\utils\CustomHelpers;
+use yii\bootstrap4\Modal;
+use yii\widgets\ActiveForm;
+use app\assets\ModalFormAsset;
+use app\widgets\ModalForm;
 
 $userId = Yii::$app->user->getId();
+ModalFormAsset::register($this);
+
 ?>
 
 <div class="left-column">
@@ -13,7 +19,64 @@ $userId = Yii::$app->user->getId();
         <p class="price price--big"><?= Html::encode($task->budget); ?></p>
     </div>
     <p class="task-description"><?= Html::encode($task->description); ?></p>
+
+
     <a href="#" class="button button--blue">Откликнуться на задание</a>
+
+
+    <!-- Исполнитель. Отклик на новое задание -->
+    <?php if (
+        $task->status === 'new' // Задача должна быть в статусе "Новая" (не взятая в работу);
+        && $task->customer_id !== $userId // Пользователь не может быть постановщиком задачи;
+        && \Yii::$app->user->identity->role === 1 // Роль пользователя должна быть - исполнитель;
+        && CustomHelpers::checkExecutor($replies, $userId) // Проверяю, что пользователь еще не откликнулся на задание;
+    ) : ?>
+        <?php Modal::begin([
+            'title' => '<h2>Отправка отклика</h2>',
+            'toggleButton' => [
+                'label' => 'Откликнуться на задание',
+                'tag' => 'button',
+                'class' => 'button button--blue',
+            ],
+            'footer' => $task->name,
+        ]);
+        ?>
+        <?php $form = ActiveForm::begin(['id' => 'modal-form']); ?>
+        <?= $form->field($repliesModel, 'description')->textarea(['autofocus' => true]) ?>
+        <?= $form->field($repliesModel, 'rate')->input('number') ?>
+        <div class="form-group">
+            <button type="submit" class="modal-button">Отправить</button>
+            <button type="button" class="modal-button" data-dismiss="modal">Отменить</button>
+        </div>
+        <?php ActiveForm::end(); ?>
+        <?php Modal::end(); ?>
+    <?php endif; ?>
+
+    <!-- Исполнитель. Отказ от взятого в работу задания -->
+    <?php if (
+        $task->status === 'in_progress' // Задача должна быть в работе;
+        && $task->executor_id === $userId // ID исполнителя из задачи должен быть равен ID авторизованного пользователя;
+    ) : ?>
+        <?php Modal::begin([
+            'title' => '<h2>Подвердите отказ от задания</h2>',
+            'toggleButton' => [
+                'label' => 'Отказ от задания',
+                'tag' => 'button',
+                'class' => 'button button--blue',
+            ],
+            'footer' => $task->name,
+        ]);
+        ?>
+        <?php $form = ActiveForm::begin(['id' => 'modal-form']); ?>
+        <?= $form->field($repliesModel, 'description')->textarea(['autofocus' => true]) ?>
+        <div class="form-group">
+            <button type="button" class="modal-button" data-dismiss="modal">Вернуться</button>
+            <button type="submit" class="modal-button">Отказаться</button>
+        </div>
+        <?php ActiveForm::end(); ?>
+        <?php Modal::end(); ?>
+    <?php endif; ?>
+
     <div class="task-map">
         <img class="map" src="/img/map.png" width="725" height="346" alt="<?= Html::encode($task->address); ?>">
         <p class="map-address town"><?= Html::encode(isset($task->city->city)); ?></p>
@@ -46,7 +109,7 @@ $userId = Yii::$app->user->getId();
                     <p class="info-text"><span class="current-time"><?= NounPluralConverter::getTaskRelativeTime($reply->dt_add); ?></span></p>
                     <p class="price price--small"><?= Html::encode($reply->rate); ?> ₽</p>
                 </div>
-                <?php if ($task->customer_id === $userId && !isset($reply->status)) : ?>
+                <?php if ($task->customer_id === $userId && !isset($reply->status) && CustomHelpers::checkRepliesStatus($replies)) : ?>
                     <div class="button-popup">
                         <a href="<?= '/accept/' . $reply->id ?>" class="button button--blue button--small">Принять</a>
                         <a href="<?= '/reject/' . $reply->id ?>" class="button button--orange button--small">Отказать</a>
@@ -90,3 +153,8 @@ $userId = Yii::$app->user->getId();
     <?php endif; ?>
 
 </div>
+
+<?= ModalForm::widget(['formType' => 'cancel']) ?>
+<?= ModalForm::widget(['formType' => 'refuse']) ?>
+<?= ModalForm::widget(['formType' => 'complete', 'model' => $completeForm]) ?>
+<?= ModalForm::widget(['formType' => 'response', 'model' => $responseForm]) ?>
