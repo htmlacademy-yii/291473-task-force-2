@@ -184,6 +184,16 @@ class TasksController extends SecuredController
         return $this->actionView($reply->task_id);
     }
 
+    // Заказчик. Отменять отклик исполнителя;
+    public function actionReject(int $id)
+    {
+        $reply = Replies::findOne(['id' => $id]);
+        $reply->status = 0;
+        $reply->save();
+
+        return $this->actionView($reply->task_id);
+    }
+
     // Заказчик .Отменить задание;
     public function actionCancel(int $id)
     {

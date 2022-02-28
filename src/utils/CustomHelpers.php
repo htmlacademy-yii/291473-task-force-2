@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TaskForce\utils;
 
 use Yii;
+use app\models\Users;
 use app\models\User;
 use yii\db\Expression;
 
@@ -108,6 +109,7 @@ class CustomHelpers
         if (Yii::$app->user->isGuest) {
             return null;
         }
+
         return User::findIdentity(Yii::$app->user->getId());
     }
 
@@ -177,7 +179,6 @@ class CustomHelpers
             }
         }
 
-        // Если откликов нет И пользователь не постановщик ИЛИ не исполнитель - возвращаю false;
         return true;
     }
 }
