@@ -72,20 +72,38 @@ class TasksController extends SecuredController
         }
 
 
-        // Оставить отклик на задание;
         $repliesModel = new Replies();
         if (Yii::$app->request->isPost) {
-            $repliesModel->load(Yii::$app->request->post());
 
-            if (Yii::$app->request->isAjax) {
-                Yii::$app->response->format = Response::FORMAT_JSON;
-                return ActiveForm::validate($repliesModel);
+            // Исполнитель. Оставить отклик на задание;
+            if (Yii::$app->request->post('reply') === 'reply') {
+                $repliesModel->load(Yii::$app->request->post());
+
+                if (Yii::$app->request->isAjax) {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ActiveForm::validate($repliesModel);
+                }
+
+                if ($repliesModel->validate()) {
+                    (new RepliesService())->createReply($userId, $id, $repliesModel);
+                    return $this->refresh();
+                }
             }
 
-            if ($repliesModel->validate()) {
-                (new RepliesService())->createReply($userId, $id, $repliesModel);
-                // $this->redirect(['tasks/view', 'id' => $taskId]);
-                return $this->refresh();
+            // Исполнитель. Отменить задание;
+            if (Yii::$app->request->post('refuse') === 'refuse') {
+                $repliesModel->load(Yii::$app->request->post());
+                // if (Yii::$app->request->isAjax) {
+                //     Yii::$app->response->format = Response::FORMAT_JSON;
+                //     return ActiveForm::validate($repliesModel);
+                // }
+
+                if ($repliesModel->validate()) {
+                    (new RepliesService())->RefuseTask($userId, $id, $repliesModel);
+                    print($id);
+
+                    return $this->refresh();
+                }
             }
         }
 

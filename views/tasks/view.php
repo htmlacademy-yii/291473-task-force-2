@@ -5,11 +5,9 @@ use TaskForce\utils\NounPluralConverter;
 use TaskForce\utils\CustomHelpers;
 use yii\bootstrap4\Modal;
 use yii\widgets\ActiveForm;
-use app\assets\ModalFormAsset;
-use app\widgets\ModalForm;
+
 
 $userId = Yii::$app->user->getId();
-ModalFormAsset::register($this);
 
 ?>
 
@@ -20,11 +18,10 @@ ModalFormAsset::register($this);
     </div>
     <p class="task-description"><?= Html::encode($task->description); ?></p>
 
+    <!-- <a href="#" class="button button--blue">Откликнуться на задание</a> -->
 
-    <a href="#" class="button button--blue">Откликнуться на задание</a>
 
-
-    <!-- Исполнитель. Отклик на новое задание -->
+    <!-- Исполнитель. Отклик на новое задание. -->
     <?php if (
         $task->status === 'new' // Задача должна быть в статусе "Новая" (не взятая в работу);
         && $task->customer_id !== $userId // Пользователь не может быть постановщиком задачи;
@@ -45,12 +42,14 @@ ModalFormAsset::register($this);
         <?= $form->field($repliesModel, 'description')->textarea(['autofocus' => true]) ?>
         <?= $form->field($repliesModel, 'rate')->input('number') ?>
         <div class="form-group">
-            <button type="submit" class="modal-button">Отправить</button>
+            <!-- <button type="submit" class="modal-button">Отправить</button> -->
+            <button type="submit" class="modal-button" form="modal-form" name="reply" value="reply">Отправить</button>
             <button type="button" class="modal-button" data-dismiss="modal">Отменить</button>
         </div>
         <?php ActiveForm::end(); ?>
         <?php Modal::end(); ?>
     <?php endif; ?>
+
 
     <!-- Исполнитель. Отказ от взятого в работу задания -->
     <?php if (
@@ -70,12 +69,18 @@ ModalFormAsset::register($this);
         <?php $form = ActiveForm::begin(['id' => 'modal-form']); ?>
         <?= $form->field($repliesModel, 'description')->textarea(['autofocus' => true]) ?>
         <div class="form-group">
+            <!-- <button type="button" class="modal-button" data-dismiss="modal">Вернуться</button>
+            <button type="submit" class="modal-button">Отказаться</button> -->
+
+            <button type="submit" class="modal-button" form="modal-form" name="refuse" value="refuse">Отказаться</button>
             <button type="button" class="modal-button" data-dismiss="modal">Вернуться</button>
-            <button type="submit" class="modal-button">Отказаться</button>
         </div>
         <?php ActiveForm::end(); ?>
         <?php Modal::end(); ?>
     <?php endif; ?>
+
+
+
 
     <div class="task-map">
         <img class="map" src="/img/map.png" width="725" height="346" alt="<?= Html::encode($task->address); ?>">
@@ -153,8 +158,3 @@ ModalFormAsset::register($this);
     <?php endif; ?>
 
 </div>
-
-<?= ModalForm::widget(['formType' => 'cancel']) ?>
-<?= ModalForm::widget(['formType' => 'refuse']) ?>
-<?= ModalForm::widget(['formType' => 'complete', 'model' => $completeForm]) ?>
-<?= ModalForm::widget(['formType' => 'response', 'model' => $responseForm]) ?>
