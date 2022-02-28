@@ -14,6 +14,8 @@ use app\models\Categories;
 use app\models\AddTaskForm;
 use app\models\Replies;
 use app\models\RefuseForm;
+use app\models\FinishedTaskForm;
+use app\services\OpinionsService;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
@@ -75,6 +77,7 @@ class TasksController extends SecuredController
 
         $repliesModel = new Replies();
         $refuseFormModel = new RefuseForm();
+        $finishedTaskFormModel = new FinishedTaskForm();
 
         if (Yii::$app->request->isPost) {
 
@@ -109,6 +112,26 @@ class TasksController extends SecuredController
                     // $refuseFormModel - данные из формы отказа от задачи
                 }
             }
+
+            // Заказчик. Завершить задание;
+            if (Yii::$app->request->post('finished') === 'finished') {
+
+                $finishedTaskFormModel->load(Yii::$app->request->post());
+                if (Yii::$app->request->isAjax) {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    print('OK');
+
+                    return ActiveForm::validate($finishedTaskFormModel);
+                }
+
+                if ($finishedTaskFormModel->validate()) {
+                    (new OpinionsService())->finishTask($userId, $id, $finishedTaskFormModel);
+                    // return $this->refresh();
+                    // $userId - id пользователя
+                    // $id - id задачи
+                    // $refuseFormModel - данные из формы отказа от задачи
+                }
+            }
         }
 
         return $this->render('view', [
@@ -116,6 +139,7 @@ class TasksController extends SecuredController
             'replies' => $replies,
             'repliesModel' => $repliesModel,
             'refuseFormModel' => $refuseFormModel,
+            'finishedTaskFormModel' => $finishedTaskFormModel,
             'task_files' => $task_files,
         ]);
     }

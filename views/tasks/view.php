@@ -69,8 +69,6 @@ $userId = Yii::$app->user->getId();
         <?php $form = ActiveForm::begin(['id' => 'modal-form']); ?>
         <?= $form->field($refuseFormModel, 'description')->textarea(['autofocus' => true]) ?>
         <div class="form-group">
-            <!-- <button type="button" class="modal-button" data-dismiss="modal">Вернуться</button>
-            <button type="submit" class="modal-button">Отказаться</button> -->
 
             <button type="submit" class="modal-button" form="modal-form" name="refuse" value="refuse">Отказаться</button>
             <button type="button" class="modal-button" data-dismiss="modal">Вернуться</button>
@@ -79,6 +77,31 @@ $userId = Yii::$app->user->getId();
         <?php Modal::end(); ?>
     <?php endif; ?>
 
+    <!-- Постановщик. Завершение задания -->
+    <?php if (
+        $task->status === 'in_progress' // Задача должна быть в работе;
+        && $task->customer_id === $userId // ID исполнителя из задачи должен быть равен ID авторизованного пользователя;
+    ) : ?>
+        <?php Modal::begin([
+            'title' => '<h2>Принять задание</h2>',
+            'toggleButton' => [
+                'label' => 'Завершить задание',
+                'tag' => 'button',
+                'class' => 'button button--blue',
+            ],
+            'footer' => $task->name,
+        ]);
+        ?>
+        <?php $form = ActiveForm::begin(['id' => 'modal-form']); ?>
+        <?= $form->field($finishedTaskFormModel, 'description')->textarea(['autofocus' => true]) ?>
+        <?= $form->field($finishedTaskFormModel, 'rating')->input('number', ['min' => '0', 'max' => '5']) ?>
+        <div class="form-group">
+            <button type="submit" class="modal-button" form="modal-form" name="finished" value="finished">Завершить</button>
+            <button type="button" class="modal-button" data-dismiss="modal">Вернуться</button>
+        </div>
+        <?php ActiveForm::end(); ?>
+        <?php Modal::end(); ?>
+    <?php endif; ?>
 
 
 

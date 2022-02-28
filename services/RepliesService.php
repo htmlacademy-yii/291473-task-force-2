@@ -59,7 +59,7 @@ class RepliesService
         $reply->description = $refuseFormModel->description;
         $reply->dt_add = CustomHelpers::getCurrentDate();
         $task->status = 'finished';
-        $profile->filed_tasks = 5; //$profile->filed_tasks + 1;
+        $profile->filed_tasks = $profile->filed_tasks + 1;
 
         $transaction = Yii::$app->db->beginTransaction();
         try {
