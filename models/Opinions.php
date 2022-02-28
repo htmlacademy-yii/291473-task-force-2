@@ -55,4 +55,24 @@ class Opinions extends \yii\db\ActiveRecord
             'id' => 'ID',
         ];
     }
+
+    /**
+     * Gets query for [[Task]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTask()
+    {
+        return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
+    }
+
+    /**
+     * Gets query for [[Task]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProfile()
+    {
+        return $this->hasOne(Profiles::className(), ['user_id' => 'customer_id']);
+    }
 }

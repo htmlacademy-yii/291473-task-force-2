@@ -16,7 +16,6 @@ AppAsset::register($this);
 
 $user = CustomHelpers::checkAuthorization();
 
-print_r($user);
 // Дополнитльная проверка на наличие данных пользователе в базе;
 if ($user) {
     $userName = $user->name;

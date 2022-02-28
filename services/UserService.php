@@ -18,7 +18,7 @@ class UserService
     {
         return Users::find()
             ->joinWith('profile', 'city')
-            ->where(['id' => $id])
+            ->where(['users.id' => $id])
             ->one();
     }
 
