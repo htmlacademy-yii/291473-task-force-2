@@ -103,6 +103,14 @@ $userId = Yii::$app->user->getId();
         <?php Modal::end(); ?>
     <?php endif; ?>
 
+    <!-- Постановщик. Отменить задание; -->
+    <?php if (
+        $task->status === 'new' // Задача должна быть в статусе Новое;
+        && $task->customer_id === $userId // ID исполнителя из задачи должен быть равен ID авторизованного пользователя;
+    ) : ?>
+        <a href="<?= '/cancel/' . $task->id ?>" class="button button--blue">Отменить задание</a>
+    <?php endif; ?>
+
 
 
     <div class="task-map">

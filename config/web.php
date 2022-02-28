@@ -61,6 +61,7 @@ $config = [
                 'user/view/<id>' => 'user/view',
                 'accept/<id:\d+>' => 'tasks/accept',
                 'reject/<id:\d+>' => 'tasks/reject',
+                'cancel/<id:\d+>' => 'tasks/cancel',
             ],
         ],
     ],

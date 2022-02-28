@@ -10,6 +10,7 @@ use app\services\TasksService;
 use app\services\RepliesService;
 use app\services\CategoriesService;
 use app\models\Tasks;
+use app\models\Users;
 use app\models\Categories;
 use app\models\AddTaskForm;
 use app\models\Replies;
@@ -19,6 +20,7 @@ use app\services\OpinionsService;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
+use yii\web\ForbiddenHttpException;
 
 class TasksController extends SecuredController
 {
@@ -119,14 +121,13 @@ class TasksController extends SecuredController
                 $finishedTaskFormModel->load(Yii::$app->request->post());
                 if (Yii::$app->request->isAjax) {
                     Yii::$app->response->format = Response::FORMAT_JSON;
-                    print('OK');
 
                     return ActiveForm::validate($finishedTaskFormModel);
                 }
 
                 if ($finishedTaskFormModel->validate()) {
                     (new OpinionsService())->finishTask($userId, $id, $finishedTaskFormModel);
-                    // return $this->refresh();
+                    return $this->refresh();
                     // $userId - id пользователя
                     // $id - id задачи
                     // $refuseFormModel - данные из формы отказа от задачи
@@ -174,12 +175,27 @@ class TasksController extends SecuredController
         ]);
     }
 
-    // Принять отклик исполнителя;
+    // Заказчик. Принять отклик исполнителя;
     public function actionAccept(int $id)
     {
         $RepliesService = new RepliesService;
         $reply = $RepliesService->AcceptReply($id);
 
         return $this->actionView($reply->task_id);
+    }
+
+    // Заказчик .Отменить задание;
+    public function actionCancel(int $id)
+    {
+        $tasksModel = Tasks::findOne(['id' => $id]);
+
+        if (Yii::$app->user->getId() !== $tasksModel->customer_id) {
+            throw new ForbiddenHttpException('У Вас нет прав отменить это задание!');
+        }
+
+        $tasksModel->status = 'canceled';
+        $tasksModel->update();
+
+        return $this->redirect(['tasks/view/' . $id]);
     }
 }
