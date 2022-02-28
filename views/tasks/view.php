@@ -67,7 +67,7 @@ $userId = Yii::$app->user->getId();
         ]);
         ?>
         <?php $form = ActiveForm::begin(['id' => 'modal-form']); ?>
-        <?= $form->field($repliesModel, 'description')->textarea(['autofocus' => true]) ?>
+        <?= $form->field($refuseFormModel, 'description')->textarea(['autofocus' => true]) ?>
         <div class="form-group">
             <!-- <button type="button" class="modal-button" data-dismiss="modal">Вернуться</button>
             <button type="submit" class="modal-button">Отказаться</button> -->

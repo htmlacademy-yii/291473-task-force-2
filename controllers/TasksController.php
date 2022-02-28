@@ -13,6 +13,7 @@ use app\models\Tasks;
 use app\models\Categories;
 use app\models\AddTaskForm;
 use app\models\Replies;
+use app\models\RefuseForm;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
@@ -73,6 +74,8 @@ class TasksController extends SecuredController
 
 
         $repliesModel = new Replies();
+        $refuseFormModel = new RefuseForm();
+
         if (Yii::$app->request->isPost) {
 
             // Исполнитель. Оставить отклик на задание;
@@ -92,17 +95,18 @@ class TasksController extends SecuredController
 
             // Исполнитель. Отменить задание;
             if (Yii::$app->request->post('refuse') === 'refuse') {
-                $repliesModel->load(Yii::$app->request->post());
-                // if (Yii::$app->request->isAjax) {
-                //     Yii::$app->response->format = Response::FORMAT_JSON;
-                //     return ActiveForm::validate($repliesModel);
-                // }
+                $refuseFormModel->load(Yii::$app->request->post());
+                if (Yii::$app->request->isAjax) {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ActiveForm::validate($refuseFormModel);
+                }
 
-                if ($repliesModel->validate()) {
-                    (new RepliesService())->RefuseTask($userId, $id, $repliesModel);
-                    print($id);
-
+                if ($refuseFormModel->validate()) {
+                    (new RepliesService())->RefuseTask($userId, $id, $refuseFormModel);
                     return $this->refresh();
+                    // $userId - id пользователя
+                    // $id - id задачи
+                    // $refuseFormModel - данные из формы отказа от задачи
                 }
             }
         }
@@ -111,6 +115,7 @@ class TasksController extends SecuredController
             'task' => $task,
             'replies' => $replies,
             'repliesModel' => $repliesModel,
+            'refuseFormModel' => $refuseFormModel,
             'task_files' => $task_files,
         ]);
     }

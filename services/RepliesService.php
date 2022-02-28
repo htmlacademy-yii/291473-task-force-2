@@ -6,6 +6,7 @@ use Yii;
 use app\models\Tasks;
 use app\models\Replies;
 use app\models\Profiles;
+use app\models\RefuseForm;
 
 use TaskForce\utils\CustomHelpers;
 
@@ -48,29 +49,29 @@ class RepliesService
         return $reply;
     }
 
-    public function RefuseTask($user_id, $id, Replies $repliesModel)
+    public function RefuseTask($user_id, $id, RefuseForm $refuseFormModel)
     {
-        $reply = Replies::findOne(['id' => $id]);
-        $task = Tasks::findOne(['id' => $reply->task_id]);
-        $executor = Profiles::findOne(['user_id' => $user_id]);
+        $reply = Replies::findOne(['task_id' => $id, 'executor_id' => $user_id]);
+        $task = Tasks::findOne(['id' => $id]);
+        $profile = Profiles::findOne(['user_id' => $user_id]);
 
-        print($reply);
 
-        // $reply->description = $repliesModel->description;
-        // $task->status = 'finished';
-        // $executor->filed_tasks = $executor->filed_tasks++;
+        $reply->description = $refuseFormModel->description;
+        $reply->dt_add = CustomHelpers::getCurrentDate();
+        $task->status = 'finished';
+        $profile->filed_tasks = 5; //$profile->filed_tasks + 1;
 
-        // $transaction = Yii::$app->db->beginTransaction();
-        // try {
-        //     $reply->save();
-        //     $task->save();
-        //     $executor->save();
-        //     $transaction->commit();
-        // } catch (\Exception $e) {
-        //     $transaction->rollBack();
-        //     throw $e;
-        // } catch (\Throwable $e) {
-        //     $transaction->rollBack();
-        // }
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $reply->save();
+            $task->save();
+            $profile->save();
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+        }
     }
 }
