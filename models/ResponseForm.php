@@ -38,7 +38,7 @@ class ResponseForm extends Model
     {
         return [
             'rate' => 'Ваша цена:',
-            'description' => 'Коментарий:',
+            'description' => 'Комментарий:',
         ];
     }
 }

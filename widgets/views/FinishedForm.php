@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 
 ?>
 <section class="modal modal-hide form-modal" id="finished-form">
-    <?= Html::tag('h2', 'Завершить задание') ?>
+    <?= Html::tag('h2', 'Завершить задание: ') ?>
 
     <?php $form = ActiveForm::begin(['id' => 'modal-form']); ?>
 

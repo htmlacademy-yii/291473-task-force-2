@@ -75,75 +75,17 @@ class TasksController extends SecuredController
         $userId = Yii::$app->user->getId();
         $tasksService = new TasksService;
         $task = $tasksService->getTask($id);
-
         $customerId = $task->customer_id;
         $executorId = $task->executor_id;
         $currentStatus = $task->status;
-
         $Actions = new Task($customerId, $executorId, $userId, $currentStatus);
         $taskAction = $Actions->get_user_actions($currentStatus);
-        // print_r($taskAction);
-
         $replies = $tasksService->getReplies($id);
         $task_files = $tasksService->getTaskFiles($id);
 
         if (!$task) {
             throw new NotFoundHttpException;
         }
-
-        // if (Yii::$app->request->isPost) {
-
-        //     // Исполнитель. Оставить отклик на задание;
-        //     if (Yii::$app->request->post('reply') === 'reply') {
-        //         $repliesModel->load(Yii::$app->request->post());
-
-        //         if (Yii::$app->request->isAjax) {
-        //             Yii::$app->response->format = Response::FORMAT_JSON;
-        //             return ActiveForm::validate($repliesModel);
-        //         }
-
-        //         if ($repliesModel->validate()) {
-        //             (new RepliesService())->createReply($userId, $id, $repliesModel);
-        //             return $this->refresh();
-        //         }
-        //     }
-
-        //     // Исполнитель. Отменить задание;
-        //     if (Yii::$app->request->post('refuse') === 'refuse') {
-        //         $refuseFormModel->load(Yii::$app->request->post());
-        //         if (Yii::$app->request->isAjax) {
-        //             Yii::$app->response->format = Response::FORMAT_JSON;
-        //             return ActiveForm::validate($refuseFormModel);
-        //         }
-
-        //         if ($refuseFormModel->validate()) {
-        //             (new RepliesService())->RefuseTask($userId, $id, $refuseFormModel);
-        //             return $this->refresh();
-        //             // $userId - id пользователя
-        //             // $id - id задачи
-        //             // $refuseFormModel - данные из формы отказа от задачи
-        //         }
-        //     }
-
-        //     // Заказчик. Завершить задание;
-        //     if (Yii::$app->request->post('finished') === 'finished') {
-
-        //         $finishedTaskFormModel->load(Yii::$app->request->post());
-        //         if (Yii::$app->request->isAjax) {
-        //             Yii::$app->response->format = Response::FORMAT_JSON;
-
-        //             return ActiveForm::validate($finishedTaskFormModel);
-        //         }
-
-        //         if ($finishedTaskFormModel->validate()) {
-        //             (new OpinionsService())->finishTask($userId, $id, $finishedTaskFormModel);
-        //             return $this->refresh();
-        //             // $userId - id пользователя
-        //             // $id - id задачи
-        //             // $refuseFormModel - данные из формы отказа от задачи
-        //         }
-        //     }
-        // }
 
         $responseFormModel = new ResponseForm();
         $refuseFormModel = new RefuseForm();
@@ -200,7 +142,6 @@ class TasksController extends SecuredController
             'task' => $task,
             'replies' => $replies,
             'task_files' => $task_files,
-            // Передаю формы на страницу просмотра задачи
             'responseFormModel' => $responseFormModel,
             'refuseFormModel' => $refuseFormModel,
             'finishedFormModel' => $finishedFormModel,
@@ -244,7 +185,7 @@ class TasksController extends SecuredController
         $RepliesService = new RepliesService;
         $reply = $RepliesService->AcceptReply($id);
 
-        return $this->actionView($reply->task_id);
+        return $this->redirect(['tasks/view/' . $reply->task_id]);
     }
 
     // Заказчик. Отменять отклик исполнителя;
@@ -254,7 +195,9 @@ class TasksController extends SecuredController
         $reply->status = 0;
         $reply->save();
 
-        return $this->actionView($reply->task_id);
+        // return $this->actionView($reply->task_id);
+
+        return $this->redirect(['tasks/view/' . $reply->task_id]);
     }
 
     // Заказчик .Отменить задание;

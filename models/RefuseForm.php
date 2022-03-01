@@ -26,7 +26,7 @@ class RefuseForm extends Model
     {
         return [
             'dt_add' => 'Dt Add',
-            'description' => 'Description',
+            'description' => 'Укажите комментарий:',
         ];
     }
 }
