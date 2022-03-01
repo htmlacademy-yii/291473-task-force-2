@@ -67,6 +67,16 @@ class Replies extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(Users::className(), ['id' => 'executor_id']);
+    }
+
+    /**
      * Gets query for [[Task]].
      *
      * @return \yii\db\ActiveQuery

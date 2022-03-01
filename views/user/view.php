@@ -41,6 +41,7 @@ use TaskForce\utils\NounPluralConverter;
         </div>
     </div>
     <h4 class="head-regular">Отзывы заказчиков</h4>
+
     <?php foreach ($opinions as $opinion) : ?>
         <div class="response-card">
             <img class="customer-photo" src="<?= Html::encode($opinion->profile->avatar_link); ?>" width="120" height="127" alt="Фото заказчиков">
@@ -56,6 +57,7 @@ use TaskForce\utils\NounPluralConverter;
             </div>
         </div>
     <?php endforeach; ?>
+
 </div>
 <div class="right-column">
     <div class="right-card black">

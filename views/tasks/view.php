@@ -125,11 +125,14 @@ $userId = Yii::$app->user->getId();
     <?php endif; ?>
 
     <?php foreach ($replies as $reply) : ?>
+        <?php
+        print_r($reply->opinion);
+        ?>
         <?php if ($reply->executor_id === $userId || $task->customer_id === $userId) : ?>
             <div class="response-card">
                 <img class="customer-photo" src="<?= (Html::encode($reply->executor->avatar_link)); ?>" width="146" height="156" alt="Фото заказчиков">
                 <div class="feedback-wrapper">
-                    <a href="#" class="link link--block link--big"></a>
+                    <a href="/user/view/<?= Html::encode($reply->user->id); ?>" class="link link--block link--big"><?= Html::encode($reply->user->name); ?></a>
                     <div class="response-wrapper">
                         <div class="stars-rating small">
                             <?= CustomHelpers::getRatingStars(Html::encode($reply->executor->average_rating)); ?>
