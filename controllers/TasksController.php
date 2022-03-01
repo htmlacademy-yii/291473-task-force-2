@@ -15,7 +15,7 @@ use app\models\Categories;
 use app\models\AddTaskForm;
 use app\models\Replies;
 use app\models\RefuseForm;
-use app\models\FinishedTaskForm;
+use app\models\FinishedForm;
 use app\services\OpinionsService;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
@@ -81,9 +81,6 @@ class TasksController extends SecuredController
         }
 
 
-        $repliesModel = new Replies();
-        $refuseFormModel = new RefuseForm();
-        $finishedTaskFormModel = new FinishedTaskForm();
 
         // if (Yii::$app->request->isPost) {
 
@@ -141,6 +138,7 @@ class TasksController extends SecuredController
 
         $responseFormModel = new ResponseForm();
         $refuseFormModel = new RefuseForm();
+        $finishedFormModel = new FinishedForm();
 
         if (Yii::$app->request->isPost) {
             // Исполнитель. Оставить отклик на задание;
@@ -171,20 +169,32 @@ class TasksController extends SecuredController
                     return $this->refresh();
                 }
             }
+
+            // Заказчик. Завершить задание;
+            if (Yii::$app->request->post('finished') === 'finished') {
+                $finishedFormModel->load(Yii::$app->request->post());
+                if (Yii::$app->request->isAjax) {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+
+                    return ActiveForm::validate($finishedFormModel);
+                }
+
+                if ($finishedFormModel->validate()) {
+                    (new OpinionsService())->finishTask($id, $finishedFormModel);
+                    // return $this->refresh();
+                }
+            }
         }
 
 
         return $this->render('view', [
             'task' => $task,
             'replies' => $replies,
-            'repliesModel' => $repliesModel,
-            'finishedTaskFormModel' => $finishedTaskFormModel,
             'task_files' => $task_files,
-
             // Передаю формы на страницу просмотра задачи
             'responseFormModel' => $responseFormModel,
             'refuseFormModel' => $refuseFormModel,
-
+            'finishedFormModel' => $finishedFormModel,
         ]);
     }
 

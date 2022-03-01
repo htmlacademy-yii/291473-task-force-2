@@ -18,7 +18,7 @@ use yii\base\Model;
  * @property int $id
  */
 
-class FinishedTaskForm extends Model
+class FinishedForm extends Model
 {
 
     public $description;

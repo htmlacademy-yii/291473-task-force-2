@@ -43,8 +43,14 @@ $userId = Yii::$app->user->getId();
         <?= ModalForm::widget(['formType' => 'refuseForm', 'formModel' => $refuseFormModel]) ?>
     <?php endif; ?>
 
-
-
+    <!-- Постановщник. Завершение задания; -->
+    <?php if (
+        $task->status === 'in_progress' // Задача должна быть в работе;
+        && $task->customer_id === $userId // ID исполнителя из задачи должен быть равен ID авторизованного пользователя;
+    ) : ?>
+        <a href="#" class="button button--blue finished-button">Завершить задание</a>
+        <?= ModalForm::widget(['formType' => 'finishedForm', 'formModel' => $finishedFormModel]) ?>
+    <?php endif; ?>
 
     <div class="task-map">
         <img class="map" src="/img/map.png" width="725" height="346" alt="<?= Html::encode($task->address); ?>">
