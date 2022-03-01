@@ -12,6 +12,9 @@ use app\widgets\ModalForm;
 ModalFormAsset::register($this);
 
 $userId = Yii::$app->user->getId();
+
+$action = $taskAction->get_action_code();
+print_r($action);
 ?>
 
 <div class="left-column">
@@ -25,10 +28,12 @@ $userId = Yii::$app->user->getId();
 
     <!-- Исполнитель. Оставить отклик на задание; -->
     <?php if (
-        $task->status === 'new' // Задача должна быть в статусе "Новая" (не взятая в работу);
-        && $task->customer_id !== $userId // Пользователь не может быть постановщиком задачи;
-        && \Yii::$app->user->identity->role === 1 // Роль пользователя должна быть - исполнитель;
+        $action === 'ACTION_RESPOND'
         && CustomHelpers::checkExecutor($replies, $userId) // Проверяю, что пользователь еще не откликнулся на задание;
+
+        // $task->status === 'new' // Задача должна быть в статусе "Новая" (не взятая в работу);
+        // && $task->customer_id !== $userId // Пользователь не может быть постановщиком задачи;
+        // && \Yii::$app->user->identity->role === 1 // Роль пользователя должна быть - исполнитель;
     ) : ?>
         <a href="#" class="button button--blue response-button">Откликнуться на задание</a>
         <?= ModalForm::widget(['formType' => 'responseForm', 'formModel' => $responseFormModel]) ?>
@@ -36,8 +41,9 @@ $userId = Yii::$app->user->getId();
 
     <!-- Исполнитель. Отказаться от выполнения задания; -->
     <?php if (
-        $task->status === 'in_progress' // Задача должна быть в работе;
-        && $task->executor_id === $userId // ID исполнителя из задачи должен быть равен ID авторизованного пользователя;
+        $action === 'ACTION_REFUSED'
+        // $task->status === 'in_progress' // Задача должна быть в работе;
+        // && $task->executor_id === $userId // ID исполнителя из задачи должен быть равен ID авторизованного пользователя;
     ) : ?>
         <a href="#" class="button button--blue refuse-button">Отказаться от задания</a>
         <?= ModalForm::widget(['formType' => 'refuseForm', 'formModel' => $refuseFormModel]) ?>
@@ -45,11 +51,21 @@ $userId = Yii::$app->user->getId();
 
     <!-- Постановщник. Завершение задания; -->
     <?php if (
-        $task->status === 'in_progress' // Задача должна быть в работе;
-        && $task->customer_id === $userId // ID исполнителя из задачи должен быть равен ID авторизованного пользователя;
+        $action === 'ACTION_FINISHED'
+        // $task->status === 'in_progress' // Задача должна быть в работе;
+        // && $task->customer_id === $userId // ID исполнителя из задачи должен быть равен ID авторизованного пользователя;
     ) : ?>
         <a href="#" class="button button--blue finished-button">Завершить задание</a>
         <?= ModalForm::widget(['formType' => 'finishedForm', 'formModel' => $finishedFormModel]) ?>
+    <?php endif; ?>
+
+    <!-- Постановщик. Отменить задание; -->
+    <?php if (
+        $action === 'ACTION_CANCELED'
+        // $task->status === 'new' // Задача должна быть в статусе Новое;
+        // && $task->customer_id === $userId // ID исполнителя из задачи должен быть равен ID авторизованного пользователя;
+    ) : ?>
+        <a href="<?= '/cancel/' . $task->id ?>" class="button button--blue">Отменить задание</a>
     <?php endif; ?>
 
     <div class="task-map">
@@ -57,7 +73,6 @@ $userId = Yii::$app->user->getId();
         <p class="map-address town"><?= Html::encode(isset($task->city->city)); ?></p>
         <p class="map-address"><?= Html::encode($task->address) ?></p>
     </div>
-
 
     <?php if (CustomHelpers::checkCustomerOrExecutor($replies, $task, $userId)) : ?>
         <h4 class="head-regular">Отклики на задание</h4>

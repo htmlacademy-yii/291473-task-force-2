@@ -24,7 +24,7 @@ class Task
     public const ROLE_CUSTOMER = 'ЗАКАЗЧИК';
     public const ROLE_EXECUTOR = 'ИСПОЛНИТЕЛЬ';
 
-    public function __construct(int $customer_id, int $executor_id, int $user_id, string $current_status)
+    public function __construct(int $customer_id, int $executor_id = null, int $user_id, string $current_status)
     {
         $this->customer_id = $customer_id;
         $this->executor_id = $executor_id;
@@ -91,27 +91,32 @@ class Task
         self::STATUS_IN_PROGRESS => [
             self::ROLE_CUSTOMER => FinishAction::class,
             self::ROLE_EXECUTOR => RefuseAction::class,
+        ],
+        self::STATUS_CANCELED => [
+            self::ROLE_CUSTOMER => OtherAction::class,
+            self::ROLE_EXECUTOR => OtherAction::class,
+        ],
+        self::STATUS_FAILED => [
+            self::ROLE_CUSTOMER => OtherAction::class,
+            self::ROLE_EXECUTOR => OtherAction::class,
+        ],
+        self::STATUS_FINISHED => [
+            self::ROLE_CUSTOMER => OtherAction::class,
+            self::ROLE_EXECUTOR => OtherAction::class,
         ]
     ];
 
-    // Определяю что пользователь заказчик или исполнитель;
-    private function check_user_role(): string
-    {
-        return $this->user_id === $this->customer_id or $this->user_id === $this->executor_id;
-    }
 
     // Получаю доступные действия для указанного статуса;
-    public function get_user_actions(string $current_status): ?Object
+    public function get_user_actions(string $current_status) //: ?Object
     {
-        if ($this->check_user_role()) {
-            $role = $this->user_id === $this->customer_id ? self::ROLE_CUSTOMER : self::ROLE_EXECUTOR;
+        $role = $this->user_id === $this->customer_id ? self::ROLE_CUSTOMER : self::ROLE_EXECUTOR;
 
-            if (!isset($this->next_action[$current_status])) {
-                throw new StatusException('Метод get_user_actions: для статуса ' . $current_status . ' нет доступных действий');
-            }
+        // if (!isset($this->next_action[$current_status])) {
+        //     return null;
+        //     // throw new StatusException('Метод get_user_actions: для статуса ' . $current_status . ' нет доступных действий');
+        // }
 
-            return new $this->next_action[$current_status][$role]($this->customer_id, $this->executor_id, $this->user_id);
-        }
-        return null;
+        return new $this->next_action[$current_status][$role]($this->customer_id, $this->executor_id, $this->user_id);
     }
 }

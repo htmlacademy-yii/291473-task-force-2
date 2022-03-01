@@ -21,6 +21,8 @@ use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
 use yii\web\ForbiddenHttpException;
+use TaskForce\tasks\Task;
+
 
 // Формы для задач
 use app\models\ResponseForm;
@@ -73,14 +75,21 @@ class TasksController extends SecuredController
         $userId = Yii::$app->user->getId();
         $tasksService = new TasksService;
         $task = $tasksService->getTask($id);
+
+        $customerId = $task->customer_id;
+        $executorId = $task->executor_id;
+        $currentStatus = $task->status;
+
+        $Actions = new Task($customerId, $executorId, $userId, $currentStatus);
+        $taskAction = $Actions->get_user_actions($currentStatus);
+        // print_r($taskAction);
+
         $replies = $tasksService->getReplies($id);
         $task_files = $tasksService->getTaskFiles($id);
 
         if (!$task) {
             throw new NotFoundHttpException;
         }
-
-
 
         // if (Yii::$app->request->isPost) {
 
@@ -195,6 +204,7 @@ class TasksController extends SecuredController
             'responseFormModel' => $responseFormModel,
             'refuseFormModel' => $refuseFormModel,
             'finishedFormModel' => $finishedFormModel,
+            'taskAction' => $taskAction,
         ]);
     }
 
