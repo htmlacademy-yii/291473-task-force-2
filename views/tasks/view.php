@@ -23,7 +23,7 @@ $userId = Yii::$app->user->getId();
 
     <!-- <a href="#" class="button button--blue">Откликнуться на задание</a> -->
 
-
+    <!-- Исполнитель. Оставить отклик на задание; -->
     <?php if (
         $task->status === 'new' // Задача должна быть в статусе "Новая" (не взятая в работу);
         && $task->customer_id !== $userId // Пользователь не может быть постановщиком задачи;
@@ -31,8 +31,17 @@ $userId = Yii::$app->user->getId();
         && CustomHelpers::checkExecutor($replies, $userId) // Проверяю, что пользователь еще не откликнулся на задание;
     ) : ?>
         <a href="#" class="button button--blue response-button">Откликнуться на задание</a>
+        <?= ModalForm::widget(['formType' => 'responseForm', 'formModel' => $responseFormModel]) ?>
     <?php endif; ?>
 
+    <!-- Исполнитель. Отказаться от выполнения задания; -->
+    <?php if (
+        $task->status === 'in_progress' // Задача должна быть в работе;
+        && $task->executor_id === $userId // ID исполнителя из задачи должен быть равен ID авторизованного пользователя;
+    ) : ?>
+        <a href="#" class="button button--blue refuse-button">Отказаться от задания</a>
+        <?= ModalForm::widget(['formType' => 'refuseForm', 'formModel' => $refuseFormModel]) ?>
+    <?php endif; ?>
 
 
 
@@ -113,5 +122,3 @@ $userId = Yii::$app->user->getId();
     <?php endif; ?>
 
 </div>
-
-<?= ModalForm::widget(['formType' => 'responseForm', 'formModel' => $responseFormModel]) ?>

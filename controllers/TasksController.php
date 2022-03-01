@@ -140,6 +140,7 @@ class TasksController extends SecuredController
         // }
 
         $responseFormModel = new ResponseForm();
+        $refuseFormModel = new RefuseForm();
 
         if (Yii::$app->request->isPost) {
             // Исполнитель. Оставить отклик на задание;
@@ -156,6 +157,20 @@ class TasksController extends SecuredController
                     return $this->refresh();
                 }
             }
+
+            // Исполнитель. Отказаться от выполнения задания;
+            if (Yii::$app->request->post('refuse') === 'refuse') {
+                $refuseFormModel->load(Yii::$app->request->post());
+                if (Yii::$app->request->isAjax) {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ActiveForm::validate($refuseFormModel);
+                }
+
+                if ($refuseFormModel->validate()) {
+                    (new RepliesService())->RefuseTask($userId, $id, $refuseFormModel);
+                    return $this->refresh();
+                }
+            }
         }
 
 
@@ -163,12 +178,13 @@ class TasksController extends SecuredController
             'task' => $task,
             'replies' => $replies,
             'repliesModel' => $repliesModel,
-            'refuseFormModel' => $refuseFormModel,
             'finishedTaskFormModel' => $finishedTaskFormModel,
             'task_files' => $task_files,
 
             // Передаю формы на страницу просмотра задачи
             'responseFormModel' => $responseFormModel,
+            'refuseFormModel' => $refuseFormModel,
+
         ]);
     }
 
