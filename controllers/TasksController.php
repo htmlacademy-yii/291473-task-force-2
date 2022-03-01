@@ -22,6 +22,10 @@ use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
 use yii\web\ForbiddenHttpException;
 
+// Формы для задач
+use app\models\ResponseForm;
+
+
 class TasksController extends SecuredController
 {
     public function behaviors()
@@ -81,59 +85,79 @@ class TasksController extends SecuredController
         $refuseFormModel = new RefuseForm();
         $finishedTaskFormModel = new FinishedTaskForm();
 
+        // if (Yii::$app->request->isPost) {
+
+        //     // Исполнитель. Оставить отклик на задание;
+        //     if (Yii::$app->request->post('reply') === 'reply') {
+        //         $repliesModel->load(Yii::$app->request->post());
+
+        //         if (Yii::$app->request->isAjax) {
+        //             Yii::$app->response->format = Response::FORMAT_JSON;
+        //             return ActiveForm::validate($repliesModel);
+        //         }
+
+        //         if ($repliesModel->validate()) {
+        //             (new RepliesService())->createReply($userId, $id, $repliesModel);
+        //             return $this->refresh();
+        //         }
+        //     }
+
+        //     // Исполнитель. Отменить задание;
+        //     if (Yii::$app->request->post('refuse') === 'refuse') {
+        //         $refuseFormModel->load(Yii::$app->request->post());
+        //         if (Yii::$app->request->isAjax) {
+        //             Yii::$app->response->format = Response::FORMAT_JSON;
+        //             return ActiveForm::validate($refuseFormModel);
+        //         }
+
+        //         if ($refuseFormModel->validate()) {
+        //             (new RepliesService())->RefuseTask($userId, $id, $refuseFormModel);
+        //             return $this->refresh();
+        //             // $userId - id пользователя
+        //             // $id - id задачи
+        //             // $refuseFormModel - данные из формы отказа от задачи
+        //         }
+        //     }
+
+        //     // Заказчик. Завершить задание;
+        //     if (Yii::$app->request->post('finished') === 'finished') {
+
+        //         $finishedTaskFormModel->load(Yii::$app->request->post());
+        //         if (Yii::$app->request->isAjax) {
+        //             Yii::$app->response->format = Response::FORMAT_JSON;
+
+        //             return ActiveForm::validate($finishedTaskFormModel);
+        //         }
+
+        //         if ($finishedTaskFormModel->validate()) {
+        //             (new OpinionsService())->finishTask($userId, $id, $finishedTaskFormModel);
+        //             return $this->refresh();
+        //             // $userId - id пользователя
+        //             // $id - id задачи
+        //             // $refuseFormModel - данные из формы отказа от задачи
+        //         }
+        //     }
+        // }
+
+        $responseFormModel = new ResponseForm();
+
         if (Yii::$app->request->isPost) {
-
             // Исполнитель. Оставить отклик на задание;
-            if (Yii::$app->request->post('reply') === 'reply') {
-                $repliesModel->load(Yii::$app->request->post());
+            if (Yii::$app->request->post('response') === 'response') {
+                $responseFormModel->load(Yii::$app->request->post());
 
                 if (Yii::$app->request->isAjax) {
                     Yii::$app->response->format = Response::FORMAT_JSON;
-                    return ActiveForm::validate($repliesModel);
+                    return ActiveForm::validate($responseFormModel);
                 }
 
-                if ($repliesModel->validate()) {
-                    (new RepliesService())->createReply($userId, $id, $repliesModel);
+                if ($responseFormModel->validate()) {
+                    (new RepliesService())->createReply($userId, $id, $responseFormModel);
                     return $this->refresh();
-                }
-            }
-
-            // Исполнитель. Отменить задание;
-            if (Yii::$app->request->post('refuse') === 'refuse') {
-                $refuseFormModel->load(Yii::$app->request->post());
-                if (Yii::$app->request->isAjax) {
-                    Yii::$app->response->format = Response::FORMAT_JSON;
-                    return ActiveForm::validate($refuseFormModel);
-                }
-
-                if ($refuseFormModel->validate()) {
-                    (new RepliesService())->RefuseTask($userId, $id, $refuseFormModel);
-                    return $this->refresh();
-                    // $userId - id пользователя
-                    // $id - id задачи
-                    // $refuseFormModel - данные из формы отказа от задачи
-                }
-            }
-
-            // Заказчик. Завершить задание;
-            if (Yii::$app->request->post('finished') === 'finished') {
-
-                $finishedTaskFormModel->load(Yii::$app->request->post());
-                if (Yii::$app->request->isAjax) {
-                    Yii::$app->response->format = Response::FORMAT_JSON;
-
-                    return ActiveForm::validate($finishedTaskFormModel);
-                }
-
-                if ($finishedTaskFormModel->validate()) {
-                    (new OpinionsService())->finishTask($userId, $id, $finishedTaskFormModel);
-                    return $this->refresh();
-                    // $userId - id пользователя
-                    // $id - id задачи
-                    // $refuseFormModel - данные из формы отказа от задачи
                 }
             }
         }
+
 
         return $this->render('view', [
             'task' => $task,
@@ -142,6 +166,9 @@ class TasksController extends SecuredController
             'refuseFormModel' => $refuseFormModel,
             'finishedTaskFormModel' => $finishedTaskFormModel,
             'task_files' => $task_files,
+
+            // Передаю формы на страницу просмотра задачи
+            'responseFormModel' => $responseFormModel,
         ]);
     }
 
