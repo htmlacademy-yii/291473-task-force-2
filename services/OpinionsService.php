@@ -15,10 +15,8 @@ class OpinionsService
     public function finishTask($id, FinishedForm $FinishedFormModel)
     {
         $task = Tasks::findOne(['id' => $id]);
-        print_r($task);
-
-        $task->status = 'finished';
         $opinions = new Opinions;
+        $task->status = 'finished';
         $opinions->description = $FinishedFormModel->description;
         $opinions->rating = $FinishedFormModel->rating;
         $opinions->dt_add = CustomHelpers::getCurrentDate();
@@ -29,8 +27,8 @@ class OpinionsService
 
         $transaction = Yii::$app->db->beginTransaction();
         try {
-            $opinions->save();
             $task->save();
+            $opinions->save();
             $transaction->commit();
         } catch (\Exception $e) {
             $transaction->rollBack();

@@ -181,7 +181,7 @@ class TasksController extends SecuredController
 
                 if ($finishedFormModel->validate()) {
                     (new OpinionsService())->finishTask($id, $finishedFormModel);
-                    // return $this->refresh();
+                    return $this->refresh();
                 }
             }
         }
