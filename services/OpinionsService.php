@@ -12,11 +12,32 @@ use TaskForce\utils\CustomHelpers;
 
 class OpinionsService
 {
+    public function findUserTasksCount($userId)
+    {
+        // task = Tasks::find()->all();
+
+        return Tasks::find()
+            ->where(['executor_id' => $userId])
+            ->count();
+    }
+
     public function finishTask($id, FinishedForm $FinishedFormModel)
     {
         $task = Tasks::findOne(['id' => $id]);
+        $profile = Profiles::findOne(['user_id' => $task->executor_id]);
         $opinions = new Opinions;
+
+        $userTasksCount = Tasks::find()
+            ->where(['executor_id' => $task->executor_id, 'status' => 'finished'])
+            ->count();
+
+        if ($userTasksCount <= 0) {
+            $userTasksCount = 1;
+        }
+
+        $average_rating = ($profile->average_rating + $FinishedFormModel->rating) / $userTasksCount;
         $task->status = 'finished';
+        $profile->average_rating = floor($average_rating);
         $opinions->description = $FinishedFormModel->description;
         $opinions->rating = $FinishedFormModel->rating;
         $opinions->dt_add = CustomHelpers::getCurrentDate();
@@ -29,6 +50,7 @@ class OpinionsService
         try {
             $task->save();
             $opinions->save();
+            $profile->save();
             $transaction->commit();
         } catch (\Exception $e) {
             $transaction->rollBack();

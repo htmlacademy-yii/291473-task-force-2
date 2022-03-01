@@ -75,6 +75,11 @@ class TasksController extends SecuredController
         $userId = Yii::$app->user->getId();
         $tasksService = new TasksService;
         $task = $tasksService->getTask($id);
+
+        if (!$task) {
+            throw new NotFoundHttpException;
+        }
+
         $customerId = $task->customer_id;
         $executorId = $task->executor_id;
         $currentStatus = $task->status;
@@ -82,10 +87,6 @@ class TasksController extends SecuredController
         $taskAction = $Actions->get_user_actions($currentStatus);
         $replies = $tasksService->getReplies($id);
         $task_files = $tasksService->getTaskFiles($id);
-
-        if (!$task) {
-            throw new NotFoundHttpException;
-        }
 
         $responseFormModel = new ResponseForm();
         $refuseFormModel = new RefuseForm();
@@ -136,7 +137,6 @@ class TasksController extends SecuredController
                 }
             }
         }
-
 
         return $this->render('view', [
             'task' => $task,
@@ -194,9 +194,6 @@ class TasksController extends SecuredController
         $reply = Replies::findOne(['id' => $id]);
         $reply->status = 0;
         $reply->save();
-
-        // return $this->actionView($reply->task_id);
-
         return $this->redirect(['tasks/view/' . $reply->task_id]);
     }
 
@@ -204,14 +201,12 @@ class TasksController extends SecuredController
     public function actionCancel(int $id)
     {
         $tasksModel = Tasks::findOne(['id' => $id]);
-
         if (Yii::$app->user->getId() !== $tasksModel->customer_id) {
             throw new ForbiddenHttpException('У Вас нет прав отменить это задание!');
         }
 
         $tasksModel->status = 'canceled';
         $tasksModel->update();
-
         return $this->redirect(['tasks/view/' . $id]);
     }
 }

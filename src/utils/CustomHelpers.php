@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TaskForce\utils;
 
+use app\models\Profiles;
 use Yii;
 use app\models\Users;
 use app\models\User;
@@ -111,6 +112,14 @@ class CustomHelpers
         }
 
         return User::findIdentity(Yii::$app->user->getId());
+    }
+
+    // Проверка на авторизацию, получение данных пользователя;
+    public static function getUserProfile($userId): ?object
+    {
+        return Profiles::find()
+            ->where(['user_id' => $userId])
+            ->one();
     }
 
     public static function getCurrentDate()

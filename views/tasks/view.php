@@ -15,7 +15,7 @@ ModalFormAsset::register($this);
 $userId = Yii::$app->user->getId();
 
 $action = $taskAction->get_action_code();
-print_r($action);
+
 ?>
 
 <div class="left-column">
