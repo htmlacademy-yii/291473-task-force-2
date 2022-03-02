@@ -14,18 +14,11 @@ use yii\widgets\ActiveForm;
     <?= $form->field($formModel, 'rating')->input('number', ['min' => '0', 'max' => '5']) ?>
 
     <div class="stars-rating big">
-        <label class="fill-star">&nbsp;<input class="fill-star-radio" type="radio" name="response" value="1"></label>
-        <label class="fill-star">&nbsp;<input class="fill-star-radio" type="radio" name="response" value="2"></label>
-        <label class="fill-star">&nbsp;<input class="fill-star-radio" type="radio" name="response" value="3"></label>
-        <label class="fill-star">&nbsp;<input class="fill-star-radio" type="radio" name="response" value="4"></label>
-        <label class="fill-star">&nbsp;<input class="fill-star-radio" type="radio" name="response" value="5"></label>
-
-
-        <!-- <span class="fill-star">&nbsp;</span>
-        <span class="fill-star">&nbsp;</span>
-        <span class="fill-star">&nbsp;</span>
-        <span class="fill-star">&nbsp;</span>
-        <span class="fill-star">&nbsp;</span> -->
+        <label class="star-label fill-star-modal">&nbsp;<input class="fill-star-radio" type="radio" name="response" value="1"></label>
+        <label class="star-label fill-star-modal">&nbsp;<input class="fill-star-radio" type="radio" name="response" value="2"></label>
+        <label class="star-label fill-star-modal">&nbsp;<input class="fill-star-radio" type="radio" name="response" value="3"></label>
+        <label class="star-label fill-star-modal">&nbsp;<input class="fill-star-radio" type="radio" name="response" value="4"></label>
+        <label class="star-label fill-star-modal">&nbsp;<input class="fill-star-radio" type="radio" name="response" value="5"></label>
     </div>
 
     <div class="form-group">

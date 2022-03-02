@@ -62,19 +62,29 @@
 }
 
 .form-modal .stars-rating {
-	margin: 15px;
+	margin: 5px;
+	margin-bottom: 25px;
 }
 
-.form-modal .fill-star {
+.fill-star-modal {
 	background-image: url("../img/star-fill.svg");
 	display: inline-block;
-	width: 26px;
-	height: 26px;
+	width: 25px;
+	height: 25px;
 	margin-left: 15px;
 }
 
-.form-modal .fill-star:hover {
+.form-modal .fill-star-modal:hover,
+.form-modal .star-red {
 	cursor: pointer;
+}
+
+.star-red {
+	background-image: url("../img/star-red.svg");
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	margin-left: 15px;
 }
 
 .form-modal input[type="radio"] {
