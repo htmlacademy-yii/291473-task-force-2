@@ -10,7 +10,6 @@ use app\services\TasksService;
 use app\services\RepliesService;
 use app\services\CategoriesService;
 use app\models\Tasks;
-use app\models\Users;
 use app\models\Categories;
 use app\models\AddTaskForm;
 use app\models\Replies;

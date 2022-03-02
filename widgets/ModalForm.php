@@ -3,7 +3,6 @@
 namespace app\widgets;
 
 use yii\base\Widget;
-use yii\helpers\Html;
 
 class ModalForm extends Widget
 {

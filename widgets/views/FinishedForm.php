@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 ?>
@@ -11,6 +10,7 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(['id' => 'modal-form']); ?>
 
     <?= $form->field($formModel, 'description')->textarea(['autofocus' => true]) ?>
+
     <?= $form->field($formModel, 'rating')->input('number', ['min' => '0', 'max' => '5']) ?>
 
     <div class="form-group">
