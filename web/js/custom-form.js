@@ -47,6 +47,8 @@ if (refuseButton) {
 if (finishedButton) {
     const form = document.querySelector('#finished-form');
     const modalCloseButton = form.querySelector('.close-button'); 
+    const starsButtons = form.querySelectorAll('.fill-star-radio');
+    const ratingInput = form.querySelector('#finishedform-rating');
 
     finishedButton.addEventListener('click', (evt) => {
         evt.preventDefault();
@@ -61,5 +63,14 @@ if (finishedButton) {
         if (evt.keyCode === ESC_KEYCODE) {
             form.classList.add('modal-hide')
         }
+    });
+
+  
+    starsButtons.forEach(function (starButton) {
+        starButton.addEventListener('click', (evt) => {
+            ratingInput.value = evt.target.value;
+            console.log(ratingInput.value);
+
+        });
     });
 }

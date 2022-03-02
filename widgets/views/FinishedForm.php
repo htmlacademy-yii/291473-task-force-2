@@ -13,6 +13,21 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($formModel, 'rating')->input('number', ['min' => '0', 'max' => '5']) ?>
 
+    <div class="stars-rating big">
+        <label class="fill-star">&nbsp;<input class="fill-star-radio" type="radio" name="response" value="1"></label>
+        <label class="fill-star">&nbsp;<input class="fill-star-radio" type="radio" name="response" value="2"></label>
+        <label class="fill-star">&nbsp;<input class="fill-star-radio" type="radio" name="response" value="3"></label>
+        <label class="fill-star">&nbsp;<input class="fill-star-radio" type="radio" name="response" value="4"></label>
+        <label class="fill-star">&nbsp;<input class="fill-star-radio" type="radio" name="response" value="5"></label>
+
+
+        <!-- <span class="fill-star">&nbsp;</span>
+        <span class="fill-star">&nbsp;</span>
+        <span class="fill-star">&nbsp;</span>
+        <span class="fill-star">&nbsp;</span>
+        <span class="fill-star">&nbsp;</span> -->
+    </div>
+
     <div class="form-group">
         <button type="submit" class="modal-button" form="modal-form" name="finished" value="finished">Завершить</button>
         <button type="button" class="modal-button close-button" data-dismiss="modal">Вернуться</button>

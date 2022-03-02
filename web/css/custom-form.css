@@ -60,3 +60,23 @@
 	cursor: pointer;
 	background-color: #c0c0c0;
 }
+
+.form-modal .stars-rating {
+	margin: 15px;
+}
+
+.form-modal .fill-star {
+	background-image: url("../img/star-fill.svg");
+	display: inline-block;
+	width: 26px;
+	height: 26px;
+	margin-left: 15px;
+}
+
+.form-modal .fill-star:hover {
+	cursor: pointer;
+}
+
+.form-modal input[type="radio"] {
+	display: none;
+}
