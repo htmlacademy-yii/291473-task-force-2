@@ -7,13 +7,25 @@ use app\models\TasksSearchForm;
 use app\services\TasksFilterService;
 use yii\web\NotFoundHttpException;
 use app\services\TasksService;
+use app\services\RepliesService;
 use app\services\CategoriesService;
 use app\models\Tasks;
 use app\models\Categories;
 use app\models\AddTaskForm;
+use app\models\Replies;
+use app\models\RefuseForm;
+use app\models\FinishedForm;
+use app\services\OpinionsService;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
+use yii\web\ForbiddenHttpException;
+use TaskForce\tasks\Task;
+
+
+// Формы для задач
+use app\models\ResponseForm;
+
 
 class TasksController extends SecuredController
 {
@@ -59,19 +71,80 @@ class TasksController extends SecuredController
 
     public function actionView(int $id)
     {
+        $userId = Yii::$app->user->getId();
         $tasksService = new TasksService;
         $task = $tasksService->getTask($id);
-        $replies = $tasksService->getReplies($id);
-        $task_files = $tasksService->getTaskFiles($id);
 
         if (!$task) {
             throw new NotFoundHttpException;
+        }
+
+        $customerId = $task->customer_id;
+        $executorId = $task->executor_id;
+        $currentStatus = $task->status;
+        $Actions = new Task($customerId, $executorId, $userId, $currentStatus);
+        $taskAction = $Actions->get_user_actions($currentStatus);
+        $replies = $tasksService->getReplies($id);
+        $task_files = $tasksService->getTaskFiles($id);
+
+        $responseFormModel = new ResponseForm();
+        $refuseFormModel = new RefuseForm();
+        $finishedFormModel = new FinishedForm();
+
+        if (Yii::$app->request->isPost) {
+            // Исполнитель. Оставить отклик на задание;
+            if (Yii::$app->request->post('response') === 'response') {
+                $responseFormModel->load(Yii::$app->request->post());
+
+                if (Yii::$app->request->isAjax) {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ActiveForm::validate($responseFormModel);
+                }
+
+                if ($responseFormModel->validate()) {
+                    (new RepliesService())->createReply($userId, $id, $responseFormModel);
+                    return $this->refresh();
+                }
+            }
+
+            // Исполнитель. Отказаться от выполнения задания;
+            if (Yii::$app->request->post('refuse') === 'refuse') {
+                $refuseFormModel->load(Yii::$app->request->post());
+                if (Yii::$app->request->isAjax) {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+                    return ActiveForm::validate($refuseFormModel);
+                }
+
+                if ($refuseFormModel->validate()) {
+                    (new RepliesService())->RefuseTask($userId, $id, $refuseFormModel);
+                    return $this->refresh();
+                }
+            }
+
+            // Заказчик. Завершить задание;
+            if (Yii::$app->request->post('finished') === 'finished') {
+                $finishedFormModel->load(Yii::$app->request->post());
+                if (Yii::$app->request->isAjax) {
+                    Yii::$app->response->format = Response::FORMAT_JSON;
+
+                    return ActiveForm::validate($finishedFormModel);
+                }
+
+                if ($finishedFormModel->validate()) {
+                    (new OpinionsService())->finishTask($id, $finishedFormModel);
+                    return $this->refresh();
+                }
+            }
         }
 
         return $this->render('view', [
             'task' => $task,
             'replies' => $replies,
             'task_files' => $task_files,
+            'responseFormModel' => $responseFormModel,
+            'refuseFormModel' => $refuseFormModel,
+            'finishedFormModel' => $finishedFormModel,
+            'taskAction' => $taskAction,
         ]);
     }
 
@@ -103,5 +176,36 @@ class TasksController extends SecuredController
             'addTaskFormModel' => $addTaskFormModel,
             'categories' => $categories
         ]);
+    }
+
+    // Заказчик. Принять отклик исполнителя;
+    public function actionAccept(int $id)
+    {
+        $RepliesService = new RepliesService;
+        $reply = $RepliesService->AcceptReply($id);
+
+        return $this->redirect(['tasks/view/' . $reply->task_id]);
+    }
+
+    // Заказчик. Отменять отклик исполнителя;
+    public function actionReject(int $id)
+    {
+        $reply = Replies::findOne(['id' => $id]);
+        $reply->status = 0;
+        $reply->save();
+        return $this->redirect(['tasks/view/' . $reply->task_id]);
+    }
+
+    // Заказчик .Отменить задание;
+    public function actionCancel(int $id)
+    {
+        $tasksModel = Tasks::findOne(['id' => $id]);
+        if (Yii::$app->user->getId() !== $tasksModel->customer_id) {
+            throw new ForbiddenHttpException('У Вас нет прав отменить это задание!');
+        }
+
+        $tasksModel->status = 'canceled';
+        $tasksModel->update();
+        return $this->redirect(['tasks/view/' . $id]);
     }
 }

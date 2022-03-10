@@ -3,6 +3,19 @@
 use yii\helpers\Html;
 use TaskForce\utils\NounPluralConverter;
 use TaskForce\utils\CustomHelpers;
+// use yii\bootstrap4\Modal;
+use yii\widgets\ActiveForm;
+
+
+use app\widgets\ModalForm;
+use app\assets\ModalFormAsset;
+
+ModalFormAsset::register($this);
+
+$userId = Yii::$app->user->getId();
+
+$action = $taskAction->get_action_code();
+
 ?>
 
 <div class="left-column">
@@ -11,21 +24,46 @@ use TaskForce\utils\CustomHelpers;
         <p class="price price--big"><?= Html::encode($task->budget); ?></p>
     </div>
     <p class="task-description"><?= Html::encode($task->description); ?></p>
-    <a href="#" class="button button--blue">Откликнуться на задание</a>
+
+    <!-- Исполнитель. Оставить отклик на задание; -->
+    <?php if ($action === 'ACTION_RESPOND' && CustomHelpers::checkExecutor($replies, $userId)) : ?>
+        <a href="#" class="button button--blue response-button">Откликнуться на задание</a>
+        <?= ModalForm::widget(['formType' => 'responseForm', 'formModel' => $responseFormModel]) ?>
+    <?php endif; ?>
+
+    <!-- Исполнитель. Отказаться от выполнения задания; -->
+    <?php if ($action === 'ACTION_REFUSED') : ?>
+        <a href="#" class="button button--blue refuse-button">Отказаться от задания</a>
+        <?= ModalForm::widget(['formType' => 'refuseForm', 'formModel' => $refuseFormModel]) ?>
+    <?php endif; ?>
+
+    <!-- Постановщник. Завершение задания; -->
+    <?php if ($action === 'ACTION_FINISHED') : ?>
+        <a href="#" class="button button--blue finished-button">Завершить задание</a>
+        <?= ModalForm::widget(['formType' => 'finishedForm', 'formModel' => $finishedFormModel]) ?>
+    <?php endif; ?>
+
+    <!-- Постановщик. Отменить задание; -->
+    <?php if ($action === 'ACTION_CANCELED') : ?>
+        <a href="<?= '/cancel/' . $task->id ?>" class="button button--blue">Отменить задание</a>
+    <?php endif; ?>
+
     <div class="task-map">
         <img class="map" src="/img/map.png" width="725" height="346" alt="<?= Html::encode($task->address); ?>">
         <p class="map-address town"><?= Html::encode(isset($task->city->city)); ?></p>
         <p class="map-address"><?= Html::encode($task->address) ?></p>
     </div>
 
-    <?php if (count($replies) > 0) : ?>
+    <?php if (CustomHelpers::checkCustomerOrExecutor($replies, $task, $userId)) : ?>
         <h4 class="head-regular">Отклики на задание</h4>
+    <?php endif; ?>
 
-        <?php foreach ($replies as $reply) : ?>
+    <?php foreach ($replies as $reply) : ?>
+        <?php if ($reply->executor_id === $userId || $task->customer_id === $userId) : ?>
             <div class="response-card">
                 <img class="customer-photo" src="<?= (Html::encode($reply->executor->avatar_link)); ?>" width="146" height="156" alt="Фото заказчиков">
                 <div class="feedback-wrapper">
-                    <a href="#" class="link link--block link--big"></a>
+                    <a href="/user/view/<?= Html::encode($reply->user->id); ?>" class="link link--block link--big"><?= Html::encode($reply->user->name); ?></a>
                     <div class="response-wrapper">
                         <div class="stars-rating small">
                             <?= CustomHelpers::getRatingStars(Html::encode($reply->executor->average_rating)); ?>
@@ -41,13 +79,18 @@ use TaskForce\utils\CustomHelpers;
                     <p class="info-text"><span class="current-time"><?= NounPluralConverter::getTaskRelativeTime($reply->dt_add); ?></span></p>
                     <p class="price price--small"><?= Html::encode($reply->rate); ?> ₽</p>
                 </div>
-                <div class="button-popup">
-                    <a href="#" class="button button--blue button--small">Принять</a>
-                    <a href="#" class="button button--orange button--small">Отказать</a>
-                </div>
+                <?php if ($task->customer_id === $userId && !isset($reply->status) && CustomHelpers::checkRepliesStatus($replies)) : ?>
+                    <div class="button-popup">
+                        <a href="<?= '/accept/' . $reply->id ?>" class="button button--blue button--small">Принять</a>
+                        <a href="<?= '/reject/' . $reply->id ?>" class="button button--orange button--small">Отказать</a>
+                    </div>
+                <?php endif; ?>
             </div>
-        <?php endforeach; ?>
-    <?php endif; ?>
+        <?php endif; ?>
+    <?php endforeach; ?>
+
+
+
 </div>
 
 <div class="right-column">
