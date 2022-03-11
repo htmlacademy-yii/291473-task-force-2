@@ -57,14 +57,15 @@ $action = $taskAction->get_action_code();
         print($task->longitude);
         print('<br>');
         print($task->address);
+        print('<br>');
+        print($task->city->city);
         ?>
 
         <?php if (isset($task->latitude, $task->longitude)) : ?>
             <div id="map" style="width: 725px; height: 346px" data-latitude="<?= Html::encode($task->latitude) ?>" data-longitude="<?= Html::encode($task->longitude) ?>"></div>
         <?php endif; ?>
 
-
-        <p class="map-address town"><?= Html::encode(isset($task->city->city)); ?></p>
+        <p class="map-address town"><?= Html::encode($task->city->city); ?></p>
         <p class="map-address"><?= Html::encode($task->address) ?></p>
     </div>
 
