@@ -48,6 +48,14 @@ class TasksService
         $task->deadline = $addTaskFormModel->deadline;
         $task->budget = $addTaskFormModel->budget;
 
+        $task->latitude = $addTaskFormModel->latitude;
+        $task->longitude = $addTaskFormModel->longitude;
+
+        $task->address = $addTaskFormModel->city_name;
+        $task->city_id = 1;
+
+        print($addTaskFormModel->latitude);
+
         $task->save();
         $task_id = $task->id;
 

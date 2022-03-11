@@ -26,9 +26,9 @@ const autoCompleteJS = new autoComplete({
                 const selection = event.detail.selection.value;
                 autoCompleteJS.input.value = selection.text;
 
-                document.getElementById('lat').value = selection.pos[1];
-                document.getElementById('long').value = selection.pos[0];
-                document.getElementById('city').value = selection.city ? selection.city : 0;
+                document.querySelector('#latitude').value = selection.pos[1];
+                document.querySelector('#longitude').value = selection.pos[0];
+                // document.querySelector('#city_name').value = selection.city ? selection.city : 0;
             }
         }
     }
