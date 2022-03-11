@@ -5,10 +5,12 @@ use TaskForce\utils\NounPluralConverter;
 use TaskForce\utils\CustomHelpers;
 // use yii\bootstrap4\Modal;
 use yii\widgets\ActiveForm;
-
-
 use app\widgets\ModalForm;
 use app\assets\ModalFormAsset;
+
+$apiKey = Yii::$app->params['geocoderApiKey']; // Прокидываю api-ключ;
+$this->registerJsFile("https://api-maps.yandex.ru/2.1/?apikey={$apiKey}&lang=ru_RU"); // Подключаю api;
+$this->registerJsFile('/js/yandex-map.js'); // Подключаю карту;
 
 ModalFormAsset::register($this);
 
@@ -49,7 +51,19 @@ $action = $taskAction->get_action_code();
     <?php endif; ?>
 
     <div class="task-map">
-        <img class="map" src="/img/map.png" width="725" height="346" alt="<?= Html::encode($task->address); ?>">
+        <?php
+        print($task->latitude);
+        print('<br>');
+        print($task->longitude);
+        print('<br>');
+        print($task->address);
+        ?>
+
+        <?php if (isset($task->latitude, $task->longitude)) : ?>
+            <div id="map" style="width: 725px; height: 346px" data-latitude="<?= Html::encode($task->latitude) ?>" data-longitude="<?= Html::encode($task->longitude) ?>"></div>
+        <?php endif; ?>
+
+
         <p class="map-address town"><?= Html::encode(isset($task->city->city)); ?></p>
         <p class="map-address"><?= Html::encode($task->address) ?></p>
     </div>

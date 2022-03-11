@@ -3,8 +3,6 @@
 // namespace app\controllers;
 
 // use Yii;
-// use yii\web\Controller;
-// use yii\web\Response;
 
 // class ApiController extends Controller
 // {
@@ -20,69 +18,28 @@ namespace app\components;
 
 use Yii;
 use yii\base\Component;
+use yii\web\Controller;
+use yii\web\Response;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
+use app\services\GeocoderService;
 
-class GeocoderClient extends Component
+class GeocoderClient extends Controller //Component
 {
-    const BASE_URL = 'https://geocode-maps.yandex.ru/1.x/';
 
-    /**
-     * @param string $geocode
-     * @return array
-     */
-    public function getCoords(string $geocode) //: array
+    public function actionGeocoder(string $geocode)
     {
-        $client = new Client(['base_uri' => self::BASE_URL]);
+        // if (Yii::$app->request->isAjax) { //  Добавим проверку на AJAX-запрос, поменяем формат ответа и вернём результат в формате JSON;
+        //     Yii::$app->response->format = Response::FORMAT_JSON;
 
-        try {
-            $request = new Request('GET', '');
-            $response = $client->send($request, [
-                'query' => [
-                    'geocode' => $geocode,
-                    'apikey' => Yii::$app->params['geocoderApiKey'],
-                    'format' => 'json'
-                ]
-            ]);
+        //     return ActiveForm::validate($loginForm);
+        // }
 
-            if ($response->getStatusCode() !== 200) {
-                $message = 'Response error: ' . $response->getReasonPhrase();
-                throw new BadResponseException($message);
-            }
+        Yii::$app->response->format = Response::FORMAT_JSON;
 
-            $content = $response->getBody()->getContents();
-            $responseData = json_decode($content, associative: false);
-
-            if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new ServerException('Invalid json format', $request);
-            }
-
-            $featureMembers = $responseData
-                ->response
-                ->GeoObjectCollection
-                ->featureMember;
-
-            $result = [];
-
-            foreach ($featureMembers as $i => $featureMember) {
-                $geoObject = $featureMember->GeoObject;
-                $GeocoderMetaData = $geoObject->metaDataProperty->GeocoderMetaData;
-                $components = $GeocoderMetaData->Address->Components;
-                $locality = array_values(array_filter($components, fn ($city) => $city->kind === 'locality'))[0] ?? null;
-
-                $result[$i] = [
-                    'pos' => explode(' ', $geoObject->Point->pos),
-                    'text' => $GeocoderMetaData->text,
-                    'city' => $locality?->name
-                ];
-            }
-        } catch (RequestException $ex) {
-            $result = [];
-        }
-
-        return $result;
+        return (new GeocoderService())->getCoords($geocode);
     }
 }
