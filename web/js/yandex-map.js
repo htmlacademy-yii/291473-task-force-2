@@ -1,8 +1,11 @@
-const yandexMap = document.querySelector('#map').dataset;
-ymaps.ready(init);
+const yandexMap = document.querySelector('#map');
+
+if (yandexMap) {
+    ymaps.ready(init);
     function init(){
         var myMap = new ymaps.Map("map", {
-            center: [yandexMap.latitude, yandexMap.longitude],
+            center: [yandexMap.dataset.latitude, yandexMap.dataset.longitude],
             zoom: 7
         });
     }
+}

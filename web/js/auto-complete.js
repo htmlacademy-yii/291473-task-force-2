@@ -20,10 +20,16 @@ const autoCompleteJS = new autoComplete({
             selection: event => {
                 const selectionValue = event.detail.selection.value;
                 autoCompleteJS.input.value = selectionValue.text;
-                document.querySelector('#latitude').value = selectionValue.pos[1];
-                document.querySelector('#longitude').value = selectionValue.pos[0];
-                document.querySelector('#city_name').value = selectionValue.city ? selectionValue.city : 0;
-                document.querySelector('#address').value = selectionValue.text ? selectionValue.text : 0;
+
+                const latitudeInputElement = document.querySelector('#latitude');
+                const longitudeInputElement = document.querySelector('#longitude');
+                const cityNameInputElement = document.querySelector('#city_name');
+                const addressInputElement = document.querySelector('#address');
+                
+                latitudeInputElement.value = selectionValue.pos[1];
+                longitudeInputElement.value = selectionValue.pos[0];
+                cityNameInputElement.value = selectionValue.city ? selectionValue.city : 0;
+                addressInputElement.value = selectionValue.text ? selectionValue.text : 0;
             }
         }
     }

@@ -60,7 +60,6 @@ class TasksService
             $task->longitude = $addTaskFormModel->longitude;
         }
 
-
         $task->save();
         $task_id = $task->id;
 

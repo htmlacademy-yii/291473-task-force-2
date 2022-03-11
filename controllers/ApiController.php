@@ -3,11 +3,10 @@
 namespace app\controllers;
 
 use Yii;
-use yii\web\Controller;
 use yii\web\Response;
 use app\services\GeocoderService;
 
-class ApiController extends Controller //Component
+class ApiController extends SecuredController
 {
 
     public function actionGeocoder(string $geocode)
