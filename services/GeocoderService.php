@@ -3,7 +3,6 @@
 namespace app\services;
 
 use Yii;
-use yii\base\Component;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\RequestException;
@@ -12,12 +11,6 @@ use GuzzleHttp\Psr7\Request;
 
 class GeocoderService
 {
-    // const BASE_URL = 'https://geocode-maps.yandex.ru/1.x/';
-
-    /**
-     * @param string $geocode
-     * @return array
-     */
     public function getCoords(string $geocode) //: array
     {
         $client = new Client([
@@ -35,34 +28,33 @@ class GeocoderService
             ]);
 
             if ($response->getStatusCode() !== 200) {
-                $message = 'Response error: ' . $response->getReasonPhrase();
-                throw new BadResponseException($message);
+                throw new BadResponseException("Response error: " . $response->getReasonPhrase(), $request);
             }
 
             $content = $response->getBody()->getContents();
-            $responseData = json_decode($content, associative: false);
+            $responseData = json_decode($content, false);
 
             if (json_last_error() !== JSON_ERROR_NONE) {
                 throw new ServerException('Invalid json format', $request);
             }
 
-            $featureMembers = $responseData
-                ->response
-                ->GeoObjectCollection
-                ->featureMember;
+            $geoMembers = $responseData->response->GeoObjectCollection->featureMember;
 
             $result = [];
 
-            foreach ($featureMembers as $i => $featureMember) {
-                $geoObject = $featureMember->GeoObject;
+            foreach ($geoMembers as $geoMemberNumber => $geoMember) {
+                $geoObject = $geoMember->GeoObject;
                 $GeocoderMetaData = $geoObject->metaDataProperty->GeocoderMetaData;
-                $components = $GeocoderMetaData->Address->Components;
-                $locality = array_values(array_filter($components, fn ($city) => $city->kind === 'locality'))[0] ?? null;
 
-                $result[$i] = [
-                    'pos' => explode(' ', $geoObject->Point->pos),
-                    'text' => $GeocoderMetaData->text,
-                    'city' => $locality?->name
+                $components = $GeocoderMetaData->Address->Components;
+                $locality = array_values(array_filter($components, function ($city) {
+                    return $city->kind === 'locality';
+                }))[0] ?? null;
+
+                $result[$geoMemberNumber] = [
+                    'city' => $locality->name ?? null, // Получаю название города, если оно найдено;
+                    'text' => $GeocoderMetaData->text, // Получаю подробную информацию о расположении города;
+                    'pos' => explode(' ', $geoObject->Point->pos), // Получаю координаты города;
                 ];
             }
         } catch (RequestException $ex) {

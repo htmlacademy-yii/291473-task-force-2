@@ -14,7 +14,7 @@
 //     }
 // }
 
-namespace app\components;
+namespace app\controllers;
 
 use Yii;
 use yii\base\Component;
@@ -27,7 +27,7 @@ use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Psr7\Request;
 use app\services\GeocoderService;
 
-class GeocoderClient extends Controller //Component
+class ApiController extends Controller //Component
 {
 
     public function actionGeocoder(string $geocode)
