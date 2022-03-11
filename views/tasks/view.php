@@ -3,8 +3,6 @@
 use yii\helpers\Html;
 use TaskForce\utils\NounPluralConverter;
 use TaskForce\utils\CustomHelpers;
-// use yii\bootstrap4\Modal;
-use yii\widgets\ActiveForm;
 use app\widgets\ModalForm;
 use app\assets\ModalFormAsset;
 
@@ -50,24 +48,13 @@ $action = $taskAction->get_action_code();
         <a href="<?= '/cancel/' . $task->id ?>" class="button button--blue">Отменить задание</a>
     <?php endif; ?>
 
-    <div class="task-map">
-        <?php
-        print($task->latitude);
-        print('<br>');
-        print($task->longitude);
-        print('<br>');
-        print($task->address);
-        print('<br>');
-        print($task->city->city);
-        ?>
-
-        <?php if (isset($task->latitude, $task->longitude)) : ?>
+    <?php if (isset($task->latitude, $task->longitude)) : ?>
+        <div class="task-map">
             <div id="map" style="width: 725px; height: 346px" data-latitude="<?= Html::encode($task->latitude) ?>" data-longitude="<?= Html::encode($task->longitude) ?>"></div>
-        <?php endif; ?>
-
-        <p class="map-address town"><?= Html::encode($task->city->city); ?></p>
-        <p class="map-address"><?= Html::encode($task->address) ?></p>
-    </div>
+            <p class="map-address town"><?= Html::encode($task->city->city); ?></p>
+            <p class="map-address"><?= Html::encode($task->address) ?></p>
+        </div>
+    <?php endif; ?>
 
     <?php if (CustomHelpers::checkCustomerOrExecutor($replies, $task, $userId)) : ?>
         <h4 class="head-regular">Отклики на задание</h4>

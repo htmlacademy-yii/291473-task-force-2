@@ -1,20 +1,15 @@
 const autoCompleteJS = new autoComplete({
-    // placeHolder: 'Search for Food...',
     data: {
         src: async query => {
             try {
-                // Fetch Data from external Source
                 const apiUrl = autoCompleteJS.input.dataset.apiUrl;
                 const source = await fetch(`${apiUrl}/${query}`);
-                // Data is array of `Objects` | `Strings`
                 const data = await source.json();
-                console.log(source);
                 return data;
             } catch (error) {
                 return error;
             }
         },
-        // Data 'Object' key to be searched
         keys: ['text']
     },
     resultItem: {
@@ -23,14 +18,12 @@ const autoCompleteJS = new autoComplete({
     events: {
         input: {
             selection: event => {
-                const selection = event.detail.selection.value;
-                autoCompleteJS.input.value = selection.text;
-
-                document.querySelector('#latitude').value = selection.pos[1];
-                document.querySelector('#longitude').value = selection.pos[0];
-                document.querySelector('#city_name').value = selection.city ? selection.city : 0;
-                document.querySelector('#address').value = selection.text ? selection.text : 0;
-
+                const selectionValue = event.detail.selection.value;
+                autoCompleteJS.input.value = selectionValue.text;
+                document.querySelector('#latitude').value = selectionValue.pos[1];
+                document.querySelector('#longitude').value = selectionValue.pos[0];
+                document.querySelector('#city_name').value = selectionValue.city ? selectionValue.city : 0;
+                document.querySelector('#address').value = selectionValue.text ? selectionValue.text : 0;
             }
         }
     }

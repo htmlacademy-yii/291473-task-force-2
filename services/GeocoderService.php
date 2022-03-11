@@ -11,7 +11,7 @@ use GuzzleHttp\Psr7\Request;
 
 class GeocoderService
 {
-    public function getCoords(string $geocode) //: array
+    public function getCoords(string $geocode): array
     {
         $client = new Client([
             'base_uri' => 'https://geocode-maps.yandex.ru/1.x/',
@@ -39,7 +39,6 @@ class GeocoderService
             }
 
             $geoMembers = $responseData->response->GeoObjectCollection->featureMember;
-
             $result = [];
 
             foreach ($geoMembers as $geoMemberNumber => $geoMember) {

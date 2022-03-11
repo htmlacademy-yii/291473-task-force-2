@@ -49,18 +49,16 @@ class TasksService
         $task->deadline = $addTaskFormModel->deadline;
         $task->budget = $addTaskFormModel->budget;
 
-        $task->latitude = $addTaskFormModel->latitude;
-        $task->longitude = $addTaskFormModel->longitude;
         $city = Cities::find()
             ->where(['cities.city' => $addTaskFormModel->city_name])
             ->one();
-        $task->city_id = $city['id'];
-        $task->address = $addTaskFormModel->address;
 
-        // найти id города
-        // сохранить id города базу
-        // сохранить адрес в базу
-        // проверять есть ли найденный город в Яндексе и есть ли он в базе
+        if (isset($city)) {
+            $task->city_id = $city['id'];
+            $task->address = $addTaskFormModel->address;
+            $task->latitude = $addTaskFormModel->latitude;
+            $task->longitude = $addTaskFormModel->longitude;
+        }
 
 
         $task->save();
