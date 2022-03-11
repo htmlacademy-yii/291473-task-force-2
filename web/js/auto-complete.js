@@ -29,6 +29,8 @@ const autoCompleteJS = new autoComplete({
                 document.querySelector('#latitude').value = selection.pos[1];
                 document.querySelector('#longitude').value = selection.pos[0];
                 document.querySelector('#city_name').value = selection.city ? selection.city : 0;
+                document.querySelector('#address').value = selection.text ? selection.text : 0;
+
             }
         }
     }

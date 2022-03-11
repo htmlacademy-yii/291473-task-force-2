@@ -39,6 +39,7 @@ $this->title = 'Создать задание';
     <?= $form->field($addTaskFormModel, 'latitude', ['template' => '{input}'])->hiddenInput(['id' => 'latitude']) ?>
     <?= $form->field($addTaskFormModel, 'longitude', ['template' => '{input}'])->hiddenInput(['id' => 'longitude']) ?>
     <?= $form->field($addTaskFormModel, 'city_name', ['enableAjaxValidation' => true, 'template' => '{input}{error}'])->hiddenInput(['id' => 'city_name']) ?>
+    <?= $form->field($addTaskFormModel, 'address', ['template' => '{input}'])->hiddenInput(['id' => 'address']) ?>
 
     <?= Html::submitInput('Опубликовать', ['class' => 'button button--blue']) ?>
 

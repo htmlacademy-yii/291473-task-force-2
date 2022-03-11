@@ -7,6 +7,7 @@ use app\models\Tasks;
 use app\models\Replies;
 use app\models\AddTaskForm;
 use app\models\TasksFiles;
+use app\models\Cities;
 use TaskForce\utils\CustomHelpers;
 
 class TasksService
@@ -50,16 +51,17 @@ class TasksService
 
         $task->latitude = $addTaskFormModel->latitude;
         $task->longitude = $addTaskFormModel->longitude;
-
-        $task->address = $addTaskFormModel->city_name;
-        $task->city_id = 1;
+        $city = Cities::find()
+            ->where(['cities.city' => $addTaskFormModel->city_name])
+            ->one();
+        $task->city_id = $city['id'];
+        $task->address = $addTaskFormModel->address;
 
         // найти id города
         // сохранить id города базу
         // сохранить адрес в базу
         // проверять есть ли найденный город в Яндексе и есть ли он в базе
 
-        print($addTaskFormModel->latitude);
 
         $task->save();
         $task_id = $task->id;
