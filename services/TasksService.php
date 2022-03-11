@@ -54,6 +54,11 @@ class TasksService
         $task->address = $addTaskFormModel->city_name;
         $task->city_id = 1;
 
+        // найти id города
+        // сохранить id города базу
+        // сохранить адрес в базу
+        // проверять есть ли найденный город в Яндексе и есть ли он в базе
+
         print($addTaskFormModel->latitude);
 
         $task->save();

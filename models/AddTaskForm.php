@@ -30,7 +30,7 @@ class AddTaskForm extends Model
             [['category_id'], 'exist', 'targetClass' => Categories::class, 'targetAttribute' => 'id'], // Категория: првоеряем на существование, ссылаемся на таблицу Категорий по id;
             [['location', 'city_name'], 'string'], // Локация, название города - текстовые данные;
             [['latitude', 'longitude'], 'string'], // Широта и долгота - текстовые данные;
-            [['city_name'], 'exist', 'targetClass' => Cities::class, 'targetAttribute' => 'name'], // Название города: проверяем на существование, ссылаемся на таблицу с городами по названию (имени) города;
+            // [['city_name'], 'exist', 'targetClass' => Cities::class, 'targetAttribute' => 'name'], // Название города: проверяем на существование, ссылаемся на таблицу с городами по названию (имени) города;
             [['budget'], 'integer', 'min' => 1], // Бюджет - числовое значение, задаем минимальную сумму;
             [
                 ['deadline'], 'date', 'format' => 'php:Y-m-d', 'min' => strtotime('today'), // Проверка даты;
