@@ -6,6 +6,7 @@ use Yii;
 use app\models\RegistrationForm;
 use app\models\Cities;
 use app\services\UserService;
+use app\services\AuthService;
 use yii\web\Controller;
 use TaskForce\utils\CustomHelpers;
 use yii\filters\AccessControl;
@@ -50,12 +51,29 @@ class SiteController extends Controller
         $sourceId = ArrayHelper::getValue($attributes, 'id'); // id пользователя
         $source = $client->getId(); // id клиента (vkontakte)
 
-        // // Если ранее регистрировался через Вконакте (найден по id и source ID  в таблице Auth), авторизовать его;
-        // $auth = (new AuthService())->findOne($source, $sourceId);
-        // if (isset($auth)) {
-        //     Yii::$app->user->login($auth->user); //Вызываем логин пользователя средствами встроенного компонента User;
+        // Если ранее регистрировался через Вконакте (найден по id и source ID  в таблице Auth), авторизовать его;
+        $auth = (new AuthService())->findAuthUser($source, $sourceId);
+
+        if (isset($auth)) {
+            Yii::$app->user->login($auth->user); //Вызываем логин пользователя средствами встроенного компонента User;
+        }
+
+        // print_r($auth->user);
+        // print('<br>');
+        // exit;
+        //     print_r($auth);
+        //     print('<br>');
+        //     // print_r($attributes);
+        //     // print('<br>');
+        //     // print_r($sourceId);
+        //     // print('<br>');
+        //     // print_r($source);
+        //     // print('<br>');
+        //     // print_r($auth);
+        //     // print('<br>');
+        //     exit;
+
         //     return;
-        // }
 
         // // Если пользователь ранее не регистрировался через Вконтатке, проверяем есть ли у него email в данных из Вк;
         // $email = ArrayHelper::getValue($attributes, 'email'); // Проверяем есть ли у него email в данных из Вк;
@@ -78,7 +96,7 @@ class SiteController extends Controller
         //     }
         // }
 
-        // return $this->goHome();
+        return $this->goHome();
     }
 
 
