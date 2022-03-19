@@ -46,57 +46,33 @@ class SiteController extends Controller
 
     public function onAuthSuccess($client)
     {
-
         $attributes = $client->getUserAttributes(); // Данные пользователя;
-        $sourceId = ArrayHelper::getValue($attributes, 'id'); // id пользователя
-        $source = $client->getId(); // id клиента (vkontakte)
+        $sourceId = ArrayHelper::getValue($attributes, 'id'); // id пользователя;
+        $source = $client->getId(); // id клиента (vkontakte);
 
-        // Если ранее регистрировался через Вконакте (найден по id и source ID  в таблице Auth), авторизовать его;
+        // Авторизация через Вк, если пользователь уже зарегистрирован через ВК;
         $auth = (new AuthService())->findAuthUser($source, $sourceId);
-
         if (isset($auth)) {
-            Yii::$app->user->login($auth->user); //Вызываем логин пользователя средствами встроенного компонента User;
+            Yii::$app->user->login($auth->user);
+            return $this->goHome();
         }
 
-        // print_r($auth->user);
-        // print('<br>');
-        // exit;
-        //     print_r($auth);
-        //     print('<br>');
-        //     // print_r($attributes);
-        //     // print('<br>');
-        //     // print_r($sourceId);
-        //     // print('<br>');
-        //     // print_r($source);
-        //     // print('<br>');
-        //     // print_r($auth);
-        //     // print('<br>');
-        //     exit;
-
-        //     return;
-
-        // // Если пользователь ранее не регистрировался через Вконтатке, проверяем есть ли у него email в данных из Вк;
-        // $email = ArrayHelper::getValue($attributes, 'email'); // Проверяем есть ли у него email в данных из Вк;
-        // if (isset($email)) {
-
-        //     // Если email пользовател совпадает с email в таблице Users;
-        //     $user = (new UserService())->findByEmail($email);
-        //     if (isset($user)) {
-        //         (new AuthService())->saveVkAuth($user->id, $source, $sourceId); // Записываем данные Vk в таблицу Auth;
-        //         Yii::$app->user->login($user); // Логиним пользователя;
-        //         return;
-        //     }
-        //     // Если email пользователя не совпадает с email в таблице Users;
-        //     else {
-        //         // Создаем новую учетку + записывает данные в Auth;
-        //         $user = (new UserService())->saveNewVkontakteProfile($attributes, $source); //$user = 
-        //         (new AuthService())->saveVkAuth($user->id, $source, $sourceId);
-        //         // Yii::$app->user->login($user);
-        //         return;
-        //     }
-        // }
-
-        return $this->goHome();
+        $email = ArrayHelper::getValue($attributes, 'email');
+        // Авторизация через Вк, если пользователь не зарегистрирован через ВК, но email совпадает;
+        if (isset($email)) {
+            $user = (new UserService())->findUserByEmail($email);
+            if (isset($user)) {
+                (new AuthService())->saveAuthUser($user->id, $source, $sourceId);
+                Yii::$app->user->login($user);
+            }
+            // Авторизация через Вк, если пользователь не зарегистрирован через ВК или email не совпадает;
+            else {
+                $user = (new UserService())->SaveNewVkProfile($attributes, $source);
+                (new AuthService())->saveAuthUser($user->id, $source, $sourceId);
+                Yii::$app->user->login($user);
+            }
+            return $this->goHome();
+        }
     }
 
 

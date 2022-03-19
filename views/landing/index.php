@@ -24,10 +24,12 @@ use yii\helpers\Url;
 
     <?php $form = ActiveForm::end(); ?>
 
-    <?= AuthChoice::widget([
+    <?php $authAuthChoice = AuthChoice::begin([
+        'options' => ['style' => 'margin-top: 15px;'],
         'baseAuthUrl' => ['site/auth'],
         'popupMode' => false,
-    ]) ?>
+    ]); ?>
+    <?php AuthChoice::end(); ?>
 
     <?= Html::button('Закрыть', ['class' => 'form-modal-close']) ?>
 </section>
