@@ -3,12 +3,12 @@
 use yii\helpers\Html;
 use TaskForce\utils\NounPluralConverter;
 use TaskForce\utils\CustomHelpers;
-// use yii\bootstrap4\Modal;
-use yii\widgets\ActiveForm;
-
-
 use app\widgets\ModalForm;
 use app\assets\ModalFormAsset;
+
+$apiKey = Yii::$app->params['geocoderApiKey']; // Прокидываю api-ключ;
+$this->registerJsFile("https://api-maps.yandex.ru/2.1/?apikey={$apiKey}&lang=ru_RU"); // Подключаю api;
+$this->registerJsFile('/js/yandex-map.js'); // Подключаю карту;
 
 ModalFormAsset::register($this);
 
@@ -48,11 +48,13 @@ $action = $taskAction->get_action_code();
         <a href="<?= '/cancel/' . $task->id ?>" class="button button--blue">Отменить задание</a>
     <?php endif; ?>
 
-    <div class="task-map">
-        <img class="map" src="/img/map.png" width="725" height="346" alt="<?= Html::encode($task->address); ?>">
-        <p class="map-address town"><?= Html::encode(isset($task->city->city)); ?></p>
-        <p class="map-address"><?= Html::encode($task->address) ?></p>
-    </div>
+    <?php if (isset($task->latitude, $task->longitude)) : ?>
+        <div class="task-map">
+            <div id="map" style="width: 725px; height: 346px" data-latitude="<?= Html::encode($task->latitude) ?>" data-longitude="<?= Html::encode($task->longitude) ?>"></div>
+            <p class="map-address town"><?= Html::encode($task->city->city); ?></p>
+            <p class="map-address"><?= Html::encode($task->address) ?></p>
+        </div>
+    <?php endif; ?>
 
     <?php if (CustomHelpers::checkCustomerOrExecutor($replies, $task, $userId)) : ?>
         <h4 class="head-regular">Отклики на задание</h4>

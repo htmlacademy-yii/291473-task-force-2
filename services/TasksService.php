@@ -7,6 +7,7 @@ use app\models\Tasks;
 use app\models\Replies;
 use app\models\AddTaskForm;
 use app\models\TasksFiles;
+use app\models\Cities;
 use TaskForce\utils\CustomHelpers;
 
 class TasksService
@@ -47,6 +48,17 @@ class TasksService
         $task->dt_add = CustomHelpers::getCurrentDate();
         $task->deadline = $addTaskFormModel->deadline;
         $task->budget = $addTaskFormModel->budget;
+
+        $city = Cities::find()
+            ->where(['cities.city' => $addTaskFormModel->city_name])
+            ->one();
+
+        if (isset($city)) {
+            $task->city_id = $city['id'];
+            $task->address = $addTaskFormModel->address;
+            $task->latitude = $addTaskFormModel->latitude;
+            $task->longitude = $addTaskFormModel->longitude;
+        }
 
         $task->save();
         $task_id = $task->id;
