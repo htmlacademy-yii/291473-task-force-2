@@ -2,6 +2,7 @@
 
 use yii\bootstrap4\Html;
 use yii\widgets\ActiveForm;
+use yii\authclient\widgets\AuthChoice;
 use yii\helpers\Url;
 ?>
 
@@ -22,6 +23,11 @@ use yii\helpers\Url;
     <?= Html::submitButton('Войти', ['class' => 'button']) ?>
 
     <?php $form = ActiveForm::end(); ?>
+
+    <?= AuthChoice::widget([
+        'baseAuthUrl' => ['site/auth'],
+        'popupMode' => false,
+    ]) ?>
 
     <?= Html::button('Закрыть', ['class' => 'form-modal-close']) ?>
 </section>
