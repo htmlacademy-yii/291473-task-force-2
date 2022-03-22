@@ -74,6 +74,7 @@ $config = [
                 'accept/<id:\d+>' => 'tasks/accept',
                 'reject/<id:\d+>' => 'tasks/reject',
                 'cancel/<id:\d+>' => 'tasks/cancel',
+                // 'mytasks/<tasks_status>' => 'mytasks/index',
             ],
         ],
     ],
