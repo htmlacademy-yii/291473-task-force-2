@@ -6,9 +6,11 @@ use Yii;
 use app\models\RegistrationForm;
 use app\models\Cities;
 use app\services\UserService;
+use app\services\AuthService;
 use yii\web\Controller;
 use TaskForce\utils\CustomHelpers;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 
 class SiteController extends Controller
 {
@@ -30,6 +32,47 @@ class SiteController extends Controller
                 ]
             ]
         ];
+    }
+
+    public function actions()
+    {
+        return [
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'onAuthSuccess'],
+            ],
+        ];
+    }
+
+    public function onAuthSuccess($client)
+    {
+        $attributes = $client->getUserAttributes(); // Данные пользователя;
+        $sourceId = ArrayHelper::getValue($attributes, 'id'); // id пользователя;
+        $source = $client->getId(); // id клиента (vkontakte);
+
+        // Авторизация через Вк, если пользователь уже зарегистрирован через ВК;
+        $auth = (new AuthService())->findAuthUser($source, $sourceId);
+        if (isset($auth)) {
+            Yii::$app->user->login($auth->user);
+            return $this->goHome();
+        }
+
+        $email = ArrayHelper::getValue($attributes, 'email');
+        // Авторизация через Вк, если пользователь не зарегистрирован через ВК, но email совпадает;
+        if (isset($email)) {
+            $user = (new UserService())->findUserByEmail($email);
+            if (isset($user)) {
+                (new AuthService())->saveAuthUser($user->id, $source, $sourceId);
+                Yii::$app->user->login($user);
+            }
+            // Авторизация через Вк, если пользователь не зарегистрирован через ВК или email не совпадает;
+            else {
+                $user = (new UserService())->SaveNewVkProfile($attributes, $source);
+                (new AuthService())->saveAuthUser($user->id, $source, $sourceId);
+                Yii::$app->user->login($user);
+            }
+            return $this->goHome();
+        }
     }
 
 

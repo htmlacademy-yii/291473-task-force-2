@@ -8,12 +8,13 @@ use app\models\Tasks;
 use app\models\Specializations;
 use app\models\Opinions;
 use app\models\Users;
+use app\models\User;
+use app\models\Cities;
 use app\models\RegistrationForm;
 use TaskForce\utils\CustomHelpers;
 
 class UserService
 {
-
     public function getExecutor($id)
     {
         return Users::find()
@@ -57,6 +58,11 @@ class UserService
         return array_search($id, array_column($usersRatings, 'id')) + 1;
     }
 
+    public function findUserByEmail(string $email): ?User
+    {
+        return User::findOne(['email' => $email]);
+    }
+
     public function SaveNewUserProfile(RegistrationForm $RegistrationModel): void
     {
         $user = new Users();
@@ -84,5 +90,44 @@ class UserService
         } catch (\Throwable $e) {
             $transaction->rollBack();
         }
+    }
+
+    public function SaveNewVkProfile($attributes, $source)
+    {
+        $user = new User();
+        $profile = new Profiles();
+
+        if (isset($attributes['city']['title'])) {
+            $cityVk = $attributes['city']['title'];
+
+            $city = Cities::findOne(['city' => $cityVk]);
+            if (isset($city)) {
+                $user->city_id = $city['id'];
+            }
+        }
+
+        $user->role = 1;
+        $user->name = "{$attributes['first_name']} {$attributes['last_name']}";
+        $user->email = $attributes['email'];
+        $passwordHash = Yii::$app->getSecurity()->generatePasswordHash(mt_rand(8, 10));
+        $user->password = $passwordHash;
+        $user->dt_add = CustomHelpers::getCurrentDate(); //date("Y.m.d H:i:s");
+
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $user->save();
+            $profile->user_id = $user->id;
+            $profile->avatar_link = '/img/avatars/' . random_int(1, 5) . '.png';
+            $profile->average_rating = 0;
+            $profile->save();
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+        }
+
+        return $user;
     }
 }

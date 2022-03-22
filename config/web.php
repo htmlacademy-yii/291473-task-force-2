@@ -12,6 +12,17 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        'authClientCollection' => [
+            'class' => 'yii\authclient\Collection',
+            'clients' => [
+                'vkontakte' => [
+                    'class' => 'yii\authclient\clients\VKontakte',
+                    'clientId' => $params['VkClientID'], //'vkontakte_client_id', 
+                    'clientSecret' => $params['clientSecret'], //'vkontakte_client_secret',
+                    'scope' => 'email', // Запрашиваю дополнительный доступ к email пользователя;
+                ],
+            ],
+        ],
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'r1gj23OkV1X002KMTzPW3rFYaVZUOJqz',
