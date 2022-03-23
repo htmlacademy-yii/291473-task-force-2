@@ -39,19 +39,24 @@ use yii\widgets\Menu;
         <h3 class="head-main head-regular">Все мои задания</h3>
     <?php endif; ?>
 
-    <?php foreach ($myTasks as $task) : ?>
-        <div class="task-card">
-            <div class="header-task">
-                <a href="<?= Url::to(['tasks/view', 'id' => $task->id]); ?>" class="link link--block link--big"><?= Html::encode($task->name); ?></a>
-                <p class="price price--task"><?= Html::encode($task->budget); ?> <?= Html::encode(isset($task->budget)) ? '₽' : ''; ?> </p>
+    <?php if (count($myTasks) > 0) : ?>
+        <?php foreach ($myTasks as $task) : ?>
+            <div class="task-card">
+                <div class="header-task">
+                    <a href="<?= Url::to(['tasks/view', 'id' => $task->id]); ?>" class="link link--block link--big"><?= Html::encode($task->name); ?></a>
+                    <p class="price price--task"><?= Html::encode($task->budget); ?> <?= Html::encode(isset($task->budget)) ? '₽' : ''; ?> </p>
+                </div>
+                <p class="info-text"><span class="current-time"><?= NounPluralConverter::getTaskRelativeTime($task->dt_add); ?></span></p>
+                <p class="task-text"><?= Html::encode($task->description); ?></p>
+                <div class="footer-task">
+                    <p class="info-text town-text"><?= Html::encode($task->address); ?></p>
+                    <p class="info-text category-text"><?= Html::encode($task->category->name); ?></p>
+                    <a href="<?= Url::to(['tasks/view', 'id' => $task->id]); ?>" class="button button--black">Смотреть Задание</a>
+                </div>
             </div>
-            <p class="info-text"><span class="current-time"><?= NounPluralConverter::getTaskRelativeTime($task->dt_add); ?></span></p>
-            <p class="task-text"><?= Html::encode($task->description); ?></p>
-            <div class="footer-task">
-                <p class="info-text town-text"><?= Html::encode($task->address); ?></p>
-                <p class="info-text category-text"><?= Html::encode($task->category->name); ?></p>
-                <a href="<?= Url::to(['tasks/view', 'id' => $task->id]); ?>" class="button button--black">Смотреть Задание</a>
-            </div>
-        </div>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
+    <?php else : ?>
+        <p>Задания в данной категории отсутствуют.</p>
+    <?php endif; ?>
+
 </div>

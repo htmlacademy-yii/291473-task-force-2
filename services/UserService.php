@@ -11,6 +11,7 @@ use app\models\Users;
 use app\models\User;
 use app\models\Cities;
 use app\models\RegistrationForm;
+use app\models\EditProfileForm;
 use TaskForce\utils\CustomHelpers;
 
 class UserService
@@ -129,5 +130,37 @@ class UserService
         }
 
         return $user;
+    }
+
+    public function EditUserProfile($userProfile, EditProfileForm $EditProfileFormModel)
+    {
+
+        $avatar = $EditProfileFormModel->avatar;
+        $file_path = uniqid('file_') . '.' . $avatar->extension;
+        $avatar->saveAs(Yii::getAlias('@webroot') . '/img/avatars/' . $file_path);
+
+        // print($userProfile->profile->avatar_link);
+        $userProfile->profile->avatar_link = '/img/avatars/' . $file_path;
+
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $userProfile->profile->save();
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+        }
+
+
+        // print($file_path);
+
+
+        // $task_file = new TasksFiles;
+        // $task_file->link = $file_path;
+        // $task_file->task_id = $task_id;
+        // $task_file->save();
+
     }
 }

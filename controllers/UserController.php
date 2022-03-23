@@ -7,6 +7,9 @@ use yii\web\NotFoundHttpException;
 use app\services\UserService;
 use app\models\EditProfileForm;
 use app\services\CategoriesService;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
+use yii\web\UploadedFile;
 
 class UserController extends SecuredController
 {
@@ -40,10 +43,23 @@ class UserController extends SecuredController
     {
         $EditProfileFormModel = new EditProfileForm();
         $categories = (new CategoriesService())->findAll();
-
         $userId = Yii::$app->user->getId();
         $userProfile = (new UserService())->getExecutor($userId);
-        print_r($userProfile->profile->avatar_link);
+
+        if (Yii::$app->request->isPost) {
+            $EditProfileFormModel->load(Yii::$app->request->post());
+            $EditProfileFormModel->avatar = UploadedFile::getInstance($EditProfileFormModel, 'avatar');
+
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($EditProfileFormModel);
+            }
+
+            // if ($EditProfileFormModel->validate()) {
+            (new UserService())->EditUserProfile($userProfile, $EditProfileFormModel);
+            // return $this->refresh();
+            // }
+        }
 
         return $this->render('edit', [
             'userProfile' => $userProfile,

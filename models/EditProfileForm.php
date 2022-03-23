@@ -11,7 +11,7 @@ use app\models\Profiles;
 
 class EditProfileForm extends Model
 {
-    public $avatar_link;
+    public $avatar;
     public $name;
     public $email;
     public $bd;
@@ -24,7 +24,8 @@ class EditProfileForm extends Model
     {
         return [
             [['name', 'email'], 'required'],
-            [['avatar_link'], 'string', 'max' => 128],
+            // [['avatar_link'], 'string', 'max' => 128],
+            [['avatar'], 'image', 'extensions' => 'png, jpg'],
             [['name'], 'string', 'length' => [2, 128]],
             [['email', 'about'], 'string', 'max' => 128],
             [['email'], 'email'],
@@ -43,7 +44,7 @@ class EditProfileForm extends Model
     public function attributeLabels()
     {
         return [
-            'avatar_link' => 'Сменить аватар',
+            'avatar' => 'Сменить аватар',
             'name' => 'Ваше имя',
             'email' => 'Email',
             'bd' => 'День рождения',
