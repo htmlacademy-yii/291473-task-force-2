@@ -37,13 +37,35 @@ use yii\helpers\Url;
             <?= $form
                 ->field($EditProfileFormModel, 'avatar', ['template' => "{input}{label}", 'labelOptions' => ['class' => 'button button--black']])
                 ->fileInput(['style' => 'display: none;']) ?>
-
-            <!-- <input hidden value="Сменить аватар" type="file" id="button-input">
-            <label for="button-input" class="button button--black"> Сменить аватар</label> -->
         </div>
 
+        <div class="form-group">
+            <?= $form->field($EditProfileFormModel, 'name')->textInput(['value' => Html::encode($userProfile->name)]); ?>
+        </div>
 
+        <div class="half-wrapper">
+            <div class="form-group">
+                <?= $form->field($EditProfileFormModel, 'email', ['enableAjaxValidation' => true])->input('email', ['value' => Html::encode($userProfile->email)]) ?>
+            </div>
+            <div class="form-group">
+                <?= $form->field($EditProfileFormModel, 'bd', ['enableAjaxValidation' => true])->input('date', ['placeholder' => 'гггг-мм-дд', 'value' => Html::encode($userProfile->profile->bd)]) ?>
+            </div>
+        </div>
 
+        <div class="half-wrapper">
+            <div class="form-group">
+                <?= $form->field($EditProfileFormModel, 'phone')->textInput(['value' => Html::encode($userProfile->profile->phone)]); ?>
+            </div>
+            <div class="form-group">
+                <?= $form->field($EditProfileFormModel, 'messanger')->textInput(['value' => Html::encode($userProfile->profile->messanger)]); ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <?= $form->field($EditProfileFormModel, 'about')->textarea(['value' => Html::encode($userProfile->profile->about)]) ?>
+        </div>
+
+        <!-- <?= print_r($userProfile); ?> -->
         <!-- <input type="submit" class="button button--blue" value="Сохранить"> -->
 
         <?= Html::submitInput('Сохранить', [

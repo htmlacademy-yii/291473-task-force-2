@@ -134,16 +134,24 @@ class UserService
 
     public function EditUserProfile($userProfile, EditProfileForm $EditProfileFormModel)
     {
-
         $avatar = $EditProfileFormModel->avatar;
-        $file_path = uniqid('file_') . '.' . $avatar->extension;
-        $avatar->saveAs(Yii::getAlias('@webroot') . '/img/avatars/' . $file_path);
+        if (isset($avatar)) {
+            $file_path = uniqid('file_') . '.' . $avatar->extension;
+            $avatar->saveAs(Yii::getAlias('@webroot') . '/img/avatars/' . $file_path);
 
-        // print($userProfile->profile->avatar_link);
-        $userProfile->profile->avatar_link = '/img/avatars/' . $file_path;
+            $userProfile->profile->avatar_link = '/img/avatars/' . $file_path;
+        }
+
+        $userProfile->name = $EditProfileFormModel->name;
+        $userProfile->email = $EditProfileFormModel->email;
+        $userProfile->profile->bd = $EditProfileFormModel->bd;
+        $userProfile->profile->phone = $EditProfileFormModel->phone;
+        $userProfile->profile->messanger = $EditProfileFormModel->messanger;
+        $userProfile->profile->about = $EditProfileFormModel->about;
 
         $transaction = Yii::$app->db->beginTransaction();
         try {
+            $userProfile->save();
             $userProfile->profile->save();
             $transaction->commit();
         } catch (\Exception $e) {
