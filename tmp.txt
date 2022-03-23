@@ -66,5 +66,7 @@ http://taskforce/landing
 http://taskforce/tasks/add
 
 Страница геокодера
-http://taskforce-tmp/geoapi/екатеринбург
+http://taskforce/geoapi/екатеринбург
 
+Страница Мои задачи
+http://taskforce/mytasks/index/

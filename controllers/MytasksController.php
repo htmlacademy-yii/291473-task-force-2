@@ -2,35 +2,24 @@
 
 namespace app\controllers;
 
+use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use TaskForce\utils\CustomHelpers;
 use app\models\Tasks;
+use app\services\TasksService;
 
 
 class MytasksController extends Controller
 {
-    static function getTasksStatus($tasks_status)
+    public function actionIndex()
     {
-
-        if (isset($tasks_status)) {
-            return Tasks::find()
-                ->where(['tasks.status' => $tasks_status])
-                ->all();
-        }
-        return Tasks::find()->all();
-    }
-
-    public function actionIndex($tasks_status = 'new')
-    {
-
-        $myTasks = self::getTasksStatus($tasks_status);
-        $tasks = Tasks::find()->all(); // Получаю все доступные задачи (пока что так);
+        $tasks_filter = Yii::$app->request->get('tasks_filter');
+        $myTasks = (new TasksService())->getMyTasksByStatus($tasks_filter);
 
         return $this->render('index', [
-            'tasks' => $tasks,
-            'tasks_status' => $tasks_status,
             'myTasks' => $myTasks,
+            'tasks_filter' => $tasks_filter,
         ]);
     }
 }

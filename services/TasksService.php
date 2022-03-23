@@ -75,4 +75,14 @@ class TasksService
 
         return $task_id;
     }
+
+    public function getMyTasksByStatus($tasks_filter)
+    {
+        if (isset($tasks_filter)) {
+            return Tasks::find()
+                ->where(['tasks.status' => $tasks_filter])
+                ->all();
+        }
+        return Tasks::find()->all();
+    }
 }

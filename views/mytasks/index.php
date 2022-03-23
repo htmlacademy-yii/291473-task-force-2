@@ -2,12 +2,8 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\ActiveForm;
-use yii\helpers\ArrayHelper;
 use TaskForce\utils\NounPluralConverter;
 use yii\widgets\Menu;
-
-$currentMyTasksUrl = Yii::$app->request->url;
 ?>
 
 <div class="left-menu">
@@ -16,11 +12,10 @@ $currentMyTasksUrl = Yii::$app->request->url;
 
         <?php
         $myItems = [
-            ['label' => 'Новые', 'url' => ['/mytasks/new']], //, 'filter' => 'new'
-            ['label' => 'В процессе', 'url' => ['/mytasks/in_progress']], //, 'filter' => 'progress'
-            ['label' => 'Закрытые', 'url' => ['/mytasks/finished']] //, 'filter' => 'closed'
+            ['label' => 'Новые', 'url' => ['/mytasks/index', 'tasks_filter' => 'new'],],
+            ['label' => 'В процессе', 'url' => ['/mytasks/index', 'tasks_filter' => 'in_progress']],
+            ['label' => 'Закрытые', 'url' => ['/mytasks/index', 'tasks_filter' => 'closed']],
         ];
-
         ?>
 
         <?= Menu::widget([
@@ -31,20 +26,18 @@ $currentMyTasksUrl = Yii::$app->request->url;
             'linkTemplate' => '<a href="{url}" class="link link--nav">{label}</a>',
             'options' => ['class' => 'side-menu-list']
         ]); ?>
-
-        <!-- <li class="side-menu-item <?= $currentMyTasksUrl === '/mytasks/new' || $currentMyTasksUrl === '/mytasks/' ? 'side-menu-item--active' : '' ?>">
-            <a href="<?= Url::to(['mytasks/new']); ?>" class="link link--nav">Новые</a>
-        </li>
-        <li class="side-menu-item <?= $currentMyTasksUrl === '/mytasks/in_progress' ? 'side-menu-item--active' : '' ?>">
-            <a href="<?= Url::to(['mytasks/in_progress']); ?>" class="link link--nav">В процессе</a>
-        </li>
-        <li class="side-menu-item <?= $currentMyTasksUrl === '/mytasks/finished' ? 'side-menu-item--active' : '' ?>">
-            <a href="<?= Url::to(['mytasks/finished']); ?>" class="link link--nav">Закрытые</a>
-        </li> -->
     </ul>
 </div>
 <div class="left-column left-column--task">
-    <h3 class="head-main head-regular">Новые задания</h3>
+    <?php if ($tasks_filter === 'new') : ?>
+        <h3 class="head-main head-regular">Новые задания</h3>
+    <?php elseif ($tasks_filter === 'in_progress') : ?>
+        <h3 class="head-main head-regular">В процессе</h3>
+    <?php elseif ($tasks_filter === 'closed') : ?>
+        <h3 class="head-main head-regular">Закрытые</h3>
+    <?php else : ?>
+        <h3 class="head-main head-regular">Все мои задания</h3>
+    <?php endif; ?>
 
     <?php foreach ($myTasks as $task) : ?>
         <div class="task-card">
@@ -61,35 +54,4 @@ $currentMyTasksUrl = Yii::$app->request->url;
             </div>
         </div>
     <?php endforeach; ?>
-
-    <!-- <div class="task-card">
-        <div class="header-task">
-            <a href="#" class="link link--block link--big">Перевести войну и мир на клингонский</a>
-            <p class="price price--task">3400 ₽</p>
-        </div>
-        <p class="info-text"><span class="current-time">4 часа </span>назад</p>
-        <p class="task-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas varius tortor nibh, sit amet tempor
-            nibh finibus et. Aenean eu enim justo. Vestibulum aliquam hendrerit molestie. Mauris malesuada nisi sit amet augue accumsan tincidunt.
-        </p>
-        <div class="footer-task">
-            <p class="info-text town-text">Санкт-Петербург, Центральный район</p>
-            <p class="info-text category-text">Переводы</p>
-            <a href="#" class="button button--black">Смотреть Задание</a>
-        </div>
-    </div>
-    <div class="task-card">
-        <div class="header-task">
-            <a href="#" class="link link--block link--big">Перевести войну и мир на клингонский</a>
-            <p class="price price--task">3400 ₽</p>
-        </div>
-        <p class="info-text"><span class="current-time">4 часа </span>назад</p>
-        <p class="task-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas varius tortor nibh, sit amet tempor
-            nibh finibus et. Aenean eu enim justo. Vestibulum aliquam hendrerit molestie. Mauris malesuada nisi sit amet augue accumsan tincidunt.
-        </p>
-        <div class="footer-task">
-            <p class="info-text town-text">Санкт-Петербург, Центральный район</p>
-            <p class="info-text category-text">Переводы</p>
-            <a href="#" class="button button--black">Смотреть Задание</a>
-        </div>
-    </div> -->
 </div>
