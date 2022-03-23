@@ -2,8 +2,11 @@
 
 namespace app\controllers;
 
+use Yii;
 use yii\web\NotFoundHttpException;
 use app\services\UserService;
+use app\models\EditProfileForm;
+use app\services\CategoriesService;
 
 class UserController extends SecuredController
 {
@@ -30,6 +33,29 @@ class UserController extends SecuredController
             'tasksInProgressCount' => $tasksInProgressCount,
             'userRatingPosition' => $userRatingPosition,
             'opinions' => $opinions,
+        ]);
+    }
+
+    public function actionEdit()
+    {
+        $EditProfileFormModel = new EditProfileForm();
+        $categories = (new CategoriesService())->findAll();
+
+        $userId = Yii::$app->user->getId();
+        $userProfile = (new UserService())->getExecutor($userId);
+        print_r($userProfile->profile->avatar_link);
+
+        return $this->render('edit', [
+            'userProfile' => $userProfile,
+            'EditProfileFormModel' => $EditProfileFormModel,
+            'categories' => $categories,
+            // 'user' => $user,
+            // 'specializations' => $specializations,
+            // 'tasksFinishedCount' => $tasksFinishedCount,
+            // 'tasksFailedCount' => $tasksFailedCount,
+            // 'tasksInProgressCount' => $tasksInProgressCount,
+            // 'userRatingPosition' => $userRatingPosition,
+            // 'opinions' => $opinions,
         ]);
     }
 }
