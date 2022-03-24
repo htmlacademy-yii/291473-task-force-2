@@ -45,6 +45,9 @@ class UserController extends SecuredController
         $categories = (new CategoriesService())->findAll();
         $userId = Yii::$app->user->getId();
         $userProfile = (new UserService())->getExecutor($userId);
+        $specializations = (new UserService())->getExecutorSpecializations($userId);
+        $currentSpecializations = (new UserService())->getCurrentSpecializations($specializations);
+
 
         if (Yii::$app->request->isPost) {
             $EditProfileFormModel->load(Yii::$app->request->post());
@@ -55,23 +58,17 @@ class UserController extends SecuredController
                 return ActiveForm::validate($EditProfileFormModel);
             }
 
-            // if ($EditProfileFormModel->validate()) {
-            (new UserService())->EditUserProfile($userProfile, $EditProfileFormModel);
-            // return $this->refresh();
-            // }
+            if ($EditProfileFormModel->validate()) {
+                (new UserService())->EditUserProfile($userProfile, $EditProfileFormModel);
+                return $this->refresh();
+            }
         }
 
         return $this->render('edit', [
             'userProfile' => $userProfile,
             'EditProfileFormModel' => $EditProfileFormModel,
             'categories' => $categories,
-            // 'user' => $user,
-            // 'specializations' => $specializations,
-            // 'tasksFinishedCount' => $tasksFinishedCount,
-            // 'tasksFailedCount' => $tasksFailedCount,
-            // 'tasksInProgressCount' => $tasksInProgressCount,
-            // 'userRatingPosition' => $userRatingPosition,
-            // 'opinions' => $opinions,
+            'currentSpecializations' => $currentSpecializations,
         ]);
     }
 }

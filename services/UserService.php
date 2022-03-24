@@ -39,6 +39,15 @@ class UserService
             ->all();
     }
 
+    public function getCurrentSpecializations($specializations)
+    {
+        $currentSpecializations = [];
+        foreach ($specializations as $specialization) {
+            $currentSpecializations[] = $specialization['specialization_id'];
+        }
+        return  $currentSpecializations;
+    }
+
     public function getExecutorOpinions($id)
     {
         return Opinions::find()
@@ -149,10 +158,26 @@ class UserService
         $userProfile->profile->messanger = $EditProfileFormModel->messanger;
         $userProfile->profile->about = $EditProfileFormModel->about;
 
+        $specializations = $EditProfileFormModel->categories;
+        $userSpecializations = Specializations::find()
+            ->where(['user_id' => $userProfile->id])
+            ->all();
+        $currentSpecializations = self::getCurrentSpecializations($userSpecializations);
+        Specializations::deleteAll(['user_id' => $userProfile->id]);
+
         $transaction = Yii::$app->db->beginTransaction();
         try {
             $userProfile->save();
             $userProfile->profile->save();
+
+            if (count($specializations) > 0) { // && $specializations !== $currentSpecializations
+                foreach ($specializations as $specializationId) {
+                    $userSpecializations = new Specializations();
+                    $userSpecializations->user_id = $userProfile->id;
+                    $userSpecializations->specialization_id = $specializationId;
+                    $userSpecializations->save();
+                }
+            }
             $transaction->commit();
         } catch (\Exception $e) {
             $transaction->rollBack();
@@ -160,15 +185,5 @@ class UserService
         } catch (\Throwable $e) {
             $transaction->rollBack();
         }
-
-
-        // print($file_path);
-
-
-        // $task_file = new TasksFiles;
-        // $task_file->link = $file_path;
-        // $task_file->task_id = $task_id;
-        // $task_file->save();
-
     }
 }

@@ -24,7 +24,6 @@ class EditProfileForm extends Model
     {
         return [
             [['name', 'email'], 'required'],
-            // [['avatar_link'], 'string', 'max' => 128],
             [['avatar'], 'image', 'extensions' => 'png, jpg'],
             [['name'], 'string', 'length' => [2, 128]],
             [['email', 'about'], 'string', 'max' => 128],

@@ -69,12 +69,12 @@ use yii\helpers\Url;
             ArrayHelper::map($categories, 'id', 'name'),
             [
                 'separator' => '<br>',
-                'item' => function ($index, $label, $name, $checked, $value) use ($EditProfileFormModel) {
+                'item' => function ($index, $label, $name, $checked, $value) use ($EditProfileFormModel, $currentSpecializations) {
                     settype($EditProfileFormModel->categories, 'array');
-                    $checked = in_array($value, $EditProfileFormModel->categories) ? ' checked' : '';
-                    $html = "<input type=\"checkbox\" name=\"{$name}\" value=\"{$value}\"{$checked}>";
+                    $checked = in_array($value, $currentSpecializations) ? ' checked' : '';
+                    $input = "<input type=\"checkbox\" name=\"{$name}\" id=\"{$value}\" value=\"{$value}\"{$checked}>";
                     $label = "<label class=\"control-label\" for=\"{$value}\">{$label}</label>";
-                    return "<label>{$html}{$label}</label>";
+                    return "<label>{$input}{$label}</label>";
                 }
             ]
         ); ?>
