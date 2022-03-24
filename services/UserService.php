@@ -162,15 +162,13 @@ class UserService
         $userSpecializations = Specializations::find()
             ->where(['user_id' => $userProfile->id])
             ->all();
-        $currentSpecializations = self::getCurrentSpecializations($userSpecializations);
         Specializations::deleteAll(['user_id' => $userProfile->id]);
 
         $transaction = Yii::$app->db->beginTransaction();
         try {
             $userProfile->save();
             $userProfile->profile->save();
-
-            if (count($specializations) > 0) { // && $specializations !== $currentSpecializations
+            if (count($specializations) > 0) {
                 foreach ($specializations as $specializationId) {
                     $userSpecializations = new Specializations();
                     $userSpecializations->user_id = $userProfile->id;

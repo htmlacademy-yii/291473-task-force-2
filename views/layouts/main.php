@@ -74,16 +74,16 @@ if ($user) {
                     <p class="user-name"><?= $userName ?></p>
                     <div class="popup-head">
                         <ul class="popup-menu">
-                            <li class="menu-item">
-                                <a href="#" class="link">Настройки</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="link">Связаться с нами</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="<?= Url::to('/site/logout'); ?>" class="link">Выход из системы</a>
-                            </li>
-
+                            <?= Menu::widget([
+                                'items' => [
+                                    ['label' => 'Настройки', 'url' => ['/user/edit']],
+                                    ['label' => 'Связаться с нами', 'url' => ['/']],
+                                    ['label' => 'Выход из системы', 'url' => ['/site/logout']]
+                                ],
+                                'itemOptions' => ['class' => 'menu-item'],
+                                'linkTemplate' => '<a href="{url}" class="link">{label}</a>',
+                                'options' => ['class' => 'popup-menu']
+                            ]); ?>
                         </ul>
                     </div>
                 </div>
