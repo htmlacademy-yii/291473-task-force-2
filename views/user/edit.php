@@ -54,7 +54,7 @@ use yii\helpers\Url;
 
         <div class="half-wrapper">
             <div class="form-group">
-                <?= $form->field($EditProfileFormModel, 'phone')->textInput(['value' => Html::encode($userProfile->profile->phone)]); ?>
+                <?= $form->field($EditProfileFormModel, 'phone')->input('tel', ['value' => Html::encode($userProfile->profile->phone)]); ?>
             </div>
             <div class="form-group">
                 <?= $form->field($EditProfileFormModel, 'messanger')->textInput(['value' => Html::encode($userProfile->profile->messanger)]); ?>
@@ -64,6 +64,20 @@ use yii\helpers\Url;
         <div class="form-group">
             <?= $form->field($EditProfileFormModel, 'about')->textarea(['value' => Html::encode($userProfile->profile->about)]) ?>
         </div>
+
+        <?= $form->field($EditProfileFormModel, 'categories[]', ['template' => '{label}{input}'])->checkboxList(
+            ArrayHelper::map($categories, 'id', 'name'),
+            [
+                'separator' => '<br>',
+                'item' => function ($index, $label, $name, $checked, $value) use ($EditProfileFormModel) {
+                    settype($EditProfileFormModel->categories, 'array');
+                    $checked = in_array($value, $EditProfileFormModel->categories) ? ' checked' : '';
+                    $html = "<input type=\"checkbox\" name=\"{$name}\" value=\"{$value}\"{$checked}>";
+                    $label = "<label class=\"control-label\" for=\"{$value}\">{$label}</label>";
+                    return "<label>{$html}{$label}</label>";
+                }
+            ]
+        ); ?>
 
         <!-- <?= print_r($userProfile); ?> -->
         <!-- <input type="submit" class="button button--blue" value="Сохранить"> -->

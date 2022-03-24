@@ -64,6 +64,7 @@ use TaskForce\utils\NounPluralConverter;
                     <?= $form->field($model, 'categories[]')->checkboxList(
                         ArrayHelper::map($categories, 'id', 'name'),
                         [
+                            'separator' => '<br>',
                             'item' => function ($index, $label, $name, $checked, $value) use ($model) {
                                 settype($model->categories, 'array');
                                 $checked = in_array($value, $model->categories) ? ' checked' : '';
