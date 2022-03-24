@@ -21,11 +21,8 @@ use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
 use yii\web\ForbiddenHttpException;
 use TaskForce\tasks\Task;
-
-
-// Формы для задач
+use yii\data\Pagination;
 use app\models\ResponseForm;
-
 
 class TasksController extends SecuredController
 {
@@ -58,12 +55,19 @@ class TasksController extends SecuredController
             }
         }
 
-        !isset($tasks) && $tasks = Tasks::find()->all();
+        // !isset($tasks) && $tasks = Tasks::find()->all();
         $categories = Categories::find()->all();
+
+        $query = Tasks::find();
+        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5]);
+        $tasks = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
 
         return $this->render('index', [
             'model' => $model,
             'tasks' => $tasks,
+            'pages' => $pages,
             'categories' => $categories,
             'period_values' => TasksSearchForm::PERIOD_VALUES
         ]);

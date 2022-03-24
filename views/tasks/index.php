@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use TaskForce\utils\NounPluralConverter;
+use yii\widgets\LinkPager;
 ?>
 
 <div class="left-column">
@@ -45,7 +46,73 @@ use TaskForce\utils\NounPluralConverter;
                 <a href="#" class="link link--page"></a>
             </li>
         </ul>
+        <?= LinkPager::widget([
+            'pagination' => $pages,
+
+            // Настройки контейнера пагинации
+            'options' => [
+                'tag' => 'ul',
+                'class' => 'pagination-list',
+                // 'id' => 'pager-container',
+            ],
+
+            'linkContainerOptions' => ['class' => 'pagination-item'],
+
+            'linkOptions' => ['class' => 'link link--page'],
+            'activePageCssClass' => 'pagination-item--active',
+            // 'disabledPageCssClass' => 'mydisable',
+
+            // Настройки для навигационных ссылок
+
+            'prevPageCssClass' => 'pagination-item mark',
+            'nextPageCssClass' => 'pagination-item mark',
+            // 'firstPageCssClass' => 'link link--page',
+            // 'lastPageCssClass' => 'link link--page',
+
+
+            // 'activePageCssClass' => 'pagination-item pagination-item--active',
+            // 'nextPageCssClass' => 'pagination-item mark',
+            // 'prevPageCssClass' => 'pagination-item mark',
+
+            // 'hideOnSinglePage' => false,
+            'prevPageLabel' => '',
+            'nextPageLabel' => '',
+
+            // Настройки контейнера пагинации
+            // 'options' => [
+            //     'tag' => 'ul',
+            //     'class' => 'pagination-list',
+            // ],
+
+            // // Настройки классов css для ссылок
+            // 'linkOptions' => ['class' => 'link link--page'],
+            // // 'activePageCssClass' => 'myactive',
+            // // 'disabledPageCssClass' => 'mydisable',
+
+            // // Настройки для навигационных ссылок
+            // 'prevPageCssClass' => 'pagination-item mark',
+            // 'nextPageCssClass' => 'pagination-item mark',
+            // 'firstPageCssClass' => 'link link--page',
+            // 'lastPageCssClass' => 'link link--page',
+        ]); ?>
+
+        <!-- $this->widget('CLinkPager', array(
+        'internalPageCssClass' => '',
+        'pages' => $paginator, //$paginator определен в контроллере
+        'id' => '',
+        'header' => '',
+        'selectedPageCssClass' => 'active',
+        'hiddenPageCssClass' => 'disabled',
+        'nextPageLabel' => '&raquo;', // »
+        'prevPageLabel' => '&laquo;', // «
+        'lastPageLabel' => '&raquo;&raquo;', // »»
+        'firstPageLabel' => '&laquo;&laquo;', // ««
+        'htmlOptions' => array('class' => 'pagination'),
+        )); -->
+
     </div>
+
+
 </div>
 <div class="right-column">
     <div class="right-card black">
