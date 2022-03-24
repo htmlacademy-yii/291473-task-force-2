@@ -27,91 +27,22 @@ use yii\widgets\LinkPager;
         </div>
     <?php endforeach; ?>
 
-
     <div class="pagination-wrapper">
-        <ul class="pagination-list">
-            <li class="pagination-item mark">
-                <a href="#" class="link link--page"></a>
-            </li>
-            <li class="pagination-item">
-                <a href="#" class="link link--page">1</a>
-            </li>
-            <li class="pagination-item pagination-item--active">
-                <a href="#" class="link link--page">2</a>
-            </li>
-            <li class="pagination-item">
-                <a href="#" class="link link--page">3</a>
-            </li>
-            <li class="pagination-item mark">
-                <a href="#" class="link link--page"></a>
-            </li>
-        </ul>
         <?= LinkPager::widget([
             'pagination' => $pages,
-
-            // Настройки контейнера пагинации
             'options' => [
                 'tag' => 'ul',
                 'class' => 'pagination-list',
-                // 'id' => 'pager-container',
             ],
-
             'linkContainerOptions' => ['class' => 'pagination-item'],
-
             'linkOptions' => ['class' => 'link link--page'],
             'activePageCssClass' => 'pagination-item--active',
-            // 'disabledPageCssClass' => 'mydisable',
-
-            // Настройки для навигационных ссылок
-
             'prevPageCssClass' => 'pagination-item mark',
             'nextPageCssClass' => 'pagination-item mark',
-            // 'firstPageCssClass' => 'link link--page',
-            // 'lastPageCssClass' => 'link link--page',
-
-
-            // 'activePageCssClass' => 'pagination-item pagination-item--active',
-            // 'nextPageCssClass' => 'pagination-item mark',
-            // 'prevPageCssClass' => 'pagination-item mark',
-
-            // 'hideOnSinglePage' => false,
             'prevPageLabel' => '',
             'nextPageLabel' => '',
-
-            // Настройки контейнера пагинации
-            // 'options' => [
-            //     'tag' => 'ul',
-            //     'class' => 'pagination-list',
-            // ],
-
-            // // Настройки классов css для ссылок
-            // 'linkOptions' => ['class' => 'link link--page'],
-            // // 'activePageCssClass' => 'myactive',
-            // // 'disabledPageCssClass' => 'mydisable',
-
-            // // Настройки для навигационных ссылок
-            // 'prevPageCssClass' => 'pagination-item mark',
-            // 'nextPageCssClass' => 'pagination-item mark',
-            // 'firstPageCssClass' => 'link link--page',
-            // 'lastPageCssClass' => 'link link--page',
         ]); ?>
-
-        <!-- $this->widget('CLinkPager', array(
-        'internalPageCssClass' => '',
-        'pages' => $paginator, //$paginator определен в контроллере
-        'id' => '',
-        'header' => '',
-        'selectedPageCssClass' => 'active',
-        'hiddenPageCssClass' => 'disabled',
-        'nextPageLabel' => '&raquo;', // »
-        'prevPageLabel' => '&laquo;', // «
-        'lastPageLabel' => '&raquo;&raquo;', // »»
-        'firstPageLabel' => '&laquo;&laquo;', // ««
-        'htmlOptions' => array('class' => 'pagination'),
-        )); -->
-
     </div>
-
 
 </div>
 <div class="right-column">
