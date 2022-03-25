@@ -8,17 +8,23 @@ use yii\web\Controller;
 use TaskForce\utils\CustomHelpers;
 use app\models\Tasks;
 use app\services\TasksService;
-
+use yii\data\Pagination;
 
 class MytasksController extends Controller
 {
     public function actionIndex()
     {
         $tasks_filter = Yii::$app->request->get('tasks_filter');
-        $myTasks = (new TasksService())->getMyTasksByStatus($tasks_filter);
+        $query = (new TasksService())->getMyTasksByStatus($tasks_filter);
+
+        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5]);
+        $myTasks = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
 
         return $this->render('index', [
             'myTasks' => $myTasks,
+            'pages' => $pages,
             'tasks_filter' => $tasks_filter,
         ]);
     }

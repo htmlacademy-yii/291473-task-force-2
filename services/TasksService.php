@@ -80,9 +80,8 @@ class TasksService
     {
         if (isset($tasks_filter)) {
             return Tasks::find()
-                ->where(['tasks.status' => $tasks_filter])
-                ->all();
+                ->where(['tasks.status' => $tasks_filter]);
         }
-        return Tasks::find()->all();
+        return Tasks::find();
     }
 }

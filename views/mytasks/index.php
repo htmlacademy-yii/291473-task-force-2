@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use TaskForce\utils\NounPluralConverter;
 use yii\widgets\Menu;
+use yii\widgets\LinkPager;
 ?>
 
 <div class="left-menu">
@@ -58,5 +59,22 @@ use yii\widgets\Menu;
     <?php else : ?>
         <p>Задания в данной категории отсутствуют.</p>
     <?php endif; ?>
+
+    <div class="pagination-wrapper">
+        <?= LinkPager::widget([
+            'pagination' => $pages,
+            'options' => [
+                'tag' => 'ul',
+                'class' => 'pagination-list',
+            ],
+            'linkContainerOptions' => ['class' => 'pagination-item'],
+            'linkOptions' => ['class' => 'link link--page'],
+            'activePageCssClass' => 'pagination-item--active',
+            'prevPageCssClass' => 'pagination-item mark',
+            'nextPageCssClass' => 'pagination-item mark',
+            'prevPageLabel' => '',
+            'nextPageLabel' => '',
+        ]); ?>
+    </div>
 
 </div>
