@@ -5,6 +5,8 @@ use yii\helpers\Url;
 use TaskForce\utils\NounPluralConverter;
 use yii\widgets\Menu;
 use yii\widgets\LinkPager;
+
+print(Yii::$app->user->identity->role);
 ?>
 
 <div class="left-menu">
@@ -12,11 +14,19 @@ use yii\widgets\LinkPager;
     <ul class="side-menu-list">
 
         <?php
-        $myItems = [
-            ['label' => 'Новые', 'url' => ['/mytasks/index', 'tasks_filter' => 'new'],],
-            ['label' => 'В процессе', 'url' => ['/mytasks/index', 'tasks_filter' => 'in_progress']],
-            ['label' => 'Закрытые', 'url' => ['/mytasks/index', 'tasks_filter' => 'closed']],
-        ];
+        if (Yii::$app->user->identity->role === 0) {
+            $myItems = [
+                ['label' => 'Новые', 'url' => ['/mytasks/index', 'tasks_filter' => 'new'],],
+                ['label' => 'В процессе', 'url' => ['/mytasks/index', 'tasks_filter' => 'in_progress']],
+                ['label' => 'Закрытые', 'url' => ['/mytasks/index', 'tasks_filter' => 'closed']],
+            ];
+        } else {
+            $myItems = [
+                ['label' => 'В процессе', 'url' => ['/mytasks/index', 'tasks_filter' => 'in_progress']],
+                ['label' => 'Просрочено', 'url' => ['/mytasks/index', 'tasks_filter' => 'overdue'],],
+                ['label' => 'Закрытые', 'url' => ['/mytasks/index', 'tasks_filter' => 'closed']],
+            ];
+        }
         ?>
 
         <?= Menu::widget([
@@ -36,6 +46,8 @@ use yii\widgets\LinkPager;
         <h3 class="head-main head-regular">В процессе</h3>
     <?php elseif ($tasks_filter === 'closed') : ?>
         <h3 class="head-main head-regular">Закрытые</h3>
+    <?php elseif ($tasks_filter === 'failed') : ?>
+        <h3 class="head-main head-regular">Просроченные задания</h3>
     <?php else : ?>
         <h3 class="head-main head-regular">Все мои задания</h3>
     <?php endif; ?>

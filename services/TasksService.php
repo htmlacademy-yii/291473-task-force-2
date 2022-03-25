@@ -9,6 +9,7 @@ use app\models\AddTaskForm;
 use app\models\TasksFiles;
 use app\models\Cities;
 use TaskForce\utils\CustomHelpers;
+use yii\db\Expression;
 
 class TasksService
 {
@@ -76,12 +77,45 @@ class TasksService
         return $task_id;
     }
 
+
     public function getMyTasksByStatus($tasks_filter)
     {
-        if (isset($tasks_filter)) {
-            return Tasks::find()
-                ->where(['tasks.status' => $tasks_filter]);
+        $query = Tasks::find();
+
+        if (Yii::$app->user->identity->role === 0) {
+            switch ($tasks_filter) {
+                case 'new':
+                    $query->andWhere(['status' => 'new']);
+                    break;
+
+                case 'in_progress':
+                    $query->andWhere(['status' => 'in_progress']);
+                    break;
+
+                case 'closed':
+                    $statuses = ['failed', 'canceled', 'finished'];
+                    $query->andWhere(['in', 'status', $statuses]);
+                    break;
+            }
+        } else {
+            switch ($tasks_filter) {
+                case 'in_progress':
+                    $query->andWhere(['status' => 'in_progress']);
+                    break;
+
+                case 'overdue':
+                    $query
+                        ->andWhere(['status' => 'in_progress'])
+                        ->andWhere(['<', 'tasks.deadline', new Expression('NOW()')]);
+                    break;
+
+                case 'closed':
+                    $statuses = ['failed', 'finished'];
+                    $query->andWhere(['in', 'status', $statuses]);
+                    break;
+            }
         }
-        return Tasks::find();
+
+        return $query;
     }
 }
