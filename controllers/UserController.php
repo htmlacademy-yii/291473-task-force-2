@@ -63,7 +63,7 @@ class UserController extends SecuredController
 
             if ($EditProfileFormModel->validate()) {
                 (new UserService())->EditUserProfile($userProfile, $EditProfileFormModel);
-                // return $this->refresh();
+                return $this->refresh();
             }
         }
 

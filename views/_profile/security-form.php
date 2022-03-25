@@ -13,6 +13,24 @@ use yii\helpers\Url;
 
 <h3 class="head-main head-regular">Безопасность</h3>
 
+<?php
+print($userProfile->role);
+?>
+
+<div class="form-group">
+    <?php if ($userProfile->role === 1) : ?>
+        <?php
+        if ($userProfile->profile->private === 1) {
+            $checked = 'checked';
+        } else {
+            $checked = Null;
+        }
+        ?>
+        <?= $form->field($SecurityFormModel, 'private')->checkbox() ?>
+
+    <?php endif; ?>
+</div>
+
 <div class="form-group">
     <?= $form->field($SecurityFormModel, 'current_password')->passwordInput(); ?>
     <?= $form->field($SecurityFormModel, 'new_password')->passwordInput(); ?>

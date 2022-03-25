@@ -7,6 +7,7 @@ use yii\base\Model;
 
 class SecurityForm extends Model
 {
+    public $private;
     public $current_password;
     public $new_password;
     public $new_password_repeat;
@@ -14,6 +15,7 @@ class SecurityForm extends Model
     public function rules()
     {
         return [
+            [['private'], 'boolean'],
             [['current_password', 'new_password', 'new_password_repeat'], 'required'],
             [['current_password', 'new_password', 'new_password_repeat'], 'safe'],
             ['current_password', 'validateCurrentPassword'],
@@ -28,7 +30,8 @@ class SecurityForm extends Model
         return [
             'current_password' => 'Старый пароль',
             'new_password' => 'Новый пароль',
-            'new_password_repeat' => 'Повтор нового пароля'
+            'new_password_repeat' => 'Повтор нового пароля',
+            'private' => 'Скрывать контактные данные',
         ];
     }
 
