@@ -51,14 +51,13 @@ class TasksController extends SecuredController
             $model->load(Yii::$app->request->post());
 
             if ($model->validate()) {
-                $tasks = (new TasksFilterService())->getFilteredTasks($model);
+                $query = (new TasksFilterService())->getFilteredTasks($model);
             }
         }
 
-        // !isset($tasks) && $tasks = Tasks::find()->all();
+        !isset($query) && $query = Tasks::find();
         $categories = Categories::find()->all();
 
-        $query = Tasks::find();
         $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5]);
         $tasks = $query->offset($pages->offset)
             ->limit($pages->limit)
