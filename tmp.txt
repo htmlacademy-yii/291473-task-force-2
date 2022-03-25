@@ -72,45 +72,7 @@ http://taskforce/geoapi/екатеринбург
 http://taskforce/mytasks/index/
 
 Настройка аккаунта
-http://taskforce/user/edit
+http://taskforce/user/edit?page=profile
 
-
-
-        <div class="half-wrapper">
-            <div class="form-group">
-                <?= $form->field($EditProfileFormModel, 'phone')->textInput(); ?>
-            </div>
-            <div class="form-group">
-                <?= $form->field($EditProfileFormModel, 'messanger')->textInput(); ?>
-
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="profile-info">Информация о себе</label>
-            <textarea id="profile-info"></textarea>
-            <span class="help-block">Error description is here</span>
-            <?= $form->field($EditProfileFormModel, 'about')->textarea() ?>
-        </div>
-        <div class="form-group">
-            <p class="form-label">Выбор специализаций</p>
-            <div class="checkbox-profile">
-
-                <?= $form->field($EditProfileFormModel, 'categories[]')->checkboxList(
-                    ArrayHelper::map($categories, 'id', 'name'),
-                    []
-                ); ?>
-
-                <!-- <label class="control-label" for="сourier-services">
-                    <input type="checkbox" id="сourier-services" checked>
-                    Курьерские услуги</label>
-                <label class="control-label" for="cargo-transportation">
-                    <input id="cargo-transportation" type="checkbox">
-                    Грузоперевозки</label>
-                <label class="control-label" for="cleaning">
-                    <input id="cleaning" type="checkbox">
-                    Клининг</label>
-                <label class="control-label" for="computer-help">
-                    <input id="computer-help" type="checkbox" checked>
-                    Компьютерная помощь</label> -->
-            </div>
-        </div>
+Безопасность
+http://taskforce/user/edit?page=security

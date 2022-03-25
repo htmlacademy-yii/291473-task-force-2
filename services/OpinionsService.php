@@ -31,8 +31,6 @@ class OpinionsService
             ->where(['executor_id' => $task->executor_id, 'status' => 'finished'])
             ->count();
 
-
-        print($userTasksCount);
         $average_rating = ($profile->average_rating + $FinishedFormModel->rating) / ($userTasksCount + 1);
         $task->status = 'finished';
         $task->fin_date = CustomHelpers::getCurrentDate();;

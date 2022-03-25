@@ -12,6 +12,7 @@ use app\models\User;
 use app\models\Cities;
 use app\models\RegistrationForm;
 use app\models\EditProfileForm;
+use app\models\SecurityForm;
 use TaskForce\utils\CustomHelpers;
 
 class UserService
@@ -176,6 +177,23 @@ class UserService
                     $userSpecializations->save();
                 }
             }
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+        }
+    }
+
+    public function UpdateSecuritySettings($userProfile, SecurityForm $SecurityFormModel)
+    {
+        $passwordHash = Yii::$app->getSecurity()->generatePasswordHash($SecurityFormModel->new_password);
+        $userProfile->password = $passwordHash;
+
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $userProfile->save();
             $transaction->commit();
         } catch (\Exception $e) {
             $transaction->rollBack();

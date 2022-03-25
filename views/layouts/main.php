@@ -76,7 +76,7 @@ if ($user) {
                         <ul class="popup-menu">
                             <?= Menu::widget([
                                 'items' => [
-                                    ['label' => 'Настройки', 'url' => ['/user/edit']],
+                                    ['label' => 'Настройки', 'url' => ['user/edit', 'page' => 'profile']],
                                     ['label' => 'Связаться с нами', 'url' => ['/']],
                                     ['label' => 'Выход из системы', 'url' => ['/site/logout']]
                                 ],

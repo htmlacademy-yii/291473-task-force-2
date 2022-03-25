@@ -2,45 +2,57 @@
 
 namespace app\models;
 
+use Yii;
 use yii\base\Model;
 
-class SecuritynForm extends Model
+class SecurityForm extends Model
 {
-    public $email;
-    public $password;
-
     public $current_password;
     public $new_password;
     public $new_password_repeat;
-
-    private $_user;
 
     public function rules()
     {
         return [
             [['current_password', 'new_password', 'new_password_repeat'], 'required'],
             [['current_password', 'new_password', 'new_password_repeat'], 'safe'],
-            ['current_password', 'validatePassword'],
+            ['current_password', 'validateCurrentPassword'],
+            ['new_password', 'validatePassword'],
+            ['new_password', 'validateNewPassword'],
+            ['new_password_repeat', 'validatePassword'],
         ];
     }
 
-    // public function getUser()
-    // {
-    //     if ($this->_user === null) {
-    //         $this->_user = User::findOne(['email' => $this->email]);
-    //     }
+    public function attributeLabels()
+    {
+        return [
+            'current_password' => 'Старый пароль',
+            'new_password' => 'Новый пароль',
+            'new_password_repeat' => 'Повтор нового пароля'
+        ];
+    }
 
-    //     return $this->_user;
-    // }
+    public function validateCurrentPassword($attribute, $params): void
+    {
+        if (!$this->hasErrors()) {
+            $user = User::findOne(['id' => Yii::$app->user->getId()]);
+            if (!$user || !$user->validatePassword($this->current_password)) {
+                $this->addError($attribute, 'Неправильный пароль');
+            }
+        }
+    }
 
-    // public function validatePassword($attribute, $params)
-    // {
-    //     if (!$this->hasErrors()) {
-    //         $user = User::findOne(['email' => $this->email])
+    public function validatePassword($attribute)
+    {
+        if ($this->new_password !== $this->new_password_repeat) {
+            $this->addError($attribute, 'Пароли не совпадают');
+        }
+    }
 
-    //         if (!$user || !\Yii::$app->security->validatePassword($this->password, $user->password)) {
-    //             $this->addError($attribute, 'Неправильный email или пароль');
-    //         }
-    //     }
-    // }
+    public function validateNewPassword($attribute)
+    {
+        if ($this->new_password === $this->current_password) {
+            $this->addError($attribute, 'Ваш текущий и новый пароль совпадают');
+        }
+    }
 }

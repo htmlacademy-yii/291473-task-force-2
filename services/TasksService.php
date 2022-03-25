@@ -77,7 +77,6 @@ class TasksService
         return $task_id;
     }
 
-
     public function getMyTasksByStatus($tasks_filter)
     {
         $query = Tasks::find();

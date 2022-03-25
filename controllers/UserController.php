@@ -6,6 +6,7 @@ use Yii;
 use yii\web\NotFoundHttpException;
 use app\services\UserService;
 use app\models\EditProfileForm;
+use app\models\SecurityForm;
 use app\services\CategoriesService;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
@@ -43,6 +44,7 @@ class UserController extends SecuredController
     {
         $page = Yii::$app->request->get('page');
         $EditProfileFormModel = new EditProfileForm();
+        $SecurityFormModel = new SecurityForm();
         $categories = (new CategoriesService())->findAll();
         $userId = Yii::$app->user->getId();
         $userProfile = (new UserService())->getExecutor($userId);
@@ -50,7 +52,7 @@ class UserController extends SecuredController
         $currentSpecializations = (new UserService())->getCurrentSpecializations($specializations);
 
 
-        if (Yii::$app->request->isPost) {
+        if (Yii::$app->request->isPost && $page === 'profile') {
             $EditProfileFormModel->load(Yii::$app->request->post());
             $EditProfileFormModel->avatar = UploadedFile::getInstance($EditProfileFormModel, 'avatar');
 
@@ -65,10 +67,26 @@ class UserController extends SecuredController
             }
         }
 
+        if (Yii::$app->request->isPost && $page === 'security') {
+            $SecurityFormModel->load(Yii::$app->request->post());
+
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($SecurityFormModel);
+            }
+
+            if ($SecurityFormModel->validate()) {
+                (new UserService())->UpdateSecuritySettings($userProfile, $SecurityFormModel);
+                return $this->redirect('/user/view/' . $userId);
+            }
+        }
+
+
         return $this->render('edit', [
             'page' => $page,
             'userProfile' => $userProfile,
             'EditProfileFormModel' => $EditProfileFormModel,
+            'SecurityFormModel' => $SecurityFormModel,
             'categories' => $categories,
             'currentSpecializations' => $currentSpecializations,
         ]);

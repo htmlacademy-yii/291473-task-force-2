@@ -32,6 +32,7 @@ use yii\widgets\Menu;
                 'EditProfileFormModel' => $EditProfileFormModel,
                 'categories' => $categories,
                 'currentSpecializations' => $currentSpecializations,
+                'SecurityFormModel' => $SecurityFormModel,
             ]) ?>
         <?php endif; ?>
     </div>
