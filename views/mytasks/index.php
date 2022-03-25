@@ -6,7 +6,6 @@ use TaskForce\utils\NounPluralConverter;
 use yii\widgets\Menu;
 use yii\widgets\LinkPager;
 
-print(Yii::$app->user->identity->role);
 ?>
 
 <div class="left-menu">

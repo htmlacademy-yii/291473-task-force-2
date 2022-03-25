@@ -43,7 +43,7 @@ if ($user) {
                     $items = [
                         ['label' => 'Новое', 'url' => ['/tasks/index']],
                         ['label' => 'Мои задания', 'url' => ['/mytasks/index']],
-                        ['label' => 'Настройки', 'url' => ['/user/edit']]
+                        ['label' => 'Настройки', 'url' => ['user/edit', 'page' => 'profile']]
                     ];
 
                     if ($user->role === 0) {

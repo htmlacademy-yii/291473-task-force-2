@@ -4,10 +4,6 @@ namespace app\models;
 
 use yii\base\Model;
 use app\models\Categories;
-use app\models\User;
-use app\models\Users;
-use app\models\Profiles;
-
 
 class EditProfileForm extends Model
 {
@@ -50,7 +46,7 @@ class EditProfileForm extends Model
             'phone' => 'Номер телефона',
             'messanger' => 'Telegram',
             'about' => 'Информация о себе',
-            'categories' => 'Выбор специализаций'
+            'categories' => 'Выбор специализаций',
         ];
     }
 }

@@ -41,6 +41,7 @@ class UserController extends SecuredController
 
     public function actionEdit()
     {
+        $page = Yii::$app->request->get('page');
         $EditProfileFormModel = new EditProfileForm();
         $categories = (new CategoriesService())->findAll();
         $userId = Yii::$app->user->getId();
@@ -60,11 +61,12 @@ class UserController extends SecuredController
 
             if ($EditProfileFormModel->validate()) {
                 (new UserService())->EditUserProfile($userProfile, $EditProfileFormModel);
-                return $this->refresh();
+                // return $this->refresh();
             }
         }
 
         return $this->render('edit', [
+            'page' => $page,
             'userProfile' => $userProfile,
             'EditProfileFormModel' => $EditProfileFormModel,
             'categories' => $categories,
