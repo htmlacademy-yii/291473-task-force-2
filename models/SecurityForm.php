@@ -16,12 +16,34 @@ class SecurityForm extends Model
     {
         return [
             [['private'], 'boolean'],
-            [['current_password', 'new_password', 'new_password_repeat'], 'required'],
-            [['current_password', 'new_password', 'new_password_repeat'], 'safe'],
-            ['current_password', 'validateCurrentPassword'],
-            ['new_password', 'validatePassword'],
-            ['new_password', 'validateNewPassword'],
-            ['new_password_repeat', 'validatePassword'],
+            [['current_password'], 'required'],
+            [['current_password'], 'string', 'length' => [6, 128]],
+            [['current_password'], 'validateCurrentPassword'],
+            [
+                ['new_password'], 'required',
+                'whenClient' => "function (attribute, value) {
+                    return $('#securityform-current_password').value;
+                }"
+            ],
+            [
+                ['new_password'], 'string', 'length' => [6, 128],
+                'whenClient' => "function (attribute, value) {
+                    return !$('#securityform-current_password').attr('aria-invalid');
+                }"
+            ],
+
+            [
+                ['new_password_repeat'], 'required',
+                'whenClient' => "function (attribute, value) {
+                return $('#securityform-new_password').value;
+                }"
+            ],
+            [
+                ['new_password_repeat'], 'compare', 'compareAttribute' => 'new_password',
+                'whenClient' => "function (attribute, value) {
+                return !$('#securityform-new_password').attr('aria-invalid');
+                }"
+            ],
         ];
     }
 
@@ -42,20 +64,6 @@ class SecurityForm extends Model
             if (!$user || !$user->validatePassword($this->current_password)) {
                 $this->addError($attribute, 'Неправильный пароль');
             }
-        }
-    }
-
-    public function validatePassword($attribute)
-    {
-        if ($this->new_password !== $this->new_password_repeat) {
-            $this->addError($attribute, 'Пароли не совпадают');
-        }
-    }
-
-    public function validateNewPassword($attribute)
-    {
-        if ($this->new_password === $this->current_password) {
-            $this->addError($attribute, 'Ваш текущий и новый пароль совпадают');
         }
     }
 }

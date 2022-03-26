@@ -22,6 +22,14 @@ class TasksService
             ->one();
     }
 
+    public function getTasksByExecutor($id)
+    {
+        return Tasks::find()
+            ->where(['tasks.executor_id' => $id])
+            ->andWhere(['tasks.status' => 'in_progress'])
+            ->all();
+    }
+
     public function getTaskFiles($id)
     {
         return TasksFiles::find()

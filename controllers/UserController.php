@@ -8,6 +8,7 @@ use app\services\UserService;
 use app\models\EditProfileForm;
 use app\models\SecurityForm;
 use app\services\CategoriesService;
+use app\services\TasksService;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
@@ -17,6 +18,7 @@ class UserController extends SecuredController
     public function actionView(int $id)
     {
         $userService = new UserService;
+        $tasksService = new TasksService;
         $user = $userService->getExecutor($id);
         $tasksFinishedCount = $userService->getExecutorTasksCount($id, 'finished');
         $tasksFailedCount = $userService->getExecutorTasksCount($id, 'failed');
@@ -24,6 +26,7 @@ class UserController extends SecuredController
         $specializations = $userService->getExecutorSpecializations($id);
         $opinions = $userService->getExecutorOpinions($id);
         $userRatingPosition = $userService->getExecutorRatingPosition($id);
+        $allExecutorTasks = $tasksService->getTasksByExecutor($id);
 
         if (!$user) {
             throw new NotFoundHttpException;
@@ -37,6 +40,7 @@ class UserController extends SecuredController
             'tasksInProgressCount' => $tasksInProgressCount,
             'userRatingPosition' => $userRatingPosition,
             'opinions' => $opinions,
+            'allExecutorTasks' => $allExecutorTasks,
         ]);
     }
 
@@ -77,7 +81,7 @@ class UserController extends SecuredController
 
             if ($SecurityFormModel->validate()) {
                 (new UserService())->UpdateSecuritySettings($userProfile, $SecurityFormModel);
-                return $this->redirect('/user/view/' . $userId);
+                // return $this->redirect('/user/view/' . $userId);
             }
         }
 
