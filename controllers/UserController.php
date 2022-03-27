@@ -81,7 +81,7 @@ class UserController extends SecuredController
 
             if ($SecurityFormModel->validate()) {
                 (new UserService())->UpdateSecuritySettings($userProfile, $SecurityFormModel);
-                // return $this->redirect('/user/view/' . $userId);
+                return $this->redirect('/user/view/' . $userId);
             }
         }
 

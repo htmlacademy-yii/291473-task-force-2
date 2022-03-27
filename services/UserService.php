@@ -190,12 +190,13 @@ class UserService
     {
         $passwordHash = Yii::$app->getSecurity()->generatePasswordHash($SecurityFormModel->new_password);
         $userProfile->password = $passwordHash;
-
         $userProfile->profile->private = $SecurityFormModel->private;
 
         $transaction = Yii::$app->db->beginTransaction();
         try {
-            // $userProfile->save();
+            if ($SecurityFormModel->current_password) {
+                $userProfile->save();
+            }
             $userProfile->profile->save();
             $transaction->commit();
         } catch (\Exception $e) {

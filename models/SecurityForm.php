@@ -16,26 +16,12 @@ class SecurityForm extends Model
     {
         return [
             [['private'], 'boolean'],
-            [['current_password'], 'required'],
             [['current_password'], 'string', 'length' => [6, 128]],
             [['current_password'], 'validateCurrentPassword'],
-            [
-                ['new_password'], 'required',
-                'whenClient' => "function (attribute, value) {
-                    return $('#securityform-current_password').value;
-                }"
-            ],
             [
                 ['new_password'], 'string', 'length' => [6, 128],
                 'whenClient' => "function (attribute, value) {
                     return !$('#securityform-current_password').attr('aria-invalid');
-                }"
-            ],
-
-            [
-                ['new_password_repeat'], 'required',
-                'whenClient' => "function (attribute, value) {
-                return $('#securityform-new_password').value;
                 }"
             ],
             [
@@ -44,6 +30,9 @@ class SecurityForm extends Model
                 return !$('#securityform-new_password').attr('aria-invalid');
                 }"
             ],
+            [['current_password'], 'validatePasswords'],
+            [['new_password'], 'validatePasswords'],
+            [['new_password_repeat'], 'validatePasswords'],
         ];
     }
 
@@ -63,6 +52,24 @@ class SecurityForm extends Model
             $user = User::findOne(['id' => Yii::$app->user->getId()]);
             if (!$user || !$user->validatePassword($this->current_password)) {
                 $this->addError($attribute, 'Неправильный пароль');
+            }
+        }
+    }
+
+    public function validatePasswords($attribute, $params): void
+    {
+        if (!$this->hasErrors()) {
+
+            if ($this->current_password && !$this->new_password || !$this->new_password_repeat) {
+                $this->addError($attribute, 'Заполните все поля.');
+            }
+
+            if ($this->new_password && !$this->current_password  || !$this->new_password_repeat) {
+                $this->addError($attribute, 'Заполните все поля.');
+            }
+
+            if ($this->new_password_repeat && !$this->new_password || !$this->current_password) {
+                $this->addError($attribute, 'Заполните все поля.');
             }
         }
     }

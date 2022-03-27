@@ -16,8 +16,6 @@ use yii\helpers\Url;
 <div class="form-group">
     <?php if ($userProfile->role === 1) : ?>
         <?php
-        // $checked = $userProfile->profile->private === 1 ? 'checked' : Null;
-
         if ($userProfile->profile->private === 1) {
             $checked = 'checked';
         } else {
