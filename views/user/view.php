@@ -76,18 +76,22 @@ use yii\helpers\Url;
             <dd><?= Html::encode($tasksInProgressCount) ? 'Выполняет активный заказ' : 'Открыт для новых заказов' ?></dd>
         </dl>
     </div>
-    <div class="right-card white">
-        <h4 class="head-card">Контакты</h4>
-        <ul class="enumeration-list">
-            <li class="enumeration-item">
-                <a href="#" class="link link--block link--phone"><?= Html::encode($user->profile->phone); ?></a>
-            </li>
-            <li class="enumeration-item">
-                <a href="#" class="link link--block link--email"><?= Html::encode($user->email); ?></a>
-            </li>
-            <li class="enumeration-item">
-                <a href="#" class="link link--block link--tg"><?= Html::encode($user->profile->messanger); ?></a>
-            </li>
-        </ul>
-    </div>
+
+    <?php if (CustomHelpers::checkCustomer($allExecutorTasks) || $user->profile->private === 0) : ?>
+        <div class="right-card white">
+            <h4 class="head-card">Контакты</h4>
+            <ul class="enumeration-list">
+                <li class="enumeration-item">
+                    <a href="#" class="link link--block link--phone"><?= Html::encode($user->profile->phone); ?></a>
+                </li>
+                <li class="enumeration-item">
+                    <a href="#" class="link link--block link--email"><?= Html::encode($user->email); ?></a>
+                </li>
+                <li class="enumeration-item">
+                    <a href="#" class="link link--block link--tg"><?= Html::encode($user->profile->messanger); ?></a>
+                </li>
+            </ul>
+        </div>
+    <?php endif; ?>
+
 </div>

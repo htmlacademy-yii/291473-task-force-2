@@ -190,4 +190,14 @@ class CustomHelpers
 
         return true;
     }
+
+    public static function checkCustomer($allExecutorTasks)
+    {
+        foreach ($allExecutorTasks as $executorTask) {
+            if ($executorTask->customer_id === Yii::$app->user->getId()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

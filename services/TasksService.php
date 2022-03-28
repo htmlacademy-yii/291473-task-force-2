@@ -9,6 +9,7 @@ use app\models\AddTaskForm;
 use app\models\TasksFiles;
 use app\models\Cities;
 use TaskForce\utils\CustomHelpers;
+use yii\db\Expression;
 
 class TasksService
 {
@@ -19,6 +20,14 @@ class TasksService
             ->joinWith('city', 'category')
             ->where(['tasks.id' => $id])
             ->one();
+    }
+
+    public function getTasksByExecutor($id)
+    {
+        return Tasks::find()
+            ->where(['tasks.executor_id' => $id])
+            ->andWhere(['tasks.status' => 'in_progress'])
+            ->all();
     }
 
     public function getTaskFiles($id)
@@ -74,5 +83,48 @@ class TasksService
         }
 
         return $task_id;
+    }
+
+    public function getMyTasksByStatus($tasks_filter, $userId)
+    {
+        if (Yii::$app->user->identity->role === 0) {
+            $query = Tasks::find()->where(['customer_id' => $userId]);
+
+            switch ($tasks_filter) {
+                case 'new':
+                    $query->andWhere(['status' => 'new']);
+                    break;
+
+                case 'in_progress':
+                    $query->andWhere(['status' => 'in_progress']);
+                    break;
+
+                case 'closed':
+                    $statuses = ['failed', 'canceled', 'finished'];
+                    $query->andWhere(['in', 'status', $statuses]);
+                    break;
+            }
+        } else {
+            $query = Tasks::find()->where(['executor_id' => $userId]);
+
+            switch ($tasks_filter) {
+                case 'in_progress':
+                    $query->andWhere(['status' => 'in_progress']);
+                    break;
+
+                case 'overdue':
+                    $query
+                        ->andWhere(['status' => 'in_progress'])
+                        ->andWhere(['<', 'tasks.deadline', new Expression('NOW()')]);
+                    break;
+
+                case 'closed':
+                    $statuses = ['failed', 'finished'];
+                    $query->andWhere(['in', 'status', $statuses]);
+                    break;
+            }
+        }
+
+        return $query;
     }
 }

@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use TaskForce\utils\NounPluralConverter;
+use yii\widgets\LinkPager;
 ?>
 
 <div class="left-column">
@@ -26,26 +27,23 @@ use TaskForce\utils\NounPluralConverter;
         </div>
     <?php endforeach; ?>
 
-
     <div class="pagination-wrapper">
-        <ul class="pagination-list">
-            <li class="pagination-item mark">
-                <a href="#" class="link link--page"></a>
-            </li>
-            <li class="pagination-item">
-                <a href="#" class="link link--page">1</a>
-            </li>
-            <li class="pagination-item pagination-item--active">
-                <a href="#" class="link link--page">2</a>
-            </li>
-            <li class="pagination-item">
-                <a href="#" class="link link--page">3</a>
-            </li>
-            <li class="pagination-item mark">
-                <a href="#" class="link link--page"></a>
-            </li>
-        </ul>
+        <?= LinkPager::widget([
+            'pagination' => $pages,
+            'options' => [
+                'tag' => 'ul',
+                'class' => 'pagination-list',
+            ],
+            'linkContainerOptions' => ['class' => 'pagination-item'],
+            'linkOptions' => ['class' => 'link link--page'],
+            'activePageCssClass' => 'pagination-item--active',
+            'prevPageCssClass' => 'pagination-item mark',
+            'nextPageCssClass' => 'pagination-item mark',
+            'prevPageLabel' => '',
+            'nextPageLabel' => '',
+        ]); ?>
     </div>
+
 </div>
 <div class="right-column">
     <div class="right-card black">
@@ -64,6 +62,7 @@ use TaskForce\utils\NounPluralConverter;
                     <?= $form->field($model, 'categories[]')->checkboxList(
                         ArrayHelper::map($categories, 'id', 'name'),
                         [
+                            'separator' => '<br>',
                             'item' => function ($index, $label, $name, $checked, $value) use ($model) {
                                 settype($model->categories, 'array');
                                 $checked = in_array($value, $model->categories) ? ' checked' : '';

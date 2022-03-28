@@ -4,6 +4,7 @@ use yii\bootstrap4\Html;
 use app\assets\AppAsset;
 use yii\helpers\Url;
 use TaskForce\utils\CustomHelpers;
+use yii\widgets\Menu;
 
 AppAsset::register($this);
 
@@ -36,29 +37,35 @@ if ($user) {
             <a href='<?= Url::to('/') ?>' class="header-logo">
                 <img class="logo-image" src="/img/logotype.png" width=227 height=60 alt="taskforce">
             </a>
-            <?php if (Url::current() !== Url::to(['site/registration'])) : ?>
+            <?php if (Yii::$app->request->url !== Url::to(['site/registration'])) : ?>
                 <div class="nav-wrapper">
-                    <ul class="nav-list">
-                        <li class="list-item list-item--active">
-                            <a class="link link--nav">Новое</a>
-                        </li>
-                        <li class="list-item">
-                            <a href="#" class="link link--nav">Мои задания</a>
-                        </li>
-                        <?php if ($user->role === 0) : ?>
-                            <li class="list-item">
-                                <a href="<?= Url::to('/tasks/add') ?>" class="link link--nav">Создать задание</a>
-                            </li>
-                        <?php endif; ?>
-                        <li class="list-item">
-                            <a href="#" class="link link--nav">Настройки</a>
-                        </li>
-                    </ul>
+                    <?php
+                    $items = [
+                        ['label' => 'Новое', 'url' => ['/tasks/index']],
+                        ['label' => 'Мои задания', 'url' => ['/mytasks/index']],
+                        ['label' => 'Настройки', 'url' => ['user/edit', 'page' => 'profile']]
+                    ];
+
+                    if ($user->role === 0) {
+                        $addItem = ['label' => 'Создать задание', 'url' => ['/tasks/add']];
+                        array_splice($items, 2, 0, array($addItem));
+                    }
+                    ?>
+
+                    <?= Menu::widget([
+                        'items' => $items,
+                        'activeCssClass' => 'list-item--active',
+                        'itemOptions' => ['class' => 'list-item'],
+                        'labelTemplate' => '<a class="link link--nav">{label}</a>',
+                        'linkTemplate' => '<a href="{url}" class="link link--nav">{label}</a>',
+                        'options' => ['class' => 'nav-list']
+                    ]);
+                    ?>
                 </div>
             <?php endif; ?>
         </nav>
 
-        <?php if (Url::current() !== Url::to(['site/registration'])) : ?>
+        <?php if (Yii::$app->request->url !== Url::to(['site/registration'])) : ?>
             <div class="user-block">
                 <a href="#">
                     <img class="user-photo" src="<?= Url::to($userProfile->avatar_link); ?>" width="55" height="55" alt="Аватар">
@@ -67,16 +74,16 @@ if ($user) {
                     <p class="user-name"><?= $userName ?></p>
                     <div class="popup-head">
                         <ul class="popup-menu">
-                            <li class="menu-item">
-                                <a href="#" class="link">Настройки</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="#" class="link">Связаться с нами</a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="<?= Url::to('/site/logout'); ?>" class="link">Выход из системы</a>
-                            </li>
-
+                            <?= Menu::widget([
+                                'items' => [
+                                    ['label' => 'Настройки', 'url' => ['user/edit', 'page' => 'profile']],
+                                    ['label' => 'Связаться с нами', 'url' => ['/']],
+                                    ['label' => 'Выход из системы', 'url' => ['/site/logout']]
+                                ],
+                                'itemOptions' => ['class' => 'menu-item'],
+                                'linkTemplate' => '<a href="{url}" class="link">{label}</a>',
+                                'options' => ['class' => 'popup-menu']
+                            ]); ?>
                         </ul>
                     </div>
                 </div>

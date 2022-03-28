@@ -11,6 +11,8 @@ use app\models\Users;
 use app\models\User;
 use app\models\Cities;
 use app\models\RegistrationForm;
+use app\models\EditProfileForm;
+use app\models\SecurityForm;
 use TaskForce\utils\CustomHelpers;
 
 class UserService
@@ -36,6 +38,15 @@ class UserService
             ->joinWith('specialization')
             ->where(['user_id' => $id])
             ->all();
+    }
+
+    public function getCurrentSpecializations($specializations)
+    {
+        $currentSpecializations = [];
+        foreach ($specializations as $specialization) {
+            $currentSpecializations[] = $specialization['specialization_id'];
+        }
+        return  $currentSpecializations;
     }
 
     public function getExecutorOpinions($id)
@@ -129,5 +140,70 @@ class UserService
         }
 
         return $user;
+    }
+
+    public function EditUserProfile($userProfile, EditProfileForm $EditProfileFormModel)
+    {
+        $avatar = $EditProfileFormModel->avatar;
+        if (isset($avatar)) {
+            $file_path = uniqid('file_') . '.' . $avatar->extension;
+            $avatar->saveAs(Yii::getAlias('@webroot') . '/img/avatars/' . $file_path);
+
+            $userProfile->profile->avatar_link = '/img/avatars/' . $file_path;
+        }
+
+        $userProfile->name = $EditProfileFormModel->name;
+        $userProfile->email = $EditProfileFormModel->email;
+        $userProfile->profile->bd = $EditProfileFormModel->bd;
+        $userProfile->profile->phone = $EditProfileFormModel->phone;
+        $userProfile->profile->messanger = $EditProfileFormModel->messanger;
+        $userProfile->profile->about = $EditProfileFormModel->about;
+
+        $specializations = $EditProfileFormModel->categories;
+        $userSpecializations = Specializations::find()
+            ->where(['user_id' => $userProfile->id])
+            ->all();
+        Specializations::deleteAll(['user_id' => $userProfile->id]);
+
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $userProfile->save();
+            $userProfile->profile->save();
+            if (count($specializations) > 0) {
+                foreach ($specializations as $specializationId) {
+                    $userSpecializations = new Specializations();
+                    $userSpecializations->user_id = $userProfile->id;
+                    $userSpecializations->specialization_id = $specializationId;
+                    $userSpecializations->save();
+                }
+            }
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+        }
+    }
+
+    public function UpdateSecuritySettings($userProfile, SecurityForm $SecurityFormModel)
+    {
+        $passwordHash = Yii::$app->getSecurity()->generatePasswordHash($SecurityFormModel->new_password);
+        $userProfile->password = $passwordHash;
+        $userProfile->profile->private = $SecurityFormModel->private;
+
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            if ($SecurityFormModel->current_password) {
+                $userProfile->save();
+            }
+            $userProfile->profile->save();
+            $transaction->commit();
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+        }
     }
 }
