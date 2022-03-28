@@ -37,7 +37,7 @@ if ($user) {
             <a href='<?= Url::to('/') ?>' class="header-logo">
                 <img class="logo-image" src="/img/logotype.png" width=227 height=60 alt="taskforce">
             </a>
-            <?php if (Url::current() !== Url::to(['site/registration'])) : ?>
+            <?php if (Yii::$app->request->url !== Url::to(['site/registration'])) : ?>
                 <div class="nav-wrapper">
                     <?php
                     $items = [
@@ -65,7 +65,7 @@ if ($user) {
             <?php endif; ?>
         </nav>
 
-        <?php if (Url::current() !== Url::to(['site/registration'])) : ?>
+        <?php if (Yii::$app->request->url !== Url::to(['site/registration'])) : ?>
             <div class="user-block">
                 <a href="#">
                     <img class="user-photo" src="<?= Url::to($userProfile->avatar_link); ?>" width="55" height="55" alt="Аватар">
