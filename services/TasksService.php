@@ -85,11 +85,11 @@ class TasksService
         return $task_id;
     }
 
-    public function getMyTasksByStatus($tasks_filter)
+    public function getMyTasksByStatus($tasks_filter, $userId)
     {
-        $query = Tasks::find();
-
         if (Yii::$app->user->identity->role === 0) {
+            $query = Tasks::find()->where(['customer_id' => $userId]);
+
             switch ($tasks_filter) {
                 case 'new':
                     $query->andWhere(['status' => 'new']);
@@ -105,6 +105,8 @@ class TasksService
                     break;
             }
         } else {
+            $query = Tasks::find()->where(['executor_id' => $userId]);
+
             switch ($tasks_filter) {
                 case 'in_progress':
                     $query->andWhere(['status' => 'in_progress']);
