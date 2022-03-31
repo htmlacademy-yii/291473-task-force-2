@@ -79,7 +79,7 @@ $this->title = 'Просмотр профиля';
         </dl>
     </div>
 
-    <?php if (CustomHelpers::checkCustomer($allExecutorTasks) || $user->profile->private === 0) : ?>
+    <?php if (CustomHelpers::checkCustomerAccess($allExecutorTasks) || $user->profile->private === 0) : ?>
         <div class="right-card white">
             <h4 class="head-card">Контакты</h4>
             <ul class="enumeration-list">

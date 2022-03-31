@@ -18,12 +18,15 @@ class Task
     const ACTION_CANCELED = 'canceled';
     const ACTION_FINISHED = 'finished';
 
-    const STATUS_ERROR = 'Тестовый статус'; // Тестовый статус, для имитации ошибки;
-    const ACTION_ERROR = 'Тестовая активность'; // Тестовая активность, для имитации ошибки;
-
     public const ROLE_CUSTOMER = 'ЗАКАЗЧИК';
     public const ROLE_EXECUTOR = 'ИСПОЛНИТЕЛЬ';
 
+    /**
+     * @param int $customer_id
+     * @param int|null $executor_id
+     * @param int $user_id
+     * @param string $current_status
+     */
     public function __construct(int $customer_id, int $executor_id = null, int $user_id, string $current_status)
     {
         $this->customer_id = $customer_id;
@@ -37,19 +40,25 @@ class Task
         $this->current_status = $current_status;
     }
 
-    // Карта статусов;
+    /**
+     * @return array
+     */
     public function get_statuses_map(): array
     {
         return [
-            self::STATUS_NEW => 'Новое', // Задание опубликовано, исполнитель ещё не найден;
-            self::STATUS_CANCELED => 'Отменено', // Заказчик отменил задание;
-            self::STATUS_IN_PROGRESS => 'В работе', // Заказчик выбрал исполнителя для задания;
-            self::STATUS_FINISHED => 'Выполнено', // Заказчик отметил задание как выполненное;
-            self::STATUS_FAILED => 'Провалено', // Исполнитель отказался от выполнения задания;
+            self::STATUS_NEW => 'Новое',
+            self::STATUS_CANCELED => 'Отменено',
+            self::STATUS_IN_PROGRESS => 'В работе',
+            self::STATUS_FINISHED => 'Выполнено',
+            self::STATUS_FAILED => 'Провалено',
         ];
     }
 
-    //  Статус, после выполнения указанного действия;
+    /**
+     * @param string $action
+     * 
+     * @return string
+     */
     public function get_next_status(string $action): string
     {
         if (!isset($this->get_actions_map()[$action])) {
@@ -70,7 +79,9 @@ class Task
         }
     }
 
-    // Карта действий;
+    /**
+     * @return array
+     */
     public function get_actions_map(): array
     {
         return [
@@ -82,7 +93,6 @@ class Task
         ];
     }
 
-    // Список следующих действий, в зависимости от статуса задачи и роли пользователя;
     public $next_action = [
         self::STATUS_NEW => [
             self::ROLE_CUSTOMER => CancelAction::class,
@@ -106,17 +116,14 @@ class Task
         ]
     ];
 
-
-    // Получаю доступные действия для указанного статуса;
-    public function get_user_actions(string $current_status) //: ?Object
+    /**
+     * @param string $current_status
+     * 
+     * @return object
+     */
+    public function get_user_actions(string $current_status): object
     {
         $role = $this->user_id === $this->customer_id ? self::ROLE_CUSTOMER : self::ROLE_EXECUTOR;
-
-        // if (!isset($this->next_action[$current_status])) {
-        //     return null;
-        //     // throw new StatusException('Метод get_user_actions: для статуса ' . $current_status . ' нет доступных действий');
-        // }
-
         return new $this->next_action[$current_status][$role]($this->customer_id, $this->executor_id, $this->user_id);
     }
 }

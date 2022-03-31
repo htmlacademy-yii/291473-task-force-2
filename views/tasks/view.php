@@ -13,7 +13,6 @@ $this->title = 'Просмотр задания';
 ModalFormAsset::register($this);
 $userId = Yii::$app->user->getId();
 $action = $taskAction->get_action_code();
-
 ?>
 
 <div class="left-column">
@@ -24,7 +23,7 @@ $action = $taskAction->get_action_code();
     <p class="task-description"><?= Html::encode($task->description); ?></p>
 
     <!-- Исполнитель. Оставить отклик на задание; -->
-    <?php if ($action === 'ACTION_RESPOND' && CustomHelpers::checkExecutor($replies, $userId)) : ?>
+    <?php if ($action === 'ACTION_RESPOND' && CustomHelpers::checkExecutorAccess($replies, $userId)) : ?>
         <a href="#" class="button button--blue response-button">Откликнуться на задание</a>
         <?= ModalForm::widget(['formType' => 'responseForm', 'formModel' => $responseFormModel]) ?>
     <?php endif; ?>

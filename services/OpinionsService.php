@@ -33,7 +33,7 @@ class OpinionsService
 
         $average_rating = ($profile->average_rating + $FinishedFormModel->rating) / ($userTasksCount + 1);
         $task->status = 'finished';
-        $task->fin_date = CustomHelpers::getCurrentDate();;
+        $task->fin_date = CustomHelpers::getCurrentDate();
         $profile->average_rating = floor($average_rating);
         $opinions->description = $FinishedFormModel->description;
         $opinions->rating = $FinishedFormModel->rating;
