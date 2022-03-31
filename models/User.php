@@ -4,7 +4,7 @@ namespace app\models;
 
 use yii\web\IdentityInterface;
 
-class User extends Users implements IdentityInterface // Отнаследовался от Users, чтобы при авторизации "стучаться" в таблицу с пользователями, сохраняя все методы авторизации отдельно от модели Users;
+class User extends Users implements IdentityInterface
 {
     public $password_repeat;
 

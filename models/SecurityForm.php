@@ -59,7 +59,6 @@ class SecurityForm extends Model
     public function validatePasswords($attribute, $params): void
     {
         if (!$this->hasErrors()) {
-
             if ($this->current_password && !$this->new_password || !$this->new_password_repeat) {
                 $this->addError($attribute, 'Заполните все поля.');
             }

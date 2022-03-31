@@ -56,23 +56,4 @@ class Profiles extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
         ];
     }
-
-    // /**
-    //  * Gets query for [[Users]].
-    //  *
-    //  * @return \yii\db\ActiveQuery
-    //  */
-    // public function getUsers()
-    // {
-    //     return $this->hasMany(Users::className(), ['profile_id' => 'id']);
-    // }
-
-    // /** Gets query for [[User]].
-    //  *
-    //  * @return \yii\db\ActiveQuery
-    //  */
-    // public function getUser()
-    // {
-    //     return $this->hasOne(Users::className(), ['profile_id' => 'id']);
-    // }
 }

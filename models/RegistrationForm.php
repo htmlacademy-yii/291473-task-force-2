@@ -14,7 +14,6 @@ class RegistrationForm extends Model
     public $password;
     public $password_repeat;
     public $role;
-
     private $_user;
 
     public function rules()
@@ -51,7 +50,6 @@ class RegistrationForm extends Model
         if ($this->_user === null) {
             $this->_user = User::findOne(['email' => $this->email]);
         }
-
         return $this->_user;
     }
 }

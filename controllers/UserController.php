@@ -55,7 +55,6 @@ class UserController extends SecuredController
         $specializations = (new UserService())->getExecutorSpecializations($userId);
         $currentSpecializations = (new UserService())->getCurrentSpecializations($specializations);
 
-
         if (Yii::$app->request->isPost && $page === 'profile') {
             $EditProfileFormModel->load(Yii::$app->request->post());
             $EditProfileFormModel->avatar = UploadedFile::getInstance($EditProfileFormModel, 'avatar');
@@ -84,7 +83,6 @@ class UserController extends SecuredController
                 return $this->redirect('/user/view/' . $userId);
             }
         }
-
 
         return $this->render('edit', [
             'page' => $page,

@@ -89,13 +89,11 @@ class TasksController extends SecuredController
         $taskAction = $Actions->get_user_actions($currentStatus);
         $replies = $tasksService->getReplies($id);
         $task_files = $tasksService->getTaskFiles($id);
-
         $responseFormModel = new ResponseForm();
         $refuseFormModel = new RefuseForm();
         $finishedFormModel = new FinishedForm();
 
         if (Yii::$app->request->isPost) {
-            // Исполнитель. Оставить отклик на задание;
             if (Yii::$app->request->post('response') === 'response') {
                 $responseFormModel->load(Yii::$app->request->post());
 
@@ -110,7 +108,6 @@ class TasksController extends SecuredController
                 }
             }
 
-            // Исполнитель. Отказаться от выполнения задания;
             if (Yii::$app->request->post('refuse') === 'refuse') {
                 $refuseFormModel->load(Yii::$app->request->post());
                 if (Yii::$app->request->isAjax) {
@@ -124,7 +121,6 @@ class TasksController extends SecuredController
                 }
             }
 
-            // Заказчик. Завершить задание;
             if (Yii::$app->request->post('finished') === 'finished') {
                 $finishedFormModel->load(Yii::$app->request->post());
                 if (Yii::$app->request->isAjax) {
@@ -181,16 +177,13 @@ class TasksController extends SecuredController
         ]);
     }
 
-    // Заказчик. Принять отклик исполнителя;
     public function actionAccept(int $id)
     {
         $RepliesService = new RepliesService;
         $reply = $RepliesService->AcceptReply($id);
-
         return $this->redirect(['tasks/view/' . $reply->task_id]);
     }
 
-    // Заказчик. Отменять отклик исполнителя;
     public function actionReject(int $id)
     {
         $reply = Replies::findOne(['id' => $id]);
@@ -199,7 +192,6 @@ class TasksController extends SecuredController
         return $this->redirect(['tasks/view/' . $reply->task_id]);
     }
 
-    // Заказчик .Отменить задание;
     public function actionCancel(int $id)
     {
         $tasksModel = Tasks::findOne(['id' => $id]);

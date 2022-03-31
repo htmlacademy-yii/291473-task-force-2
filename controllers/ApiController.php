@@ -8,7 +8,6 @@ use app\services\GeocoderService;
 
 class ApiController extends SecuredController
 {
-
     public function actionGeocoder(string $geocode)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;

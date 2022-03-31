@@ -8,7 +8,6 @@ class LoginForm extends Model
 {
     public $email;
     public $password;
-
     private $_user;
 
     public function rules()

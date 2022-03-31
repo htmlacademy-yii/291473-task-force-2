@@ -15,7 +15,6 @@ class TasksSearchForm extends Model
         '1' => '1 час',
         '12' => '12 часов',
         '24' => '24 часа',
-        '262800' => '30 лет', // Протестить большие периоды;
     ];
 
     public function rules()

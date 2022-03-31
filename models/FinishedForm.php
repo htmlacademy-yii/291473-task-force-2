@@ -11,8 +11,8 @@ use yii\base\Model;
  * @property string $dt_add
  * @property int $rate
  * @property string|null $description
- * @property int $customer_id заказчик
- * @property int $executor_id исполнитель
+ * @property int $customer_id
+ * @property int $executor_id
  * @property int $task_id
  * @property int $rating
  * @property int $id
@@ -23,7 +23,6 @@ class FinishedForm extends Model
 
     public $description;
     public $rating;
-
 
     /**
      * {@inheritdoc}
