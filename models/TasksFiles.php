@@ -2,29 +2,14 @@
 
 namespace app\models;
 
-use Yii;
-
-/**
- * This is the model class for table "tasks_files".
- *
- * @property int|null $task_id
- * @property string|null $link
- *
- * @property Tasks $task
- */
 class TasksFiles extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+
     public static function tableName()
     {
         return 'tasks_files';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -34,9 +19,6 @@ class TasksFiles extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -45,11 +27,6 @@ class TasksFiles extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Task]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getTask()
     {
         return $this->hasOne(Tasks::className(), ['id' => 'task_id']);

@@ -2,34 +2,14 @@
 
 namespace app\models;
 
-use Yii;
-
-/**
- * This is the model class for table "replies".
- *
- * @property string|null $dt_add
- * @property int $rate
- * @property string|null $description
- * @property int|null $executor_id
- * @property int|null $task_id
- *
- * @property Profiles $executor
- * @property Tasks $task
- * @property Opinions $opinion
- */
 class Replies extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
+
     public static function tableName()
     {
         return 'replies';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -42,9 +22,6 @@ class Replies extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -56,41 +33,21 @@ class Replies extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Executor]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getExecutor()
     {
         return $this->hasOne(Profiles::className(), ['user_id' => 'executor_id']);
     }
 
-    /**
-     * Gets query for [[User]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['id' => 'executor_id']);
     }
 
-    /**
-     * Gets query for [[Task]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getTask()
     {
         return $this->hasOne(Tasks::className(), ['id' => 'task_id']);
     }
 
-    /**
-     * Gets query for [[Opinion]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getOpinion()
     {
         return $this->hasMany(Opinions::className(), ['executor_id' => 'executor_id']);

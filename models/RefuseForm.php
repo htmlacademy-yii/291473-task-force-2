@@ -8,9 +8,7 @@ class RefuseForm extends Model
 {
     public $dt_add;
     public $description;
-    /**
-     * {@inheritdoc}
-     */
+
     public function rules()
     {
         return [
@@ -19,9 +17,6 @@ class RefuseForm extends Model
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [

@@ -2,34 +2,13 @@
 
 namespace app\models;
 
-use Yii;
-
-/**
- * This is the model class for table "profiles".
- *
- * @property string|null $about
- * @property string|null $avatar_link
- * @property float|null $average_rating
- * @property string|null $address
- * @property string|null $bd
- * @property string|null $phone
- * @property string|null $skype
- * @property string|null $messanger
- * @property int $user_id
- */
 class Profiles extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'profiles';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -39,9 +18,6 @@ class Profiles extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [

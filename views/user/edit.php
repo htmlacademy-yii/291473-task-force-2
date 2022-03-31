@@ -3,7 +3,6 @@
 use yii\widgets\Menu;
 
 $this->title = 'Редактирование профиля';
-
 ?>
 
 <div class="main-content main-content--left container">

@@ -2,26 +2,18 @@
 
 namespace app\models;
 
-use Yii;
 use yii\base\Model;
-
 
 class ResponseForm extends Model
 {
     public $description;
     public $rate;
 
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'replies';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -31,9 +23,6 @@ class ResponseForm extends Model
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
