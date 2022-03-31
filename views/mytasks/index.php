@@ -6,6 +6,8 @@ use TaskForce\utils\NounPluralConverter;
 use yii\widgets\Menu;
 use yii\widgets\LinkPager;
 
+$this->title = 'Мои задания';
+
 ?>
 
 <div class="left-menu">

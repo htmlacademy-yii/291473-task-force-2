@@ -6,14 +6,14 @@ use TaskForce\utils\CustomHelpers;
 use app\widgets\ModalForm;
 use app\assets\ModalFormAsset;
 
-$apiKey = Yii::$app->params['geocoderApiKey']; // Прокидываю api-ключ;
-$this->registerJsFile("https://api-maps.yandex.ru/2.1/?apikey={$apiKey}&lang=ru_RU"); // Подключаю api;
-$this->registerJsFile('/js/yandex-map.js'); // Подключаю карту;
+$apiKey = Yii::$app->params['geocoderApiKey'];
+$this->registerJsFile("https://api-maps.yandex.ru/2.1/?apikey={$apiKey}&lang=ru_RU");
+$this->registerJsFile('/js/yandex-map.js');
+$this->title = 'Просмотр задания';
 
 ModalFormAsset::register($this);
 
 $userId = Yii::$app->user->getId();
-
 $action = $taskAction->get_action_code();
 
 ?>

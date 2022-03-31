@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use TaskForce\utils\CustomHelpers;
 use TaskForce\utils\NounPluralConverter;
 use yii\helpers\Url;
+
+$this->title = 'Просмотр профиля';
 ?>
 
 <div class="left-column">

@@ -4,6 +4,8 @@ use yii\bootstrap4\Html;
 use yii\widgets\ActiveForm;
 use yii\authclient\widgets\AuthChoice;
 use yii\helpers\Url;
+
+$this->title = '«TaskForce» — это сервис для поиска исполнителей на разовые задачи.';
 ?>
 
 <section class="modal enter-form form-modal" id="enter-form">
