@@ -62,7 +62,7 @@ class SiteController extends Controller
                 (new AuthService())->saveAuthUser($user->id, $source, $sourceId);
                 Yii::$app->user->login($user);
             } else {
-                $user = (new UserService())->SaveNewVkProfile($attributes, $source);
+                $user = (new UserService())->SaveNewVkProfile($attributes);
                 (new AuthService())->saveAuthUser($user->id, $source, $sourceId);
                 Yii::$app->user->login($user);
             }

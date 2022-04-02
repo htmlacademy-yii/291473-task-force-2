@@ -34,7 +34,7 @@ class TasksController extends SecuredController
             'actions' => ['add'],
             'matchCallback' => function ($rule, $action) {
                 if (isset(\Yii::$app->user->identity->role)) {
-                    return \Yii::$app->user->identity->role !== 0;
+                    return \Yii::$app->user->identity->role !== Task::ROLE_CUSTOMER;
                 }
             }
         ];
@@ -59,7 +59,7 @@ class TasksController extends SecuredController
         $categories = Categories::find()->all();
 
         $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5]);
-        $tasks = $query->offset($pages->offset)
+        $tasks = $query->orderBy(['dt_add' => SORT_DESC])->offset($pages->offset)
             ->limit($pages->limit)
             ->all();
 

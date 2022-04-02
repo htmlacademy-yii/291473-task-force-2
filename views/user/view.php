@@ -38,8 +38,12 @@ $this->title = 'Просмотр профиля';
         <div class="bio">
             <p class="head-info">Био</p>
             <p class="bio-info">
-                <span class="country-info">Россия</span>, <span class="town-info"><?= Html::encode($user->city->city); ?></span>,
-                <span class="age-info">30</span> лет
+                <?php if (isset($user->city->city)) : ?>
+                    <span class="country-info">Россия</span>, <span class="town-info"><?= Html::encode($user->city->city); ?></span>,
+                <?php endif; ?>
+                <?php if (isset($user->profile->bd)) : ?>
+                    <span class="age-info"><?= CustomHelpers::getTimeDifference($user->profile->bd); ?></span> лет
+                <?php endif; ?>
             </p>
         </div>
     </div>

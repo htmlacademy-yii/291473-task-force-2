@@ -42,12 +42,15 @@ class CustomHelpers
      * 
      * @return int
      */
-    public static function getTimeDifference(string $birthday): int
+    public static function getTimeDifference(?string $birthday): ?int
     {
-        $birthdayDate = getdate(strtotime($birthday));
-        $currentDate = getdate();
+        if (isset($birthday)) {
+            $birthdayDate = getdate(strtotime($birthday));
+            $currentDate = getdate();
 
-        return $currentDate['year'] - $birthdayDate['year'];
+            return $currentDate['year'] - $birthdayDate['year'];
+        }
+        return null;
     }
 
     /**
@@ -163,7 +166,7 @@ class CustomHelpers
      * @param object $task
      * @param int $userId
      * 
-     * @return int
+     * @return int|null
      */
     public static function checkCustomerOrExecutor(array $replies, object $task, int $userId): ?int
     {
@@ -177,7 +180,7 @@ class CustomHelpers
                 }
             }
         }
-        return false;
+        return null;
     }
 
     /**

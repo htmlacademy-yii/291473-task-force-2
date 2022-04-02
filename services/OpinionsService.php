@@ -12,26 +12,49 @@ use TaskForce\utils\CustomHelpers;
 
 class OpinionsService
 {
-    public function findUserTasksCount($userId)
+    /**
+     * @param int $userId
+     * 
+     * @return int
+     */
+    public function findUserTasksCount(int $userId): int
     {
-        // task = Tasks::find()->all();
-
         return Tasks::find()
             ->where(['executor_id' => $userId])
             ->count();
     }
 
-    public function finishTask($id, FinishedForm $FinishedFormModel)
+    /**
+     * @param int $id
+     * @param FinishedForm $FinishedFormModel
+     * 
+     * @return void
+     */
+    public function finishTask(int $id, FinishedForm $FinishedFormModel)
     {
         $task = Tasks::findOne(['id' => $id]);
         $profile = Profiles::findOne(['user_id' => $task->executor_id]);
         $opinions = new Opinions;
 
-        $userTasksCount = Tasks::find()
-            ->where(['executor_id' => $task->executor_id, 'status' => 'finished'])
+        // $userTasksCount = Tasks::find()
+        //     ->where(['executor_id' => $task->executor_id, 'status' => 'finished'])
+        //     ->count();
+
+        $userOpinions = Opinions::find()
+            ->where(['executor_id' => $task->executor_id])
+            ->all();
+
+        $userOpinionsCount = Opinions::find()
+            ->where(['executor_id' => $task->executor_id])
             ->count();
 
-        $average_rating = ($profile->average_rating + $FinishedFormModel->rating) / ($userTasksCount + 1);
+        $UserOpinionsRating = $FinishedFormModel->rating;
+        foreach ($userOpinions as $opinion) {
+            $UserOpinionsRating += $opinion->rate;
+        }
+
+        $average_rating = $UserOpinionsRating / ($userOpinionsCount + $profile->filed_tasks + 1);
+
         $task->status = 'finished';
         $task->fin_date = CustomHelpers::getCurrentDate();
         $profile->average_rating = floor($average_rating);

@@ -11,6 +11,11 @@ use GuzzleHttp\Psr7\Request;
 
 class GeocoderService
 {
+    /**
+     * @param string $geocode
+     * 
+     * @return array
+     */
     public function getCoords(string $geocode): array
     {
         $client = new Client([

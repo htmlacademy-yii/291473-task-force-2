@@ -8,7 +8,12 @@ use yii\db\Expression;
 
 class TasksFilterService
 {
-    public function getFilteredTasks(TasksSearchForm $model)
+    /**
+     * @param TasksSearchForm $model
+     * 
+     * @return object
+     */
+    public function getFilteredTasks(TasksSearchForm $model): object
     {
         $query = Tasks::find()
             ->joinWith('category')
@@ -29,6 +34,6 @@ class TasksFilterService
             $query->andWhere(['>', 'dt_add', $exp]);
         }
 
-        return $query; //->all()
+        return $query;
     }
 }

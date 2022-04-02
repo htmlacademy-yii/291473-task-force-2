@@ -5,6 +5,7 @@ use yii\helpers\Url;
 use TaskForce\utils\NounPluralConverter;
 use yii\widgets\Menu;
 use yii\widgets\LinkPager;
+use TaskForce\tasks\Task;
 
 $this->title = 'Мои задания';
 ?>
@@ -14,7 +15,7 @@ $this->title = 'Мои задания';
     <ul class="side-menu-list">
 
         <?php
-        if (Yii::$app->user->identity->role === 0) {
+        if (Yii::$app->user->identity->role === Task::ROLE_CUSTOMER) {
             $myItems = [
                 ['label' => 'Новые', 'url' => ['/mytasks/index', 'tasks_filter' => 'new'],],
                 ['label' => 'В процессе', 'url' => ['/mytasks/index', 'tasks_filter' => 'in_progress']],

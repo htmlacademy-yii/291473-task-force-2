@@ -76,3 +76,7 @@ http://taskforce/user/edit?page=profile
 
 Безопасность
 http://taskforce/user/edit?page=security
+
+        print(Task::ROLE_CUSTOMER);
+        print(Task::ROLE_EXECUTOR);
+

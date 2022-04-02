@@ -17,7 +17,12 @@ use TaskForce\utils\CustomHelpers;
 
 class UserService
 {
-    public function getExecutor($id)
+    /**
+     * @param int $id
+     * 
+     * @return object|null
+     */
+    public function getExecutor(int $id): ?object
     {
         return Users::find()
             ->joinWith('profile', 'city')
@@ -25,14 +30,25 @@ class UserService
             ->one();
     }
 
-    public function getExecutorTasksCount($id, $tasksStatus)
+    /**
+     * @param int $id
+     * @param string $tasksStatus
+     * 
+     * @return int
+     */
+    public function getExecutorTasksCount(int $id, string $tasksStatus): int
     {
         return Tasks::find()
             ->where(['executor_id' => $id, 'status' => $tasksStatus])
             ->count();
     }
 
-    public function getExecutorSpecializations($id)
+    /**
+     * @param int $id
+     * 
+     * @return array|null
+     */
+    public function getExecutorSpecializations(int $id): ?array
     {
         return Specializations::find()
             ->joinWith('specialization')
@@ -40,7 +56,12 @@ class UserService
             ->all();
     }
 
-    public function getCurrentSpecializations($specializations)
+    /**
+     * @param array $specializations
+     * 
+     * @return array
+     */
+    public function getCurrentSpecializations(array $specializations): array
     {
         $currentSpecializations = [];
         foreach ($specializations as $specialization) {
@@ -49,7 +70,12 @@ class UserService
         return  $currentSpecializations;
     }
 
-    public function getExecutorOpinions($id)
+    /**
+     * @param int $id
+     * 
+     * @return array|null
+     */
+    public function getExecutorOpinions(int $id): ?array
     {
         return Opinions::find()
             ->joinWith('task', 'profile')
@@ -57,7 +83,12 @@ class UserService
             ->all();
     }
 
-    public function getExecutorRatingPosition($id)
+    /**
+     * @param int $id
+     * 
+     * @return int
+     */
+    public function getExecutorRatingPosition(int $id): int
     {
         $usersRatings = Users::find()
             ->where(['role' => 1])
@@ -69,12 +100,22 @@ class UserService
         return array_search($id, array_column($usersRatings, 'id')) + 1;
     }
 
+    /**
+     * @param string $email
+     * 
+     * @return User|null
+     */
     public function findUserByEmail(string $email): ?User
     {
         return User::findOne(['email' => $email]);
     }
 
-    public function SaveNewUserProfile(RegistrationForm $RegistrationModel): void
+    /**
+     * @param RegistrationForm $RegistrationModel
+     * 
+     * @return void
+     */
+    public function SaveNewUserProfile(RegistrationForm $RegistrationModel)
     {
         $user = new Users();
         $profile = new Profiles();
@@ -103,7 +144,12 @@ class UserService
         }
     }
 
-    public function SaveNewVkProfile($attributes, $source)
+    /**
+     * @param array $attributes
+     * 
+     * @return User|null
+     */
+    public function SaveNewVkProfile(array $attributes): ?User
     {
         $user = new User();
         $profile = new Profiles();
@@ -142,7 +188,13 @@ class UserService
         return $user;
     }
 
-    public function EditUserProfile($userProfile, EditProfileForm $EditProfileFormModel)
+    /**
+     * @param object $userProfile
+     * @param EditProfileForm $EditProfileFormModel
+     * 
+     * @return void
+     */
+    public function EditUserProfile(object $userProfile, EditProfileForm $EditProfileFormModel)
     {
         $avatar = $EditProfileFormModel->avatar;
         if (isset($avatar)) {
@@ -186,7 +238,13 @@ class UserService
         }
     }
 
-    public function UpdateSecuritySettings($userProfile, SecurityForm $SecurityFormModel)
+    /**
+     * @param object $userProfile
+     * @param SecurityForm $SecurityFormModel
+     * 
+     * @return void
+     */
+    public function UpdateSecuritySettings(object $userProfile, SecurityForm $SecurityFormModel)
     {
         $passwordHash = Yii::$app->getSecurity()->generatePasswordHash($SecurityFormModel->new_password);
         $userProfile->password = $passwordHash;

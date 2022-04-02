@@ -14,7 +14,14 @@ use TaskForce\utils\CustomHelpers;
 class RepliesService
 {
 
-    public function createReply($user_id, $id, ResponseForm $responseFormModel)
+    /**
+     * @param int $user_id
+     * @param int $id
+     * @param ResponseForm $responseFormModel
+     * 
+     * @return void
+     */
+    public function createReply(int $user_id, int $id, ResponseForm $responseFormModel)
     {
         $reply = new Replies;
         $reply->dt_add = CustomHelpers::getCurrentDate();
@@ -26,7 +33,12 @@ class RepliesService
         $reply->save();
     }
 
-    public function AcceptReply($id)
+    /**
+     * @param int $id
+     * 
+     * @return object|null
+     */
+    public function AcceptReply(int $id): ?object
     {
         $reply = Replies::findOne(['id' => $id]);
         $task = Tasks::findOne(['id' => $reply->task_id]);
@@ -50,18 +62,22 @@ class RepliesService
         return $reply;
     }
 
-    public function RefuseTask($user_id, $id, RefuseForm $refuseFormModel)
+    /**
+     * @param int $user_id
+     * @param int $id
+     * @param RefuseForm $refuseFormModel
+     * 
+     * @return void
+     */
+    public function RefuseTask(int $user_id, int $id, RefuseForm $refuseFormModel)
     {
         $reply = Replies::findOne(['task_id' => $id, 'executor_id' => $user_id]);
         $task = Tasks::findOne(['id' => $id]);
         $profile = Profiles::findOne(['user_id' => $user_id]);
-
-
         $reply->description = $refuseFormModel->description;
         $reply->dt_add = CustomHelpers::getCurrentDate();
         $task->status = 'finished';
         $profile->filed_tasks = $profile->filed_tasks + 1;
-
         $transaction = Yii::$app->db->beginTransaction();
         try {
             $reply->save();

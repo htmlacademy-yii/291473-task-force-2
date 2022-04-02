@@ -18,8 +18,8 @@ class Task
     const ACTION_CANCELED = 'canceled';
     const ACTION_FINISHED = 'finished';
 
-    public const ROLE_CUSTOMER = 'ЗАКАЗЧИК';
-    public const ROLE_EXECUTOR = 'ИСПОЛНИТЕЛЬ';
+    public const ROLE_CUSTOMER = 0;
+    public const ROLE_EXECUTOR = 1;
 
     /**
      * @param int $customer_id
