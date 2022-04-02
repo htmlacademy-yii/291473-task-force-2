@@ -36,10 +36,6 @@ class OpinionsService
         $profile = Profiles::findOne(['user_id' => $task->executor_id]);
         $opinions = new Opinions;
 
-        // $userTasksCount = Tasks::find()
-        //     ->where(['executor_id' => $task->executor_id, 'status' => 'finished'])
-        //     ->count();
-
         $userOpinions = Opinions::find()
             ->where(['executor_id' => $task->executor_id])
             ->all();
@@ -50,7 +46,7 @@ class OpinionsService
 
         $UserOpinionsRating = $FinishedFormModel->rating;
         foreach ($userOpinions as $opinion) {
-            $UserOpinionsRating += $opinion->rate;
+            $UserOpinionsRating += $opinion->rating;
         }
 
         $average_rating = $UserOpinionsRating / ($userOpinionsCount + $profile->filed_tasks + 1);
