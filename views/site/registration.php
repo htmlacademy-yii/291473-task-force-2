@@ -4,6 +4,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+$this->title = 'Регистрация нового пользователя';
 ?>
 
 <div class="center-block">

@@ -8,8 +8,12 @@ use app\services\GeocoderService;
 
 class ApiController extends SecuredController
 {
-
-    public function actionGeocoder(string $geocode)
+    /**
+     * @param string $geocode
+     * 
+     * @return array
+     */
+    public function actionGeocoder(string $geocode): array
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
         return (new GeocoderService())->getCoords($geocode);

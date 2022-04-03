@@ -7,7 +7,6 @@ use TaskForce\utils\CustomHelpers;
 use yii\widgets\Menu;
 
 AppAsset::register($this);
-
 $user = CustomHelpers::checkAuthorization();
 
 if ($user) {
@@ -17,6 +16,7 @@ if ($user) {
     $userName = 'Анонимный пользователь';
 }
 ?>
+
 <?php $this->beginPage(); ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>" class="h-100">

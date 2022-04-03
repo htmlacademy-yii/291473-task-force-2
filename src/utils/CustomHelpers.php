@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace TaskForce\utils;
 
-use app\models\Profiles;
 use Yii;
-use app\models\Users;
+use app\models\Profiles;
 use app\models\User;
 use yii\db\Expression;
 
@@ -16,10 +15,9 @@ const COUNT_BYTES_IN_KILOBYTE = 1024;
 class CustomHelpers
 {
     /**
-     * Возвращает текст-верстку звездочек рейтинга
-     * @param int $fullStarsCount рейтинг пользователя в числовом формате
-     *
-     * @return string верстка звездочек для отображения на странице
+     * @param int $fullStarsCount
+     * 
+     * @return string
      */
     public static function getRatingStars(int $fullStarsCount): string
     {
@@ -40,24 +38,25 @@ class CustomHelpers
     }
 
     /**
-     * Возвращает разницу в годах
-     * @param string $birthday дата в стоковом формате
-     *
-     * @return int разница в годах
+     * @param string $birthday
+     * 
+     * @return int
      */
-    public static function getTimeDifference(string $birthday): int
+    public static function getTimeDifference(?string $birthday): ?int
     {
-        $birthdayDate = getdate(strtotime($birthday));
-        $currentDate = getdate();
+        if (isset($birthday)) {
+            $birthdayDate = getdate(strtotime($birthday));
+            $currentDate = getdate();
 
-        return $currentDate['year'] - $birthdayDate['year'];
+            return $currentDate['year'] - $birthdayDate['year'];
+        }
+        return null;
     }
 
     /**
-     * Возвращает дату в формате: день / месяц / год / время
-     * @param string $date дата в текстовом формате
-     *
-     * @return string дата в формате день, месяц (на русском языке), год и время
+     * @param string $date
+     * 
+     * @return string
      */
     public static function getRuDate(string $date): string
     {
@@ -69,10 +68,9 @@ class CustomHelpers
     }
 
     /**
-     * Возвращает текстовый статус пользователя
-     * @param array $tasks массив со списком задач, в которых пользователя является исполнителем
-     *
-     * @return string статус пользователя в текстовом формате
+     * @param array $tasks
+     * 
+     * @return string
      */
     public static function getUserStatus(array $tasks): string
     {
@@ -86,10 +84,9 @@ class CustomHelpers
     }
 
     /**
-     * Возвращает человекопонятное название статуса
-     * @param string $taskStatus статус в текстовом формате
-     *
-     * @return string статус на русском языке в текстовом формате
+     * @param string $taskStatus
+     * 
+     * @return string
      */
     public static function getTaskStatusName(string $taskStatus): string
     {
@@ -104,7 +101,9 @@ class CustomHelpers
         return $taskStatusesMap[$taskStatus];
     }
 
-    // Проверка на авторизацию, получение данных пользователя;
+    /**
+     * @return object|null
+     */
     public static function checkAuthorization(): ?object
     {
         if (Yii::$app->user->isGuest) {
@@ -114,7 +113,11 @@ class CustomHelpers
         return User::findIdentity(Yii::$app->user->getId());
     }
 
-    // Проверка на авторизацию, получение данных пользователя;
+    /**
+     * @param mixed $userId
+     * 
+     * @return object|null
+     */
     public static function getUserProfile($userId): ?object
     {
         return Profiles::find()
@@ -122,14 +125,22 @@ class CustomHelpers
             ->one();
     }
 
-    public static function getCurrentDate()
+    /**
+     * @return string
+     */
+    public static function getCurrentDate(): string
     {
         $expression = new Expression('NOW()');
-        $now = (new \yii\db\Query)->select($expression)->scalar();  // ВЫБРАТЬ СЕЙЧАС ();
+        $now = (new \yii\db\Query)->select($expression)->scalar();
         return $now;
     }
 
-    public static function checkNullDate($date)
+    /**
+     * @param mixed $date
+     * 
+     * @return string
+     */
+    public static function checkNullDate($date): string
     {
         if (isset($date)) {
             return date("j F Y, g:i a", strtotime($date));
@@ -138,39 +149,46 @@ class CustomHelpers
         }
     }
 
-    public static function getFileSize(string $file_path)
+    /**
+     * @param string $file_path
+     * 
+     * @return float
+     */
+    public static function getFileSize(string $file_path): float
     {
         $fileSize = filesize(Yii::getAlias('@webroot') . '/uploads/' . $file_path) / COUNT_BYTES_IN_KILOBYTE;
 
         return ceil($fileSize);
     }
 
-    // Проверяет, что для задачи есть отклики и пользователь является заказчиком или исполнителем;
-    // В зависимости от результата показывает или скрывает заголовок блока "Список откликов" на странице;
-    public static function checkCustomerOrExecutor(array $replies, object $task, int $userId)
+    /**
+     * @param array $replies
+     * @param object $task
+     * @param int $userId
+     * 
+     * @return int|null
+     */
+    public static function checkCustomerOrExecutor(array $replies, object $task, int $userId): ?int
     {
-        // Проверяю есть ли отклики для выбранной задачи;
         if (count($replies) > 0) {
-
-            // Проверяю является ли авторизованный пользователь постановщиком задачи;
             if ($task['customer_id'] === $userId) {
                 return $userId;
             }
-
-            // Проверяю является ли авторизованный пользователь исполнителем задачи;
             foreach ($replies as $reply) {
                 if ($reply['executor_id'] === $userId) {
                     return $userId;
                 }
             }
         }
-        // Если откликов нет И пользователь не постановщик ИЛИ не исполнитель - возвращаю false;
-        return false;
+        return null;
     }
 
-    // Проверяет есть ли среди откликов к задаче хотя бы один со статусом "Принят"
-    // Если задача со статусом "Принят" есть, возвращает false (позволяет спрятать кнопки принять/отказать у всех задач);
-    public static function checkRepliesStatus(array $replies)
+    /**
+     * @param array $replies
+     * 
+     * @return bool
+     */
+    public static function checkRepliesStatus(array $replies): bool
     {
         foreach ($replies as $reply) {
             if ($reply['status'] === 1) {
@@ -180,7 +198,13 @@ class CustomHelpers
         return true;
     }
 
-    public static function checkExecutor(array $replies, int $userId)
+    /**
+     * @param array $replies
+     * @param int $userId
+     * 
+     * @return bool
+     */
+    public static function checkExecutorAccess(array $replies, int $userId): bool
     {
         foreach ($replies as $reply) {
             if ($reply['executor_id'] === $userId) {
@@ -191,7 +215,12 @@ class CustomHelpers
         return true;
     }
 
-    public static function checkCustomer($allExecutorTasks)
+    /**
+     * @param mixed $allExecutorTasks
+     * 
+     * @return bool
+     */
+    public static function checkCustomerAccess($allExecutorTasks): bool
     {
         foreach ($allExecutorTasks as $executorTask) {
             if ($executorTask->customer_id === Yii::$app->user->getId()) {

@@ -6,16 +6,13 @@ use TaskForce\utils\CustomHelpers;
 use app\widgets\ModalForm;
 use app\assets\ModalFormAsset;
 
-$apiKey = Yii::$app->params['geocoderApiKey']; // Прокидываю api-ключ;
-$this->registerJsFile("https://api-maps.yandex.ru/2.1/?apikey={$apiKey}&lang=ru_RU"); // Подключаю api;
-$this->registerJsFile('/js/yandex-map.js'); // Подключаю карту;
-
+$apiKey = Yii::$app->params['geocoderApiKey'];
+$this->registerJsFile("https://api-maps.yandex.ru/2.1/?apikey={$apiKey}&lang=ru_RU");
+$this->registerJsFile('/js/yandex-map.js');
+$this->title = 'Просмотр задания';
 ModalFormAsset::register($this);
-
 $userId = Yii::$app->user->getId();
-
 $action = $taskAction->get_action_code();
-
 ?>
 
 <div class="left-column">
@@ -25,25 +22,21 @@ $action = $taskAction->get_action_code();
     </div>
     <p class="task-description"><?= Html::encode($task->description); ?></p>
 
-    <!-- Исполнитель. Оставить отклик на задание; -->
-    <?php if ($action === 'ACTION_RESPOND' && CustomHelpers::checkExecutor($replies, $userId)) : ?>
+    <?php if ($action === 'ACTION_RESPOND' && CustomHelpers::checkExecutorAccess($replies, $userId)) : ?>
         <a href="#" class="button button--blue response-button">Откликнуться на задание</a>
         <?= ModalForm::widget(['formType' => 'responseForm', 'formModel' => $responseFormModel]) ?>
     <?php endif; ?>
 
-    <!-- Исполнитель. Отказаться от выполнения задания; -->
     <?php if ($action === 'ACTION_REFUSED') : ?>
         <a href="#" class="button button--blue refuse-button">Отказаться от задания</a>
         <?= ModalForm::widget(['formType' => 'refuseForm', 'formModel' => $refuseFormModel]) ?>
     <?php endif; ?>
 
-    <!-- Постановщник. Завершение задания; -->
     <?php if ($action === 'ACTION_FINISHED') : ?>
         <a href="#" class="button button--blue finished-button">Завершить задание</a>
         <?= ModalForm::widget(['formType' => 'finishedForm', 'formModel' => $finishedFormModel]) ?>
     <?php endif; ?>
 
-    <!-- Постановщик. Отменить задание; -->
     <?php if ($action === 'ACTION_CANCELED') : ?>
         <a href="<?= '/cancel/' . $task->id ?>" class="button button--blue">Отменить задание</a>
     <?php endif; ?>
@@ -90,8 +83,6 @@ $action = $taskAction->get_action_code();
             </div>
         <?php endif; ?>
     <?php endforeach; ?>
-
-
 
 </div>
 

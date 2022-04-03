@@ -2,29 +2,13 @@
 
 namespace app\models;
 
-use Yii;
-
-/**
- * This is the model class for table "auth".
- *
- * @property int $id
- * @property int $user_id
- * @property string $source
- * @property string $source_id
- */
 class Auth extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'auth';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -34,9 +18,6 @@ class Auth extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
@@ -47,11 +28,6 @@ class Auth extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[User]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
     public function getUser()
     {
         return $this->hasOne(User::class, ['id' => 'user_id']);

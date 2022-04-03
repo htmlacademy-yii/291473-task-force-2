@@ -8,7 +8,6 @@ use TaskForce\utils\CustomHelpers;
 
 abstract class SecuredController extends Controller
 {
-    // Применяет правила авторизации к контроллерам;
     public function behaviors()
     {
         return [
@@ -24,8 +23,6 @@ abstract class SecuredController extends Controller
         ];
     }
 
-    // Редиректит на лендинг, если не авторизован;
-    // Редиректит в задачи, если пользователь не является постановщиком;
     public function beforeAction($action)
     {
         if (CustomHelpers::checkAuthorization() === null) {
@@ -39,7 +36,6 @@ abstract class SecuredController extends Controller
                 return false;
             }
         }
-
         return true;
     }
 }

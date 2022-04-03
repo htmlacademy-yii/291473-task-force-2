@@ -6,6 +6,8 @@ use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
 use TaskForce\utils\NounPluralConverter;
 use yii\widgets\LinkPager;
+
+$this->title = 'Новые задания';
 ?>
 
 <div class="left-column">

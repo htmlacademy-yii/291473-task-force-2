@@ -6,11 +6,24 @@ use app\models\Auth;
 
 class AuthService
 {
+    /**
+     * @param string $source
+     * @param string $sourceId
+     * 
+     * @return Auth|null
+     */
     public function findAuthUser(string $source, string $sourceId): ?Auth
     {
-        return Auth::findOne(['source' => $source, 'source_id' => $sourceId]); // Ищем пользователя по id пользователя и id клиента = 'vkontakte';
+        return Auth::findOne(['source' => $source, 'source_id' => $sourceId]);
     }
 
+    /**
+     * @param int $userId
+     * @param string $source
+     * @param string $sourceId
+     * 
+     * @return bool
+     */
     public function saveAuthUser(int $userId, string $source, string $sourceId): bool
     {
         $auth = new Auth();

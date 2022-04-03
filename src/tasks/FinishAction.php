@@ -2,19 +2,12 @@
 
 namespace TaskForce\tasks;
 
-class FinishAction extends AbstractAction 
+class FinishAction extends AbstractAction
 {
-    public function check_access() 
-    {
-        return $this->user_id === $this->customer_id;
-    }
-
-    public function get_action_name() 
-    {
-        return 'Завершение задания';
-    }
-
-    public function get_action_code() 
+    /**
+     * @return string
+     */
+    public function get_action_code(): string
     {
         return 'ACTION_FINISHED';
     }

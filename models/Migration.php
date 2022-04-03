@@ -2,27 +2,13 @@
 
 namespace app\models;
 
-use Yii;
-
-/**
- * This is the model class for table "migration".
- *
- * @property string $version
- * @property int|null $apply_time
- */
 class Migration extends \yii\db\ActiveRecord
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function tableName()
     {
         return 'migration';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function rules()
     {
         return [
@@ -33,9 +19,6 @@ class Migration extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function attributeLabels()
     {
         return [
