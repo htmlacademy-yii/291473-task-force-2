@@ -81,13 +81,11 @@ class TasksController extends SecuredController
             throw new NotFoundHttpException;
         }
 
-        $customerId = $task->customer_id;
-        $executorId = $task->executor_id;
-        $currentStatus = $task->status;
-        $Actions = new Task($customerId, $executorId, $userId, $currentStatus);
-        $taskAction = $Actions->get_user_actions($currentStatus);
+        $Actions = new Task($task->customer_id, $task->executor_id, $userId, $task->status);
+        $taskAction = $Actions->get_user_actions($task->status);
         $replies = $tasksService->getReplies($id);
         $task_files = $tasksService->getTaskFiles($id);
+
         $responseFormModel = new ResponseForm();
         $refuseFormModel = new RefuseForm();
         $finishedFormModel = new FinishedForm();
