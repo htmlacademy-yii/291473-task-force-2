@@ -248,7 +248,12 @@ class UserService
     {
         $passwordHash = Yii::$app->getSecurity()->generatePasswordHash($SecurityFormModel->new_password);
         $userProfile->password = $passwordHash;
-        $userProfile->profile->private = $SecurityFormModel->private;
+
+        if ($userProfile->role === 1) {
+            $userProfile->profile->private = $SecurityFormModel->private;
+        } else {
+            $userProfile->profile->private = 0;
+        }
 
         $transaction = Yii::$app->db->beginTransaction();
         try {
