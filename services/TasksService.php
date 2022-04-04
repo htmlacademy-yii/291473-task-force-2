@@ -8,6 +8,8 @@ use app\models\Replies;
 use app\models\AddTaskForm;
 use app\models\TasksFiles;
 use app\models\Cities;
+use yii\web\Response;
+use yii\widgets\ActiveForm;
 use TaskForce\utils\CustomHelpers;
 use yii\db\Expression;
 
@@ -156,5 +158,36 @@ class TasksService
         }
 
         return $query;
+    }
+
+    /**
+     * @param mixed $userId
+     * @param mixed $id
+     * @param mixed $action
+     * @param mixed $actionModel
+     * 
+     * @return void
+     */
+    function createTaskAction(int $userId, int $id, string $action, object $actionModel)
+    {
+        if (Yii::$app->request->post($action) === $action) {
+            $actionModel->load(Yii::$app->request->post());
+
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($actionModel);
+            }
+            if ($actionModel->validate()) {
+                if ($action === 'response') {
+                    (new RepliesService())->createReply($userId, $id, $actionModel);
+                }
+                if ($action === 'refuse') {
+                    (new RepliesService())->RefuseTask($userId, $id, $actionModel);
+                }
+                if ($action === 'finished') {
+                    (new OpinionsService())->finishTask($id, $actionModel);
+                }
+            }
+        }
     }
 }

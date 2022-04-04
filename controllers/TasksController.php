@@ -15,7 +15,6 @@ use app\models\AddTaskForm;
 use app\models\Replies;
 use app\models\RefuseForm;
 use app\models\FinishedForm;
-use app\services\OpinionsService;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
@@ -94,46 +93,10 @@ class TasksController extends SecuredController
         $finishedFormModel = new FinishedForm();
 
         if (Yii::$app->request->isPost) {
-            if (Yii::$app->request->post('response') === 'response') {
-                $responseFormModel->load(Yii::$app->request->post());
-
-                if (Yii::$app->request->isAjax) {
-                    Yii::$app->response->format = Response::FORMAT_JSON;
-                    return ActiveForm::validate($responseFormModel);
-                }
-
-                if ($responseFormModel->validate()) {
-                    (new RepliesService())->createReply($userId, $id, $responseFormModel);
-                    return $this->refresh();
-                }
-            }
-
-            if (Yii::$app->request->post('refuse') === 'refuse') {
-                $refuseFormModel->load(Yii::$app->request->post());
-                if (Yii::$app->request->isAjax) {
-                    Yii::$app->response->format = Response::FORMAT_JSON;
-                    return ActiveForm::validate($refuseFormModel);
-                }
-
-                if ($refuseFormModel->validate()) {
-                    (new RepliesService())->RefuseTask($userId, $id, $refuseFormModel);
-                    return $this->refresh();
-                }
-            }
-
-            if (Yii::$app->request->post('finished') === 'finished') {
-                $finishedFormModel->load(Yii::$app->request->post());
-                if (Yii::$app->request->isAjax) {
-                    Yii::$app->response->format = Response::FORMAT_JSON;
-
-                    return ActiveForm::validate($finishedFormModel);
-                }
-
-                if ($finishedFormModel->validate()) {
-                    (new OpinionsService())->finishTask($id, $finishedFormModel);
-                    return $this->refresh();
-                }
-            }
+            (new TasksService())->createTaskAction($userId, $id, 'response', $responseFormModel);
+            (new TasksService())->createTaskAction($userId, $id, 'refuse', $refuseFormModel);
+            (new TasksService())->createTaskAction($userId, $id, 'finished', $finishedFormModel);
+            return $this->refresh();
         }
 
         return $this->render('view', [
@@ -158,7 +121,6 @@ class TasksController extends SecuredController
 
             if (Yii::$app->request->isAjax) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
-
                 return ActiveForm::validate($addTaskFormModel);
             }
 

@@ -55,31 +55,6 @@ class Task
     }
 
     /**
-     * @param string $action
-     * 
-     * @return string
-     */
-    public function get_next_status(string $action): string
-    {
-        if (!isset($this->get_actions_map()[$action])) {
-            throw new StatusException('Метод get_next_status: для активности ' . $action . ' нет доступных статусов');
-        }
-
-        switch ($action) {
-            case self::ACTION_START:
-                return self::STATUS_IN_PROGRESS;
-            case self::ACTION_REFUSED:
-                return self::STATUS_FAILED;
-            case self::ACTION_CANCELED:
-                return self::STATUS_CANCELED;
-            case self::ACTION_FINISHED:
-                return self::STATUS_FINISHED;
-            default:
-                return null;
-        }
-    }
-
-    /**
      * @return array
      */
     public function get_actions_map(): array

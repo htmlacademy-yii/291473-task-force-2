@@ -76,7 +76,7 @@ class RepliesService
         $profile = Profiles::findOne(['user_id' => $user_id]);
         $reply->description = $refuseFormModel->description;
         $reply->dt_add = CustomHelpers::getCurrentDate();
-        $task->status = 'finished';
+        $task->status = 'failed';
         $profile->filed_tasks = $profile->filed_tasks + 1;
         $transaction = Yii::$app->db->beginTransaction();
         try {
