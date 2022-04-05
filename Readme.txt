@@ -11,23 +11,16 @@ composer dump-autoload
 3. Создать базу данных:
 
 CREATE DATABASE taskforce
-  DEFAULT CHARACTER SET utf8
-  DEFAULT COLLATE utf8_general_ci;
+  DEFAULT CHARACTER SET utf8mb4;
 
-4. Выполнить миграции:
+4. Получить структуру базы данных:
 
 yii migrate
 
 5. Загрузить тестовые данные:
 
-php yii fixture/load Categories
-php yii fixture/load Cities
-php yii fixture/load Opinions
-php yii fixture/load Profiles
-php yii fixture/load Replies
-php yii fixture/load Specializations
-php yii fixture/load Tasks
-php yii fixture/load Users
+yii fixture "Categories, Cities, Opinions, Profiles, Replies, Specializations, Tasks, Users"
+
 
 Дополнительно:
 

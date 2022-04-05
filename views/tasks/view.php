@@ -27,7 +27,7 @@ $action = $taskAction->get_action_code();
         <?= ModalForm::widget(['formType' => 'responseForm', 'formModel' => $responseFormModel]) ?>
     <?php endif; ?>
 
-    <?php if ($action === 'ACTION_REFUSED') : ?>
+    <?php if ($action === 'ACTION_REFUSED' && $task->executor_id === $userId) : ?>
         <a href="#" class="button button--blue refuse-button">Отказаться от задания</a>
         <?= ModalForm::widget(['formType' => 'refuseForm', 'formModel' => $refuseFormModel]) ?>
     <?php endif; ?>
