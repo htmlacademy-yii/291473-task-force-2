@@ -9,6 +9,7 @@ use app\models\EditProfileForm;
 use app\models\SecurityForm;
 use app\services\CategoriesService;
 use app\services\TasksService;
+use TaskForce\tasks\Task;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
@@ -28,7 +29,7 @@ class UserController extends SecuredController
         $userRatingPosition = $userService->getExecutorRatingPosition($id);
         $allExecutorTasks = $tasksService->getTasksByExecutor($id);
 
-        if (!$user) {
+        if (!$user || !$user->id || $user->role !== Task::ROLE_EXECUTOR) {
             throw new NotFoundHttpException;
         }
 

@@ -4,20 +4,28 @@
 
 composer create-project --prefer-dist yiisoft/yii2-app-basic taskforce
 
-2. Выполнить автозагрузку кастомных классов:
+2. Загрузить проект из гита в директорию taskforce:
+
+git clone https://github.com/htmlacademy-yii/291473-task-force-2.git
+
+3. Загрузить зависимости:
+
+composer install
+
+4. Выполнить автозагрузку кастомных классов:
 
 composer dump-autoload
 
-3. Создать базу данных:
+5. Создать базу данных:
 
 CREATE DATABASE taskforce
   DEFAULT CHARACTER SET utf8mb4;
 
-4. Получить структуру базы данных:
+6. Получить структуру базы данных:
 
 yii migrate
 
-5. Загрузить тестовые данные:
+7. Загрузить тестовые данные:
 
 yii fixture "Categories, Cities, Opinions, Profiles, Replies, Specializations, Tasks, Users"
 
