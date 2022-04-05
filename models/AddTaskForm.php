@@ -48,7 +48,7 @@ class AddTaskForm extends Model
     public function attributeLabels()
     {
         return [
-            'name' => 'Опишите суть работы',
+            'name' => 'Мне нужно',
             'description' => 'Подробности задания',
             'category_id' => 'Категория',
             'location' => 'Локация',
