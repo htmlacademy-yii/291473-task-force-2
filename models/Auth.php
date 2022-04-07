@@ -13,6 +13,7 @@ use Yii;
  * @property int $auth_user_id
  *
  * @property Users $authUser
+ * @property User $user
  */
 class Auth extends \yii\db\ActiveRecord
 {

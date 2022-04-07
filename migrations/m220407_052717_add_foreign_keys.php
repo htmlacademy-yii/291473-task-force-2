@@ -14,10 +14,10 @@ class m220407_052717_add_foreign_keys extends Migration
     {
         $this->dropColumn('{{%users}}', 'city_id');
         $this->dropColumn('{{%auth}}', 'user_id');
-        // $this->dropColumn('{{%tasks}}', 'category_id');
-        // $this->dropColumn('{{%tasks}}', 'customer_id');
-        // $this->dropColumn('{{%tasks}}', 'executor_id');
-        // $this->dropColumn('{{%tasks}}', 'city_id');
+        $this->dropColumn('{{%tasks}}', 'category_id');
+        $this->dropColumn('{{%tasks}}', 'customer_id');
+        $this->dropColumn('{{%tasks}}', 'executor_id');
+        $this->dropColumn('{{%tasks}}', 'city_id');
         // $this->dropColumn('{{%specializations}}', 'user_id');
         // $this->dropColumn('{{%specializations}}', 'specialization_id');
         // $this->dropColumn('{{%replies}}', 'executor_id');
@@ -28,10 +28,10 @@ class m220407_052717_add_foreign_keys extends Migration
 
         $this->addColumn('{{%users}}', 'city_id', $this->integer()->null());
         $this->addColumn('{{%auth}}', 'auth_user_id', $this->integer()->notNull());
-        // $this->addColumn('{{%tasks}}', 'task_category_id', $this->integer()->notNull());
-        // $this->addColumn('{{%tasks}}', 'task_customer_id', $this->integer()->notNull());
-        // $this->addColumn('{{%tasks}}', 'task_executor_id', $this->integer()->null());
-        // $this->addColumn('{{%tasks}}', 'task_city_id', $this->integer()->null());
+        $this->addColumn('{{%tasks}}', 'category_id', $this->integer()->notNull());
+        $this->addColumn('{{%tasks}}', 'customer_id', $this->integer()->notNull());
+        $this->addColumn('{{%tasks}}', 'executor_id', $this->integer()->null());
+        $this->addColumn('{{%tasks}}', 'task_city_id', $this->integer()->null());
         // $this->addColumn('{{%specializations}}', 'specialization_user_id', $this->integer()->notNull());
         // $this->addColumn('{{%specializations}}', 'specialization_id', $this->integer()->notNull());
         // $this->addColumn('{{%replies}}', 'reply_executor_id', $this->integer()->notNull());
@@ -56,38 +56,38 @@ class m220407_052717_add_foreign_keys extends Migration
             'id',
             'CASCADE'
         );
-        // $this->addForeignKey(
-        //     'task_category_id',
-        //     'tasks',
-        //     'task_category_id',
-        //     'categories',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'task_customer_id',
-        //     'tasks',
-        //     'task_customer_id',
-        //     'users',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'task_executor_id',
-        //     'tasks',
-        //     'task_executor_id',
-        //     'users',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'task_city_id',
-        //     'tasks',
-        //     'task_city_id',
-        //     'cities',
-        //     'id',
-        //     'CASCADE'
-        // );
+        $this->addForeignKey(
+            'category_id',
+            'tasks',
+            'category_id',
+            'categories',
+            'id',
+            'CASCADE'
+        );
+        $this->addForeignKey(
+            'customer_id',
+            'tasks',
+            'customer_id',
+            'users',
+            'id',
+            'CASCADE'
+        );
+        $this->addForeignKey(
+            'executor_id',
+            'tasks',
+            'executor_id',
+            'users',
+            'id',
+            'CASCADE'
+        );
+        $this->addForeignKey(
+            'task_city_id',
+            'tasks',
+            'task_city_id',
+            'cities',
+            'id',
+            'CASCADE'
+        );
         // $this->addForeignKey(
         //     'specialization_user_id',
         //     'specializations',
@@ -153,7 +153,7 @@ class m220407_052717_add_foreign_keys extends Migration
     {
         $this->dropTable('{{%users}}');
         $this->dropTable('{{%auth}}');
-        // $this->dropTable('{{%tasks}}');
+        $this->dropTable('{{%tasks}}');
         // $this->dropTable('{{%specializations}}');
         // $this->dropTable('{{%replies}}');
         // $this->dropTable('{{%opinions}}');

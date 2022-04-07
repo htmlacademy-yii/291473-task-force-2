@@ -89,7 +89,7 @@ class TasksService
             ->one();
 
         if (isset($city)) {
-            $task->city_id = $city['id'];
+            $task->task_city_id = $city['id'];
             $task->address = $addTaskFormModel->address;
             $task->latitude = $addTaskFormModel->latitude;
             $task->longitude = $addTaskFormModel->longitude;
