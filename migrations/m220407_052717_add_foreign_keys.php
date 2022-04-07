@@ -12,8 +12,8 @@ class m220407_052717_add_foreign_keys extends Migration
      */
     public function safeUp()
     {
-        // $this->dropColumn('{{%users}}', 'city_id');
-        // $this->dropColumn('{{%auth}}', 'user_id');
+        $this->dropColumn('{{%users}}', 'city_id');
+        $this->dropColumn('{{%auth}}', 'user_id');
         // $this->dropColumn('{{%tasks}}', 'category_id');
         // $this->dropColumn('{{%tasks}}', 'customer_id');
         // $this->dropColumn('{{%tasks}}', 'executor_id');
@@ -26,135 +26,124 @@ class m220407_052717_add_foreign_keys extends Migration
         // $this->dropColumn('{{%opinions}}', 'executor_id');
         // $this->dropColumn('{{%opinions}}', 'task_id');
 
-        // $this->addColumn('{{%users}}', 'city_id', $this->integer()->null());
-        // $this->addColumn('{{%auth}}', 'user_id', $this->integer()->notNull());
-        // $this->addColumn('{{%tasks}}', 'category_id', $this->integer()->notNull());
-        // $this->addColumn('{{%tasks}}', 'customer_id', $this->integer()->notNull());
-        // $this->addColumn('{{%tasks}}', 'executor_id', $this->integer()->null());
-        // $this->addColumn('{{%tasks}}', 'city_id', $this->integer()->null());
-        // $this->addColumn('{{%specializations}}', 'user_id', $this->integer()->notNull());
+        $this->addColumn('{{%users}}', 'city_id', $this->integer()->null());
+        $this->addColumn('{{%auth}}', 'auth_user_id', $this->integer()->notNull());
+        // $this->addColumn('{{%tasks}}', 'task_category_id', $this->integer()->notNull());
+        // $this->addColumn('{{%tasks}}', 'task_customer_id', $this->integer()->notNull());
+        // $this->addColumn('{{%tasks}}', 'task_executor_id', $this->integer()->null());
+        // $this->addColumn('{{%tasks}}', 'task_city_id', $this->integer()->null());
+        // $this->addColumn('{{%specializations}}', 'specialization_user_id', $this->integer()->notNull());
         // $this->addColumn('{{%specializations}}', 'specialization_id', $this->integer()->notNull());
-        // $this->addColumn('{{%replies}}', 'executor_id', $this->integer()->notNull());
-        // $this->addColumn('{{%replies}}', 'task_id', $this->integer()->notNull());
-        // $this->addColumn('{{%opinions}}', 'customer_id', $this->integer()->notNull());
-        // $this->addColumn('{{%opinions}}', 'executor_id', $this->integer()->notNull());
-        // $this->addColumn('{{%opinions}}', 'task_id', $this->integer()->notNull());
+        // $this->addColumn('{{%replies}}', 'reply_executor_id', $this->integer()->notNull());
+        // $this->addColumn('{{%replies}}', 'reply_task_id', $this->integer()->notNull());
+        // $this->addColumn('{{%opinions}}', 'opinion_customer_id', $this->integer()->notNull());
+        // $this->addColumn('{{%opinions}}', 'opinion_executor_id', $this->integer()->notNull());
+        // $this->addColumn('{{%opinions}}', 'opinion_task_id', $this->integer()->notNull());
 
-        // $this->addForeignKey(
-        //     'city_id',
-        //     'users',
-        //     'city_id',
-        //     'cities',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'user_id',
-        //     'auth',
-        //     'user_id',
-        //     'users',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'category_id',
-        //     'tasks',
-        //     'category_id',
-        //     'categories',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'customer_id',
-        //     'tasks',
-        //     'customer_id',
-        //     'users',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'executor_id',
-        //     'tasks',
-        //     'executor_id',
-        //     'users',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'city_id',
-        //     'tasks',
-        //     'city_id',
-        //     'cities',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'user_id',
-        //     'specializations',
-        //     'user_id',
-        //     'users',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'specialization_id',
-        //     'specializations',
-        //     'specialization_id',
-        //     'categories',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'executor_id',
-        //     'replies',
-        //     'executor_id',
-        //     'users',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'task_id',
-        //     'replies',
-        //     'task_id',
-        //     'tasks',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'customer_id',
-        //     'opinions',
-        //     'customer_id',
-        //     'users',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'executor_id',
-        //     'opinions',
-        //     'executor_id',
-        //     'users',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'task_id',
-        //     'opinions',
-        //     'task_id',
-        //     'tasks',
-        //     'id',
-        //     'CASCADE'
-        // );
-
-        // $this->dropColumn('{{%auth}}', 'user_id');
-        // $this->addColumn('{{%auth}}', 'user_id', $this->integer()->notNull());
         $this->addForeignKey(
-            'user_id',
+            'city_id',
+            'users',
+            'city_id',
+            'cities',
+            'id',
+            'CASCADE'
+        );
+        $this->addForeignKey(
+            'auth_user_id',
             'auth',
-            'user_id',
+            'auth_user_id',
             'users',
             'id',
             'CASCADE'
         );
+        // $this->addForeignKey(
+        //     'task_category_id',
+        //     'tasks',
+        //     'task_category_id',
+        //     'categories',
+        //     'id',
+        //     'CASCADE'
+        // );
+        // $this->addForeignKey(
+        //     'task_customer_id',
+        //     'tasks',
+        //     'task_customer_id',
+        //     'users',
+        //     'id',
+        //     'CASCADE'
+        // );
+        // $this->addForeignKey(
+        //     'task_executor_id',
+        //     'tasks',
+        //     'task_executor_id',
+        //     'users',
+        //     'id',
+        //     'CASCADE'
+        // );
+        // $this->addForeignKey(
+        //     'task_city_id',
+        //     'tasks',
+        //     'task_city_id',
+        //     'cities',
+        //     'id',
+        //     'CASCADE'
+        // );
+        // $this->addForeignKey(
+        //     'specialization_user_id',
+        //     'specializations',
+        //     'specialization_user_id',
+        //     'users',
+        //     'id',
+        //     'CASCADE'
+        // );
+        // $this->addForeignKey(
+        //     'specialization_id',
+        //     'specializations',
+        //     'specialization_id',
+        //     'categories',
+        //     'id',
+        //     'CASCADE'
+        // );
+        // $this->addForeignKey(
+        //     'reply_executor_id',
+        //     'replies',
+        //     'reply_executor_id',
+        //     'users',
+        //     'id',
+        //     'CASCADE'
+        // );
+        // $this->addForeignKey(
+        //     'reply_task_id',
+        //     'replies',
+        //     'reply_task_id',
+        //     'tasks',
+        //     'id',
+        //     'CASCADE'
+        // );
+        // $this->addForeignKey(
+        //     'opinion_customer_id',
+        //     'opinions',
+        //     'opinion_customer_id',
+        //     'users',
+        //     'id',
+        //     'CASCADE'
+        // );
+        // $this->addForeignKey(
+        //     'opinion_executor_id',
+        //     'opinions',
+        //     'opinion_executor_id',
+        //     'users',
+        //     'id',
+        //     'CASCADE'
+        // );
+        // $this->addForeignKey(
+        //     'opinion_task_id',
+        //     'opinions',
+        //     'opinion_task_id',
+        //     'tasks',
+        //     'id',
+        //     'CASCADE'
+        // );
     }
 
     /**
@@ -162,7 +151,7 @@ class m220407_052717_add_foreign_keys extends Migration
      */
     public function safeDown()
     {
-        // $this->dropTable('{{%users}}');
+        $this->dropTable('{{%users}}');
         $this->dropTable('{{%auth}}');
         // $this->dropTable('{{%tasks}}');
         // $this->dropTable('{{%specializations}}');

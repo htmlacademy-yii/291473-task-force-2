@@ -28,7 +28,7 @@ class AuthService
     {
         $auth = new Auth();
 
-        $auth->user_id = $userId;
+        $auth->auth_user_id = $userId;
         $auth->source = $source;
         $auth->source_id = $sourceId;
 
