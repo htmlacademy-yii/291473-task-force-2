@@ -52,7 +52,7 @@ class UserService
     {
         return Specializations::find()
             ->joinWith('specialization')
-            ->where(['user_id' => $id])
+            ->where(['specialization_user_id' => $id])
             ->all();
     }
 
@@ -213,9 +213,9 @@ class UserService
 
         $specializations = $EditProfileFormModel->categories;
         $userSpecializations = Specializations::find()
-            ->where(['user_id' => $userProfile->id])
+            ->where(['specialization_user_id' => $userProfile->id])
             ->all();
-        Specializations::deleteAll(['user_id' => $userProfile->id]);
+        Specializations::deleteAll(['specialization_user_id' => $userProfile->id]);
 
         $transaction = Yii::$app->db->beginTransaction();
         try {
@@ -224,7 +224,7 @@ class UserService
             if (count($specializations) > 0) {
                 foreach ($specializations as $specializationId) {
                     $userSpecializations = new Specializations();
-                    $userSpecializations->user_id = $userProfile->id;
+                    $userSpecializations->specialization_user_id = $userProfile->id;
                     $userSpecializations->specialization_id = $specializationId;
                     $userSpecializations->save();
                 }

@@ -18,8 +18,8 @@ class m220407_052717_add_foreign_keys extends Migration
         $this->dropColumn('{{%tasks}}', 'customer_id');
         $this->dropColumn('{{%tasks}}', 'executor_id');
         $this->dropColumn('{{%tasks}}', 'city_id');
-        // $this->dropColumn('{{%specializations}}', 'user_id');
-        // $this->dropColumn('{{%specializations}}', 'specialization_id');
+        $this->dropColumn('{{%specializations}}', 'user_id');
+        $this->dropColumn('{{%specializations}}', 'specialization_id');
         // $this->dropColumn('{{%replies}}', 'executor_id');
         // $this->dropColumn('{{%replies}}', 'task_id');
         // $this->dropColumn('{{%opinions}}', 'customer_id');
@@ -32,8 +32,8 @@ class m220407_052717_add_foreign_keys extends Migration
         $this->addColumn('{{%tasks}}', 'customer_id', $this->integer()->notNull());
         $this->addColumn('{{%tasks}}', 'executor_id', $this->integer()->null());
         $this->addColumn('{{%tasks}}', 'task_city_id', $this->integer()->null());
-        // $this->addColumn('{{%specializations}}', 'specialization_user_id', $this->integer()->notNull());
-        // $this->addColumn('{{%specializations}}', 'specialization_id', $this->integer()->notNull());
+        $this->addColumn('{{%specializations}}', 'specialization_user_id', $this->integer()->notNull());
+        $this->addColumn('{{%specializations}}', 'specialization_id', $this->integer()->notNull());
         // $this->addColumn('{{%replies}}', 'reply_executor_id', $this->integer()->notNull());
         // $this->addColumn('{{%replies}}', 'reply_task_id', $this->integer()->notNull());
         // $this->addColumn('{{%opinions}}', 'opinion_customer_id', $this->integer()->notNull());
@@ -88,22 +88,22 @@ class m220407_052717_add_foreign_keys extends Migration
             'id',
             'CASCADE'
         );
-        // $this->addForeignKey(
-        //     'specialization_user_id',
-        //     'specializations',
-        //     'specialization_user_id',
-        //     'users',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'specialization_id',
-        //     'specializations',
-        //     'specialization_id',
-        //     'categories',
-        //     'id',
-        //     'CASCADE'
-        // );
+        $this->addForeignKey(
+            'specialization_user_id',
+            'specializations',
+            'specialization_user_id',
+            'users',
+            'id',
+            'CASCADE'
+        );
+        $this->addForeignKey(
+            'specialization_id',
+            'specializations',
+            'specialization_id',
+            'categories',
+            'id',
+            'CASCADE'
+        );
         // $this->addForeignKey(
         //     'reply_executor_id',
         //     'replies',
@@ -154,7 +154,7 @@ class m220407_052717_add_foreign_keys extends Migration
         $this->dropTable('{{%users}}');
         $this->dropTable('{{%auth}}');
         $this->dropTable('{{%tasks}}');
-        // $this->dropTable('{{%specializations}}');
+        $this->dropTable('{{%specializations}}');
         // $this->dropTable('{{%replies}}');
         // $this->dropTable('{{%opinions}}');
     }
