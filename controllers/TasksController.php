@@ -141,7 +141,7 @@ class TasksController extends SecuredController
     {
         $RepliesService = new RepliesService;
         $reply = $RepliesService->AcceptReply($id);
-        return $this->redirect(['tasks/view/' . $reply->task_id]);
+        return $this->redirect(['tasks/view/' . $reply->reply_task_id]);
     }
 
     public function actionReject(int $id)
@@ -149,7 +149,7 @@ class TasksController extends SecuredController
         $reply = Replies::findOne(['id' => $id]);
         $reply->status = 0;
         $reply->save();
-        return $this->redirect(['tasks/view/' . $reply->task_id]);
+        return $this->redirect(['tasks/view/' . $reply->reply_task_id]);
     }
 
     public function actionCancel(int $id)

@@ -20,8 +20,8 @@ class m220407_052717_add_foreign_keys extends Migration
         $this->dropColumn('{{%tasks}}', 'city_id');
         $this->dropColumn('{{%specializations}}', 'user_id');
         $this->dropColumn('{{%specializations}}', 'specialization_id');
-        // $this->dropColumn('{{%replies}}', 'executor_id');
-        // $this->dropColumn('{{%replies}}', 'task_id');
+        $this->dropColumn('{{%replies}}', 'executor_id');
+        $this->dropColumn('{{%replies}}', 'task_id');
         // $this->dropColumn('{{%opinions}}', 'customer_id');
         // $this->dropColumn('{{%opinions}}', 'executor_id');
         // $this->dropColumn('{{%opinions}}', 'task_id');
@@ -34,8 +34,8 @@ class m220407_052717_add_foreign_keys extends Migration
         $this->addColumn('{{%tasks}}', 'task_city_id', $this->integer()->null());
         $this->addColumn('{{%specializations}}', 'specialization_user_id', $this->integer()->notNull());
         $this->addColumn('{{%specializations}}', 'specialization_id', $this->integer()->notNull());
-        // $this->addColumn('{{%replies}}', 'reply_executor_id', $this->integer()->notNull());
-        // $this->addColumn('{{%replies}}', 'reply_task_id', $this->integer()->notNull());
+        $this->addColumn('{{%replies}}', 'reply_executor_id', $this->integer()->notNull());
+        $this->addColumn('{{%replies}}', 'reply_task_id', $this->integer()->notNull());
         // $this->addColumn('{{%opinions}}', 'opinion_customer_id', $this->integer()->notNull());
         // $this->addColumn('{{%opinions}}', 'opinion_executor_id', $this->integer()->notNull());
         // $this->addColumn('{{%opinions}}', 'opinion_task_id', $this->integer()->notNull());
@@ -104,22 +104,22 @@ class m220407_052717_add_foreign_keys extends Migration
             'id',
             'CASCADE'
         );
-        // $this->addForeignKey(
-        //     'reply_executor_id',
-        //     'replies',
-        //     'reply_executor_id',
-        //     'users',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'reply_task_id',
-        //     'replies',
-        //     'reply_task_id',
-        //     'tasks',
-        //     'id',
-        //     'CASCADE'
-        // );
+        $this->addForeignKey(
+            'reply_executor_id',
+            'replies',
+            'reply_executor_id',
+            'users',
+            'id',
+            'CASCADE'
+        );
+        $this->addForeignKey(
+            'reply_task_id',
+            'replies',
+            'reply_task_id',
+            'tasks',
+            'id',
+            'CASCADE'
+        );
         // $this->addForeignKey(
         //     'opinion_customer_id',
         //     'opinions',

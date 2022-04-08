@@ -62,7 +62,7 @@ class TasksService
     {
         return Replies::find()
             ->joinWith('executor', 'user') //opinion
-            ->where(['replies.task_id' => $id])
+            ->where(['replies.reply_task_id' => $id])
             ->all();
     }
 

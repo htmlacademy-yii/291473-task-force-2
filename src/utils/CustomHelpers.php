@@ -175,7 +175,7 @@ class CustomHelpers
                 return $userId;
             }
             foreach ($replies as $reply) {
-                if ($reply['executor_id'] === $userId) {
+                if ($reply['reply_executor_id'] === $userId) {
                     return $userId;
                 }
             }
@@ -207,7 +207,7 @@ class CustomHelpers
     public static function checkExecutorAccess(array $replies, int $userId): bool
     {
         foreach ($replies as $reply) {
-            if ($reply['executor_id'] === $userId) {
+            if ($reply['reply_executor_id'] === $userId) {
                 return false;
             }
         }

@@ -27,9 +27,8 @@ class RepliesService
         $reply->dt_add = CustomHelpers::getCurrentDate();
         $reply->rate = $responseFormModel->rate;
         $reply->description = $responseFormModel->description;
-        $reply->executor_id = Yii::$app->user->id;
-        $reply->task_id = $id;
-        $reply->executor_id = $user_id;
+        $reply->reply_task_id = $id;
+        $reply->reply_executor_id = $user_id;
         $reply->save();
     }
 
@@ -41,9 +40,9 @@ class RepliesService
     public function AcceptReply(int $id): ?object
     {
         $reply = Replies::findOne(['id' => $id]);
-        $task = Tasks::findOne(['id' => $reply->task_id]);
+        $task = Tasks::findOne(['id' => $reply->reply_task_id]);
         $reply->status = 1;
-        $task->executor_id = $reply->executor_id;
+        $task->executor_id = $reply->reply_executor_id;
         $task->budget = $reply->rate;
         $task->status = 'in_progress';
 
