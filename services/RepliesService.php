@@ -70,7 +70,7 @@ class RepliesService
      */
     public function RefuseTask(int $user_id, int $id, RefuseForm $refuseFormModel)
     {
-        $reply = Replies::findOne(['task_id' => $id, 'executor_id' => $user_id]);
+        $reply = Replies::findOne(['reply_task_id' => $id, 'reply_executor_id' => $user_id]);
         $task = Tasks::findOne(['id' => $id]);
         $profile = Profiles::findOne(['user_id' => $user_id]);
         $reply->description = $refuseFormModel->description;

@@ -49,3 +49,4 @@ views/site/error.php
 views/site/index.php
 views/site/login.php
 web/uploads
+web/img

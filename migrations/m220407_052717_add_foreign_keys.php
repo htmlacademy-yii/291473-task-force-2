@@ -22,9 +22,9 @@ class m220407_052717_add_foreign_keys extends Migration
         $this->dropColumn('{{%specializations}}', 'specialization_id');
         $this->dropColumn('{{%replies}}', 'executor_id');
         $this->dropColumn('{{%replies}}', 'task_id');
-        // $this->dropColumn('{{%opinions}}', 'customer_id');
-        // $this->dropColumn('{{%opinions}}', 'executor_id');
-        // $this->dropColumn('{{%opinions}}', 'task_id');
+        $this->dropColumn('{{%opinions}}', 'customer_id');
+        $this->dropColumn('{{%opinions}}', 'executor_id');
+        $this->dropColumn('{{%opinions}}', 'task_id');
 
         $this->addColumn('{{%users}}', 'city_id', $this->integer()->null());
         $this->addColumn('{{%auth}}', 'auth_user_id', $this->integer()->notNull());
@@ -36,9 +36,9 @@ class m220407_052717_add_foreign_keys extends Migration
         $this->addColumn('{{%specializations}}', 'specialization_id', $this->integer()->notNull());
         $this->addColumn('{{%replies}}', 'reply_executor_id', $this->integer()->notNull());
         $this->addColumn('{{%replies}}', 'reply_task_id', $this->integer()->notNull());
-        // $this->addColumn('{{%opinions}}', 'opinion_customer_id', $this->integer()->notNull());
-        // $this->addColumn('{{%opinions}}', 'opinion_executor_id', $this->integer()->notNull());
-        // $this->addColumn('{{%opinions}}', 'opinion_task_id', $this->integer()->notNull());
+        $this->addColumn('{{%opinions}}', 'opinion_customer_id', $this->integer()->notNull());
+        $this->addColumn('{{%opinions}}', 'opinion_executor_id', $this->integer()->notNull());
+        $this->addColumn('{{%opinions}}', 'opinion_task_id', $this->integer()->notNull());
 
         $this->addForeignKey(
             'city_id',
@@ -120,30 +120,30 @@ class m220407_052717_add_foreign_keys extends Migration
             'id',
             'CASCADE'
         );
-        // $this->addForeignKey(
-        //     'opinion_customer_id',
-        //     'opinions',
-        //     'opinion_customer_id',
-        //     'users',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'opinion_executor_id',
-        //     'opinions',
-        //     'opinion_executor_id',
-        //     'users',
-        //     'id',
-        //     'CASCADE'
-        // );
-        // $this->addForeignKey(
-        //     'opinion_task_id',
-        //     'opinions',
-        //     'opinion_task_id',
-        //     'tasks',
-        //     'id',
-        //     'CASCADE'
-        // );
+        $this->addForeignKey(
+            'opinion_customer_id',
+            'opinions',
+            'opinion_customer_id',
+            'users',
+            'id',
+            'CASCADE'
+        );
+        $this->addForeignKey(
+            'opinion_executor_id',
+            'opinions',
+            'opinion_executor_id',
+            'users',
+            'id',
+            'CASCADE'
+        );
+        $this->addForeignKey(
+            'opinion_task_id',
+            'opinions',
+            'opinion_task_id',
+            'tasks',
+            'id',
+            'CASCADE'
+        );
     }
 
     /**
@@ -155,7 +155,7 @@ class m220407_052717_add_foreign_keys extends Migration
         $this->dropTable('{{%auth}}');
         $this->dropTable('{{%tasks}}');
         $this->dropTable('{{%specializations}}');
-        // $this->dropTable('{{%replies}}');
-        // $this->dropTable('{{%opinions}}');
+        $this->dropTable('{{%replies}}');
+        $this->dropTable('{{%opinions}}');
     }
 }

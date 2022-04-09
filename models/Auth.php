@@ -13,7 +13,6 @@ use Yii;
  * @property int $auth_user_id
  *
  * @property Users $authUser
- * @property User $user
  */
 class Auth extends \yii\db\ActiveRecord
 {
@@ -59,15 +58,5 @@ class Auth extends \yii\db\ActiveRecord
     public function getAuthUser()
     {
         return $this->hasOne(Users::className(), ['id' => 'auth_user_id']);
-    }
-
-    /**
-     * Gets query for [[User]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(User::class, ['id' => 'auth_user_id']);
     }
 }

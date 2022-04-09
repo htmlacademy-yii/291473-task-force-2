@@ -26,9 +26,10 @@ use Yii;
  * @property Categories $category
  * @property Users $customer
  * @property Users $executor
+ * @property Opinions[] $opinions
+ * @property Replies[] $replies
  * @property Cities $city
  * @property TasksFiles[] $tasksFiles
- * @property Replies $replies
  */
 class Tasks extends \yii\db\ActiveRecord
 {
@@ -113,6 +114,26 @@ class Tasks extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[Opinions]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOpinions()
+    {
+        return $this->hasMany(Opinions::className(), ['opinion_task_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[Replies]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getReplies()
+    {
+        return $this->hasMany(Replies::className(), ['reply_task_id' => 'id']);
+    }
+
+    /**
      * Gets query for [[City]].
      *
      * @return \yii\db\ActiveQuery
@@ -130,15 +151,5 @@ class Tasks extends \yii\db\ActiveRecord
     public function getTasksFiles()
     {
         return $this->hasMany(TasksFiles::className(), ['task_id' => 'id']);
-    }
-
-    /**
-     * Gets query for [[Replies]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getReplies()
-    {
-        return $this->hasMany(Replies::className(), ['task_id' => 'id']);
     }
 }

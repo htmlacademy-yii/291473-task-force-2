@@ -15,8 +15,10 @@ use Yii;
  * @property int $reply_executor_id
  * @property int $reply_task_id
  *
- * @property Users $replyExecutor
- * @property Tasks $replyTask
+ * @property Users $user
+ * @property Tasks $task
+ * @property Profiles $executor
+ * @property Opinions $opinion
  */
 class Replies extends \yii\db\ActiveRecord
 {
@@ -59,43 +61,43 @@ class Replies extends \yii\db\ActiveRecord
         ];
     }
 
-    // /**
-    //  * Gets query for [[ReplyExecutor]].
-    //  *
-    //  * @return \yii\db\ActiveQuery
-    //  */
-    // public function getReplyExecutor()
-    // {
-    //     return $this->hasOne(Users::className(), ['id' => 'reply_executor_id']);
-    // }
-
-    // /**
-    //  * Gets query for [[ReplyTask]].
-    //  *
-    //  * @return \yii\db\ActiveQuery
-    //  */
-    // public function getReplyTask()
-    // {
-    //     return $this->hasOne(Tasks::className(), ['id' => 'reply_task_id']);
-    // }
-
+    /**
+     * Gets query for [[Executor]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
     public function getExecutor()
     {
         return $this->hasOne(Profiles::className(), ['user_id' => 'reply_executor_id']);
     }
 
+    /**
+     * Gets query for [[User]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
     public function getUser()
     {
         return $this->hasOne(Users::className(), ['id' => 'reply_executor_id']);
     }
 
+    /**
+     * Gets query for [[Task]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
     public function getTask()
     {
         return $this->hasOne(Tasks::className(), ['id' => 'reply_task_id']);
     }
 
+    /**
+     * Gets query for [[Opinion]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
     public function getOpinion()
     {
-        return $this->hasMany(Opinions::className(), ['executor_id' => 'reply_executor_id']);
+        return $this->hasMany(Opinions::className(), ['opinion_executor_id' => 'reply_executor_id']);
     }
 }

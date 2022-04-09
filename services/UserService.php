@@ -79,7 +79,7 @@ class UserService
     {
         return Opinions::find()
             ->joinWith('task', 'profile')
-            ->where(['opinions.executor_id' => $id])
+            ->where(['opinions.opinion_executor_id' => $id])
             ->all();
     }
 
