@@ -37,11 +37,11 @@ class OpinionsService
         $opinions = new Opinions;
 
         $userOpinions = Opinions::find()
-            ->where(['executor_id' => $task->executor_id])
+            ->where(['opinion_executor_id' => $task->executor_id])
             ->all();
 
         $userOpinionsCount = Opinions::find()
-            ->where(['executor_id' => $task->executor_id])
+            ->where(['opinion_executor_id' => $task->executor_id])
             ->count();
 
         $UserOpinionsRating = $FinishedFormModel->rating;
@@ -58,9 +58,9 @@ class OpinionsService
         $opinions->rating = $FinishedFormModel->rating;
         $opinions->dt_add = CustomHelpers::getCurrentDate();
         $opinions->rate = $task->budget;
-        $opinions->customer_id = $task->customer_id;
-        $opinions->executor_id = $task->executor_id;
-        $opinions->task_id = $id;
+        $opinions->opinion_customer_id = $task->customer_id;
+        $opinions->opinion_executor_id = $task->executor_id;
+        $opinions->opinion_task_id = $id;
 
         $transaction = Yii::$app->db->beginTransaction();
         try {

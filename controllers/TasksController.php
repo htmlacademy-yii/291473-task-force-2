@@ -20,7 +20,7 @@ use yii\widgets\ActiveForm;
 use yii\web\UploadedFile;
 use yii\web\ForbiddenHttpException;
 use TaskForce\tasks\Task;
-use yii\data\Pagination;
+use yii\data\ActiveDataProvider;
 use app\models\ResponseForm;
 
 class TasksController extends SecuredController
@@ -57,15 +57,21 @@ class TasksController extends SecuredController
         !isset($query) && $query = Tasks::find();
         $categories = Categories::find()->all();
 
-        $pages = new Pagination(['totalCount' => $query->count(), 'pageSize' => 5]);
-        $tasks = $query->orderBy(['dt_add' => SORT_DESC])->offset($pages->offset)
-            ->limit($pages->limit)
-            ->all();
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 5,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'dt_add' => SORT_DESC,
+                ]
+            ],
+        ]);
 
         return $this->render('index', [
             'model' => $model,
-            'tasks' => $tasks,
-            'pages' => $pages,
+            'dataProvider' => $dataProvider,
             'categories' => $categories,
             'period_values' => TasksSearchForm::PERIOD_VALUES
         ]);
@@ -141,7 +147,7 @@ class TasksController extends SecuredController
     {
         $RepliesService = new RepliesService;
         $reply = $RepliesService->AcceptReply($id);
-        return $this->redirect(['tasks/view/' . $reply->task_id]);
+        return $this->redirect(['tasks/view/' . $reply->reply_task_id]);
     }
 
     public function actionReject(int $id)
@@ -149,7 +155,7 @@ class TasksController extends SecuredController
         $reply = Replies::findOne(['id' => $id]);
         $reply->status = 0;
         $reply->save();
-        return $this->redirect(['tasks/view/' . $reply->task_id]);
+        return $this->redirect(['tasks/view/' . $reply->reply_task_id]);
     }
 
     public function actionCancel(int $id)

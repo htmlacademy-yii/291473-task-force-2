@@ -62,7 +62,7 @@ class TasksService
     {
         return Replies::find()
             ->joinWith('executor', 'user') //opinion
-            ->where(['replies.task_id' => $id])
+            ->where(['replies.reply_task_id' => $id])
             ->all();
     }
 
@@ -89,7 +89,7 @@ class TasksService
             ->one();
 
         if (isset($city)) {
-            $task->city_id = $city['id'];
+            $task->task_city_id = $city['id'];
             $task->address = $addTaskFormModel->address;
             $task->latitude = $addTaskFormModel->latitude;
             $task->longitude = $addTaskFormModel->longitude;

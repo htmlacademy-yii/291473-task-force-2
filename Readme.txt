@@ -42,4 +42,3 @@ php yii fixture/generate replies --count=10
 php yii fixture/generate specializations --count=50
 php yii fixture/generate tasks --count=5
 php yii fixture/generate users --count=10
-

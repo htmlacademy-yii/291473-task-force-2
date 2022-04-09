@@ -18,5 +18,5 @@ return [
     'status' => $faker->randomElement(['new', 'in_progress', 'canceled', 'failed', 'finished']),
     'customer_id' => $faker->numberBetween(1, 10),
     'executor_id' => $faker->numberBetween(1, 10),
-    'city_id' => $faker->numberBetween(1, 10),
+    'task_city_id' => $faker->numberBetween(1, 10),
 ];

@@ -52,7 +52,7 @@ class UserService
     {
         return Specializations::find()
             ->joinWith('specialization')
-            ->where(['user_id' => $id])
+            ->where(['specialization_user_id' => $id])
             ->all();
     }
 
@@ -79,7 +79,7 @@ class UserService
     {
         return Opinions::find()
             ->joinWith('task', 'profile')
-            ->where(['opinions.executor_id' => $id])
+            ->where(['opinions.opinion_executor_id' => $id])
             ->all();
     }
 
@@ -115,7 +115,7 @@ class UserService
      * 
      * @return void
      */
-    public function SaveNewUserProfile(RegistrationForm $RegistrationModel)
+    public function saveNewUserProfile(RegistrationForm $RegistrationModel)
     {
         $user = new Users();
         $profile = new Profiles();
@@ -149,7 +149,7 @@ class UserService
      * 
      * @return User|null
      */
-    public function SaveNewVkProfile(array $attributes): ?User
+    public function saveNewVkProfile(array $attributes): ?User
     {
         $user = new User();
         $profile = new Profiles();
@@ -194,7 +194,7 @@ class UserService
      * 
      * @return void
      */
-    public function EditUserProfile(object $userProfile, EditProfileForm $EditProfileFormModel)
+    public function editUserProfile(object $userProfile, EditProfileForm $EditProfileFormModel)
     {
         $avatar = $EditProfileFormModel->avatar;
         if (isset($avatar)) {
@@ -213,9 +213,9 @@ class UserService
 
         $specializations = $EditProfileFormModel->categories;
         $userSpecializations = Specializations::find()
-            ->where(['user_id' => $userProfile->id])
+            ->where(['specialization_user_id' => $userProfile->id])
             ->all();
-        Specializations::deleteAll(['user_id' => $userProfile->id]);
+        Specializations::deleteAll(['specialization_user_id' => $userProfile->id]);
 
         $transaction = Yii::$app->db->beginTransaction();
         try {
@@ -224,7 +224,7 @@ class UserService
             if (count($specializations) > 0) {
                 foreach ($specializations as $specializationId) {
                     $userSpecializations = new Specializations();
-                    $userSpecializations->user_id = $userProfile->id;
+                    $userSpecializations->specialization_user_id = $userProfile->id;
                     $userSpecializations->specialization_id = $specializationId;
                     $userSpecializations->save();
                 }
@@ -244,7 +244,7 @@ class UserService
      * 
      * @return void
      */
-    public function UpdateSecuritySettings(object $userProfile, SecurityForm $SecurityFormModel)
+    public function updateSecuritySettings(object $userProfile, SecurityForm $SecurityFormModel)
     {
         $passwordHash = Yii::$app->getSecurity()->generatePasswordHash($SecurityFormModel->new_password);
         $userProfile->password = $passwordHash;

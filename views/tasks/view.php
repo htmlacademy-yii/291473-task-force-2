@@ -54,7 +54,7 @@ $action = $taskAction->get_action_code();
     <?php endif; ?>
 
     <?php foreach ($replies as $reply) : ?>
-        <?php if ($reply->executor_id === $userId || $task->customer_id === $userId) : ?>
+        <?php if ($reply->reply_executor_id === $userId || $task->customer_id === $userId) : ?>
             <div class="response-card">
                 <img class="customer-photo" src="<?= (Html::encode($reply->executor->avatar_link)); ?>" width="146" height="156" alt="Фото заказчиков">
                 <div class="feedback-wrapper">
