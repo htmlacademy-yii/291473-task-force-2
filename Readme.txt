@@ -43,3 +43,34 @@ php yii fixture/generate specializations --count=50
 php yii fixture/generate tasks --count=5
 php yii fixture/generate users --count=10
 
+//
+        <!-- <?= LinkPager::widget([
+                    'pagination' => $pages,
+                    'options' => [
+                        'tag' => 'ul',
+                        'class' => 'pagination-list',
+                    ],
+                    'linkContainerOptions' => ['class' => 'pagination-item'],
+                    'linkOptions' => ['class' => 'link link--page'],
+                    'activePageCssClass' => 'pagination-item--active',
+                    'prevPageCssClass' => 'pagination-item mark',
+                    'nextPageCssClass' => 'pagination-item mark',
+                    'prevPageLabel' => '',
+                    'nextPageLabel' => '',
+                ]); ?> -->
+
+    <?php foreach ($tasks as $task) : ?>
+        <div class="task-card">
+            <div class="header-task">
+                <a href="<?= Url::to(['tasks/view', 'id' => $task->id]); ?>" class="link link--block link--big"><?= Html::encode($task->name); ?></a>
+                <p class="price price--task"><?= Html::encode($task->budget); ?> <?= Html::encode(isset($task->budget)) ? '₽' : ''; ?> </p>
+            </div>
+            <p class="info-text"><span class="current-time"><?= NounPluralConverter::getTaskRelativeTime($task->dt_add); ?></span></p>
+            <p class="task-text"><?= Html::encode($task->description); ?></p>
+            <div class="footer-task">
+                <p class="info-text town-text"><?= Html::encode($task->address); ?></p>
+                <p class="info-text category-text"><?= Html::encode($task->category->name); ?></p>
+                <a href="<?= Url::to(['tasks/view', 'id' => $task->id]); ?>" class="button button--black">Смотреть Задание</a>
+            </div>
+        </div>
+    <?php endforeach; ?>
