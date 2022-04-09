@@ -40,13 +40,3 @@ tests/_support/_generated
 
 #vscode
 .vscode/
-
-#tmp
-models/old_models/
-views/site/about.php
-views/site/contact.php
-views/site/error.php
-views/site/index.php
-views/site/login.php
-web/uploads
-web/img
