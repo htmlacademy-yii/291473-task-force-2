@@ -62,7 +62,7 @@ class SiteController extends Controller
                 (new AuthService())->saveAuthUser($user->id, $source, $sourceId);
                 Yii::$app->user->login($user);
             } else {
-                $user = (new UserService())->SaveNewVkProfile($attributes);
+                $user = (new UserService())->saveNewVkProfile($attributes);
                 (new AuthService())->saveAuthUser($user->id, $source, $sourceId);
                 Yii::$app->user->login($user);
             }
@@ -85,7 +85,7 @@ class SiteController extends Controller
             $RegistrationModel->load(Yii::$app->request->post());
 
             if ($RegistrationModel->validate()) {
-                (new UserService())->SaveNewUserProfile($RegistrationModel);
+                (new UserService())->saveNewUserProfile($RegistrationModel);
 
                 $user = $RegistrationModel->getUser();
                 Yii::$app->user->login($user);

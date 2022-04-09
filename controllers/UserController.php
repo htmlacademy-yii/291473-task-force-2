@@ -66,7 +66,7 @@ class UserController extends SecuredController
             }
 
             if ($EditProfileFormModel->validate()) {
-                (new UserService())->EditUserProfile($userProfile, $EditProfileFormModel);
+                (new UserService())->editUserProfile($userProfile, $EditProfileFormModel);
                 return $this->refresh();
             }
         }
@@ -80,7 +80,7 @@ class UserController extends SecuredController
             }
 
             if ($SecurityFormModel->validate()) {
-                (new UserService())->UpdateSecuritySettings($userProfile, $SecurityFormModel);
+                (new UserService())->updateSecuritySettings($userProfile, $SecurityFormModel);
                 return $this->redirect('/user/view/' . $userId);
             }
         }

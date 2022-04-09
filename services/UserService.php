@@ -115,7 +115,7 @@ class UserService
      * 
      * @return void
      */
-    public function SaveNewUserProfile(RegistrationForm $RegistrationModel)
+    public function saveNewUserProfile(RegistrationForm $RegistrationModel)
     {
         $user = new Users();
         $profile = new Profiles();
@@ -149,7 +149,7 @@ class UserService
      * 
      * @return User|null
      */
-    public function SaveNewVkProfile(array $attributes): ?User
+    public function saveNewVkProfile(array $attributes): ?User
     {
         $user = new User();
         $profile = new Profiles();
@@ -194,7 +194,7 @@ class UserService
      * 
      * @return void
      */
-    public function EditUserProfile(object $userProfile, EditProfileForm $EditProfileFormModel)
+    public function editUserProfile(object $userProfile, EditProfileForm $EditProfileFormModel)
     {
         $avatar = $EditProfileFormModel->avatar;
         if (isset($avatar)) {
@@ -244,7 +244,7 @@ class UserService
      * 
      * @return void
      */
-    public function UpdateSecuritySettings(object $userProfile, SecurityForm $SecurityFormModel)
+    public function updateSecuritySettings(object $userProfile, SecurityForm $SecurityFormModel)
     {
         $passwordHash = Yii::$app->getSecurity()->generatePasswordHash($SecurityFormModel->new_password);
         $userProfile->password = $passwordHash;
